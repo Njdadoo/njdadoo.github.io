@@ -12,8 +12,9 @@ body {
 
 
 .header, .skills, .links, .project {
-    border: 1px solid #646464; 
-    border-radius: 5px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     margin-bottom: 20px;
     padding: 20px; 
 }
@@ -44,4 +45,25 @@ ul {
 
 ul li {
     margin-bottom: 10px;
+}
+
+.skills {
+    text-align: center;
+    margin: 20px;
+}
+
+.skills h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.skills ul {
+    list-style: none;
+    padding: 0;
+}
+
+.skills ul li {
+    background-color: #f2f2f2; 
+    margin: 10px 0;
+    padding: 10px;
 }
