@@ -7,6 +7,16 @@ body {
     margin-top: 50px;
 }
 
+.header {
+    display: flex;
+}
+
+.header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .project {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -21,7 +31,7 @@ body {
 .presentation {
     width: 30%;
     margin: 50px auto;
-    text-align: center;
+    text-align: justify;
 }
 
 .profile-photo {
