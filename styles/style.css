@@ -4,6 +4,7 @@ body {
     color: #fff;
     line-height: 1.6;
     text-align: center;
+    margin-top: 50px;
 }
 
 .project {
@@ -16,12 +17,9 @@ body {
     text-align: left; 
 }
 
-.header {
-    margin-top: 100px; 
-}
 
 .presentation {
-    width: 60%;
+    width: 30%;
     margin: 50px auto;
     text-align: center;
 }
