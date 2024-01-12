@@ -16,19 +16,14 @@ body {
     text-align: left; 
 }
 
-.intro {
-    margin: 0 auto;
-    width: 50%; /* ou la largeur que vous préférez */
-}
-
-.skills {
-    text-align: center;
-}
-.header img {
-    width: 150px;
-    height: auto;
+.header {
     margin-top: 100px; 
+}
 
+.presentation {
+    width: 60%;
+    margin: 50px auto;
+    text-align: center;
 }
 
 .profile-photo {
@@ -38,6 +33,11 @@ body {
     width: 100px; 
     height: 100px;
 }
+
+.skills {
+    text-align: center;
+}
+
 
 .project img {
     width: 100%;
