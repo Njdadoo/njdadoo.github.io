@@ -6,7 +6,7 @@ body {
     text-align: center;
 }
 
-.header, .skills, .links, .project {
+.project {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -16,6 +16,14 @@ body {
     text-align: left; 
 }
 
+.intro {
+    margin: 0 auto;
+    width: 50%; /* ou la largeur que vous préférez */
+}
+
+.skills {
+    text-align: center;
+}
 .header img {
     width: 150px;
     height: auto;
@@ -44,6 +52,8 @@ a:hover {
 }
 
 ul {
+    display: inline-block;
+    text-align: left;
     list-style-type: none;
     padding: 0; 
     margin: 0;
@@ -54,8 +64,6 @@ ul li {
     color: #333; 
     margin: 10px 0;
     padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     display: inline-block;
     text-align: center; 
 }
