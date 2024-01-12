@@ -3,10 +3,7 @@ body {
     background-color: #333;
     color: #fff;
     line-height: 1.6;
-    text-align: center;
-    margin-top: 50px;
 }
-
 .header {
     display: flex;
 }
@@ -44,6 +41,7 @@ body {
 
 .skills {
     text-align: center;
+    width:  50%;
 }
 
 
@@ -67,13 +65,4 @@ ul {
     list-style-type: none;
     padding: 0; 
     margin: 0;
-}
-
-ul li {
-    background-color: #f2f2f2;
-    color: #333; 
-    margin: 10px 0;
-    padding: 5px 10px;
-    display: inline-block;
-    text-align: center; 
 }
