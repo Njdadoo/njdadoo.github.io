@@ -1,0 +1,36 @@
+
+body {
+    font-family: "Roboto" , sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #34353b;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.competence {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.competence h2 {
+    color: #555;
+}
+
+.competence p {
+    color: #777;
+    line-height: 1.5;
+}
+
+.exemple {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+}

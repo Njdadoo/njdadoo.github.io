@@ -1,54 +1,182 @@
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mon Portfolio</title>
+    <title>Portfolio Website</title>
     <link rel="stylesheet" href="styles/style.css">
-  </head>
-  <body>
-<!--     <div class="header">
-      <div class="presentation">
-        <p>
-          Je suis Grelier Quentin, actuellement étudiant en 2ᵉ année de Bachelor Universitaire de Technologie en Informatique à l’IUT Montpellier Sète. Mon parcours inclut un Bac technologique STI2D. 
-          Je possède des compétences en gestion de base de données, en développement front-end et back-end, ainsi qu'en management. De plus, j'ai acquis une expérience variée dans le secteur de la restauration, couvrant le service client et des aspects de la cuisine.
-        </p>
-     </div>
-      <img src="profile.jpg" alt="Votre Photo" class="profile-photo">
-    </div>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
 
-    <div class="skills">
-          <h2>Compétences</h2>
-          <ul>
-              <li>Java, Next , PHP </li>
-              <li>HTML, CSS, JavaScript </li>
-              <li>Gestion de projet (Agile, Scrum)</li>
-              <li>Leadership et Management d'équipe</li>
-              <li>Travail d'équipe</li>
-              <li>Conception et gestion de bases de données</li>
-              <li>Principes de base de la cybersécurité</li>
-              <li>Développement d'applications </li>
-              <li>Administration de systèmes </li>
-          </ul>
-    </div>
+<body>
+    <header>
+        <nav>
+          <!--  <img src="asset/carepy_logo-1.svg" alt=""> -->
+            <ul>
+                <li><a href="#" class="active">About</a></li>
+                <li><a href="#portfolio-loc">Portfolio</a></li>
+                <li><a href="apprentissage-critique.html" target="_blank">Apprentissage critique </a></li>
+                <!-- <li><a href="#contact-loc">Contact</a></li> -->
+            </ul>
+<!--            <div class="search">-->
+<!--                <input type="text" placeholder="search">-->
+<!--                <i class="ri-search-line"></i>-->
+<!--            </div>-->
+        </nav>
+        <div class="landing">
+            <div class="intro">
+                <h3>I'M <Span>Quentin Grelier</Span><br>I am a student of web/software development.</h3>
+                <button onclick="window.open('apprentissage-critique.html', '_blank')">Apprentissage critique </button>
+            </div>
+            <div class="socials">
+                <div class="line"></div>
+                <i class="ri-facebook-circle-fill"></i>
+                <i class="ri-twitter-fill"></i>
+                <i class="ri-linkedin-fill"></i>
+                <i class="ri-whatsapp-line"></i>
+            </div>
+        </div>
+    </header>
+    <section class="about">
+        <h1>About</h1>
+        <div class="description">
+            <div class="line"></div>
+            <p>
+                I am currently a co-op student in the Computer Science program at BUT Montpellier Sète, specializing in IAMSI (Information Systems and Software Engineering). My skill set encompasses Java, JavaScript, React, C, and MySQL, allowing me to adapt and innovate across various fields of computer science.
 
-    <div class="links">
-        <a href="CVQuentin.pdf">Mon CV</a><br>
-        <a href="https://www.linkedin.com/in/quentin-grelier-20a132258/">Mon LinkedIn</a>
-    </div><br>
+                My journey has been marked by stimulating collaborations, notably through my participation in CodeGame Jams, highlighting my appetite for challenges and collective innovation. This portfolio, designed with nuances of black and white, reflects my universe: a balance between technical rigor and boundless creativity.
 
-    <div class="project">
-        <h2>Projet 1</h2>
-        <img src="chemin_vers_image_projet1.jpg" alt="Projet 1">
-        <p>Description du projet 1 ici.</p>
-    </div>
+                My Personality
+                As a Mediator (INFP-T), I am characterized by my introverted, intuitive, and empathetic nature, coupled with a constant pursuit of self-improvement. These traits drive me to explore the world of computer science with sensitivity and curiosity, always seeking to combine passion and pragmatism in my projects.</p>
+        </div>
+    </section>
 
-    <div class="project">
-        <h2>Projet 2</h2>
-        <img src="chemin_vers_image_projet2.jpg" alt="Projet 2">
-        <p>Description du projet 2 ici.</p>
-    </div> -->
-    <p>probleme dans le portfolio</p>
+    <section class="skills">
+        <h1>My Skills</h1>
+        <div class="cards">
+            <div class="skill-card"> <img src="asset/css.svg" alt=""> <h2>CSS</h2> </div>
+            <div class="skill-card"> <img src="asset/git.svg" alt=""> <h2>Git</h2> </div>
+            <div class="skill-card"> <img src="asset/html.svg" alt=""> <h2>HTML</h2> </div>
+            <div class="skill-card"> <img src="asset/js.svg" alt=""> <h2>JavaScript</h2> </div>
+            <div class="skill-card"> <img src="asset/linux-96.png" alt=""> <h2>Linux</h2> </div>
+            <div class="skill-card"> <img src="asset/mysql.svg" alt=""> <h2>MySQL</h2> </div>
+            <div class="skill-card"> <img src="asset/react.svg" alt=""> <h2>React.js</h2> </div>
+            <div class="skill-card"> <img src="asset/Java.png" alt=""> <h2>Java</h2> </div>
+            <div class="skill-card"> <img src="asset/C.png" alt=""> <h2>C</h2> </div> </div>
+    </section>
+
+    <section class="portfolio" id="portfolio-loc">
+        <h1>Projets</h1>
+        <div class="portfolio-cards">
+            <div class="portfolio-card">
+                <img src="asset/images/aperture-vintage-HF1IO60tQdc-unsplash.jpg" alt="">
+                <div class="overlay">
+                    <h3>In comming</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>
+                    <button>See More -></button>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <img src="asset/images/martin-martz-3_x1FRGAEwY-unsplash.jpg" alt="">
+                <div class="overlay">
+                    <h3>In comming</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>
+                    <button>See More -></button>
+                </div>
+            </div>
+<!--            <div class="portfolio-card">-->
+<!--                <img src="asset/images/vimal-s-bVplevb7Bhk-unsplash.jpg" alt="">-->
+<!--                <div class="overlay">-->
+<!--                    <h3>Google Scrapper</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>-->
+<!--                    <button>See More -></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="portfolio-card">-->
+<!--                <img src="asset/images/warren-umoh-K7M7dQO-HrA-unsplash.jpg" alt="">-->
+<!--                <div class="overlay">-->
+<!--                    <h3>Twitter Scrapper</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>-->
+<!--                    <button>See More -></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="portfolio-card">-->
+<!--                <img src="asset/images/warren-umoh-pnMjGMOs2Xw-unsplash.jpg" alt="">-->
+<!--                <div class="overlay">-->
+<!--                    <h3>LinkedIn Scrapper</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>-->
+<!--                    <button>See More -></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="portfolio-card">-->
+<!--                <img src="asset/images/warren-umoh-VL12rhr4mi0-unsplash.jpg" alt="">-->
+<!--                <div class="overlay">-->
+<!--                    <h3>YouTube Scrapper</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laudantium!</p>-->
+<!--                    <button>See More -></button>-->
+<!--                </div>-->
+<!--            </div>-->
+ </div>
+<!--        <Button>View More</Button>-->
+    </section>
+
+
+<!--    <section class="experience">-->
+<!--        <div class="darker-div"></div>-->
+<!--        <h1>Experience</h1>-->
+<!--        <div class="lighter-div">-->
+<!--            <div class="exp">-->
+<!--                <h2>Senior Python Developer</h2>-->
+<!--                <div class="exp-desc">-->
+<!--                    <h3>Scottech, Toledo</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, repellat! Mollitia nostrum,-->
+<!--                        dolor repellat deleniti officiis voluptatem quas labore cupiditate iure ullam doloribus aliquam-->
+<!--                        voluptates. Ratione earum reprehenderit iure, esse assumenda minima vero delectus consequuntur.-->
+<!--                        Laborum eligendi nisi, doloremque, ab sint id enim in vel molestias, nihil vero suscipit a?-->
+<!--                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, repellat! Mollitia nostrum,-->
+<!--                        dolor repellat deleniti officiis voluptatem quas labore cupiditate iure ullam doloribus aliquam-->
+<!--                        voluptates. Ratione earum reprehenderit iure, esse assumenda minima vero delectus consequuntur.-->
+<!--                        Laborum eligendi nisi, doloremque, ab sint id enim in vel molestias, nihil vero suscipit a?</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="exp">-->
+<!--                <h2>Senior Python Developer</h2>-->
+<!--                <div class="exp-desc">-->
+<!--                    <h3>Scottech, Toledo</h3>-->
+<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, repellat! Mollitia nostrum,-->
+<!--                        dolor repellat deleniti officiis voluptatem quas labore cupiditate iure ullam doloribus aliquam-->
+<!--                        voluptates. Ratione earum reprehenderit iure, esse assumenda minima vero delectus consequuntur.-->
+<!--                        Laborum eligendi nisi, doloremque, ab sint id enim in vel molestias, nihil vero suscipit a?-->
+<!--                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, repellat! Mollitia nostrum,-->
+<!--                        dolor repellat deleniti officiis voluptatem quas labore cupiditate iure ullam doloribus aliquam-->
+<!--                        voluptates. Ratione earum reprehenderit iure, esse assumenda minima vero delectus consequuntur.-->
+<!--                        Laborum eligendi nisi, doloremque, ab sint id enim in vel molestias, nihil vero suscipit a?</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+
+<!--    <section class="contact-me" id="contact-loc">-->
+<!--        <h1>Contact Me</h1>-->
+<!--        <div class="contact">-->
+<!--            <div class="contact-card">-->
+<!--                <i class="ri-message-3-line"></i>-->
+<!--                <p>work.devalphaspace.com</p>-->
+<!--            </div>-->
+<!--            <div class="contact-card">-->
+<!--                <i class="ri-phone-line"></i>-->
+<!--                <p>0123456789</p>-->
+<!--            </div>-->
+<!--            <div class="contact-card">-->
+<!--                <i class="ri-map-pin-3-line"></i>-->
+<!--                <p>Tripura, India</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    <script src="script.js"></script>
 </body>
+
 </html>
