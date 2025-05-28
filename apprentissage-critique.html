@@ -1,127 +1,1405 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Compétences Acquises</title>
-    <link rel="stylesheet" href="styles/style2.css">
+    <title>Portfolio d'Apprentissage - Quentin Grelier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            --warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b3c1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        body.theme-transition {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.loaded {
+            animation: pageLoaded 1s ease-out;
+        }
+
+        @keyframes pageLoaded {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .learning-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.06;
+            animation: float 30s infinite ease-in-out;
+            transition: all 0.3s ease;
+            filter: blur(2px);
+        }
+
+        .shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-gradient);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary-gradient);
+            top: 20%;
+            right: -150px;
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(3) {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-gradient);
+            bottom: -250px;
+            left: 30%;
+            animation-delay: -20s;
+        }
+
+        .shape:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            background: var(--success-gradient);
+            top: 60%;
+            right: 20%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(5) {
+            width: 350px;
+            height: 350px;
+            background: var(--warning-gradient);
+            top: 40%;
+            left: 5%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.06;
+            }
+            33% {
+                transform: translateY(-50px) rotate(120deg) scale(1.1);
+                opacity: 0.1;
+            }
+            66% {
+                transform: translateY(30px) rotate(240deg) scale(0.9);
+                opacity: 0.04;
+            }
+        }
+
+        /* Navigation - Same as other pages */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown,
+        .menu-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .lang-toggle {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-toggle.theme-animation {
+            animation: themeChange 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-toggle.lang-animation {
+            animation: langChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes themeChange {
+            0% { transform: translateY(-2px) scale(1); }
+            25% { transform: translateY(-2px) scale(1.1) rotateY(180deg); }
+            50% { transform: translateY(-2px) scale(1.2) rotateY(360deg); }
+            75% { transform: translateY(-2px) scale(1.1) rotateY(540deg); }
+            100% { transform: translateY(-2px) scale(1) rotateY(720deg); }
+        }
+
+        @keyframes langChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotateX(180deg); }
+            100% { transform: scale(1) rotateX(360deg); }
+        }
+
+        [data-fr], [data-en] {
+            transition: all 0.3s ease;
+        }
+
+        [data-fr].lang-animation, [data-en].lang-animation {
+            animation: textChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes textChange {
+            0% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+            width: 0;
+            transition: width 2s ease;
+        }
+
+        .progress-bar.animate .progress-fill {
+            width: 85%;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Competence Sections */
+        .competence-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .competence-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .competence-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .competence-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .competence-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .comp-2 .competence-icon { background: var(--primary-gradient); }
+        .comp-3 .competence-icon { background: var(--secondary-gradient); }
+        .comp-4 .competence-icon { background: var(--accent-gradient); }
+
+        .competence-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .competence-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .expand-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .competence-section.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .competence-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .competence-section.expanded .competence-content {
+            max-height: 5000px;
+        }
+
+        /* AC Cards */
+        .ac-cards {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .ac-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ac-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ac-card:hover::before {
+            left: 100%;
+        }
+
+        .ac-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .ac-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ac-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .ac-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ac-context {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--primary-gradient);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .ac-context h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .ac-context p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .achievements-list {
+            margin: 1rem 0;
+        }
+
+        .achievements-list h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .achievements-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .achievements-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .metric-highlight {
+            display: inline-block;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tech-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .future-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .future-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .future-section h4::before {
+            content: '🎯';
+            font-size: 1.2rem;
+        }
+
+        .future-section p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Synthesis Section */
+        .synthesis-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .synthesis-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .synthesis-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .synthesis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .synthesis-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .synthesis-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .synthesis-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .synthesis-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .competence-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .competence-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .competence-title {
+                font-size: 1.5rem;
+            }
+
+            .ac-card {
+                padding: 1.5rem;
+            }
+
+            .synthesis-section {
+                padding: 2rem;
+            }
+
+            .synthesis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .ac-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .competence-header:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<body>
-
-<div>
-<h1>Mes Compétences Acquises</h1>
-
-<div class="competence">
-    <h2>Compétence 2 : Optimiser des applications </h2>
-
-    <div class="competence">
-        <h2>AC1 : Choix de structures de données complexes</h2>
-        <p>Le choix judicieux de structures de données complexes est fondamental en informatique, surtout pour la modélisation et l'optimisation des processus dans des contextes variés. Durant mon BUT, cette compétence s'est avérée essentielle pour résoudre des problèmes techniques complexes et améliorer l'efficacité des applications. J'ai acquis et approfondi cette compétence à travers divers modules et projets pratiques, où il était crucial de sélectionner la structure de données la plus appropriée pour chaque scénario.</p>
-        <div class="exemple">
-            <p>Un exemple concret de l'application de cette compétence a été lors du développement d'une application de gestion d'inventaire pour un site de vente de fleurs, réalisé pour me perfectionner dans l'utilisation de React et spécifiquement de Next.js. Pour ce projet, j'ai utilisé des graphes pour modéliser les relations entre les différents articles stockés, optimisant ainsi les recherches et les mises à jour. Cette méthode a nettement amélioré la gestion des flux de produits et la réactivité du système aux changements d'inventaire. Par ailleurs, lors d'un projet d'e-commerce sur les aspirateurs réalisé à l'IUT, j'ai employé ces mêmes compétences pour concevoir un système de panier efficace, démontrant ainsi l'importance et l'utilité des structures de données complexes dans des contextes professionnels et académiques variés.</p>
-        </div>
+<body class="loaded">
+<div class="learning-page">
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
 
-    <div class="competence">
-        <h2>AC2 : Techniques algorithmiques avancées</h2>
-        <p>L'application de techniques algorithmiques avancées est indispensable pour développer des solutions informatiques performantes et efficaces. Au cours de mon BUT, j'ai acquis une maîtrise approfondie de ces techniques en implémentant des méthodes de recherche opérationnelle pour optimiser diverses applications. Cette compétence s'est avérée cruciale pour atteindre une haute précision et une utilisation optimale des ressources dans mes projets.</p>
-        <div class="exemple">
-            <p>Dans le cadre du cours 'Développement efficace', j'ai pu mettre en œuvre ces techniques en apprenant et pratiquant la récursivité et la stratégie 'Diviser pour régner'. J'ai aussi appris à manipuler efficacement des structures de données avancées telles que les listes, les tableaux, et les tas. Ces compétences m'ont permis d'améliorer significativement la précision et l'efficacité des projets que j'ai menés, en adaptant ces méthodes aux besoins spécifiques de chaque application.</p>
-        </div>
-    </div>
-
-    <div class="competence">
-        <h2>AC3 : Sécurisation des données et du code</h2>
-        <p>La sécurisation des données et du code est une compétence essentielle en informatique, particulièrement dans le contexte actuel de menaces croissantes en matière de cybersécurité. Au cours de mon BUT, j'ai renforcé mes aptitudes à protéger efficacement les données et le code en adoptant des méthodes de cryptographie avancées. Ces compétences m'ont permis de développer des applications sécurisées qui respectent à la fois la confidentialité et l'intégrité des données sans sacrifier la performance.</p>
-        <div class="exemple">
-            <p>Un exemple significatif de l'application de ces compétences est le développement d'un site de e-commerce pour des aspirateurs, où j'ai implémenté le modèle MVC appris lors du cours de PHP. Cela a été crucial pour sécuriser le site contre les injections SQL et autres vulnérabilités. J'ai également utilisé ces compétences en sécurité lors de la conception de jeux pour notre SAE final en deuxième année, démontrant ainsi la polyvalence et l'importance de la sécurisation des données dans divers types de projets informatiques.</p>
-        </div>
-    </div>
-
-    <div class="competence">
-        <h2>AC4 : Évaluation de l'impact environnemental</h2>
-        <p>Dans un monde où la durabilité est de plus en plus priorisée, l'évaluation de l'impact environnemental et sociétal des solutions technologiques est essentielle. Durant mon BUT en Informatique, j'ai intégré cette perspective dans tous mes projets de développement, en justifiant systématiquement les choix technologiques pour minimiser l'empreinte écologique. Cette approche m'a permis de combiner efficacement éco-responsabilité et performance, validant les résultats attendus tout en conservant une consommation de ressources optimisée.</p>
-        <div class="exemple">
-            <p>Au cours de ma formation, j'ai développé une expertise particulière en analysant l'impact environnemental des technologies de l'information. Par exemple, lors du cours avancé de management des systèmes d'information, nous avons étudié en détail les répercussions écologiques des systèmes informatiques. Cela m'a préparé à intégrer des pratiques de développement durable dans mes projets, comme illustré par notre initiative 'Noissap Voyage'. Dans ce projet, nous avons mis en œuvre des solutions écoresponsables, réduisant l'impact environnemental tout en maintenant l'efficacité du service proposé, démontrant ainsi notre capacité à allier technologie et respect de l'environnement.</p>
-        </div>
-    </div>
-
-</div>
-
-
-
-
-
-<div class="competence">
-    <h2>Compétence 3 : Administrer des systèmes informatiques communicants complexes</h2>
-
-    <div class="competence">
-        <h2>AC1 : Concevoir et développer des applications communicantes</h2>
-        <p>La capacité à concevoir et développer des applications communicantes est essentielle dans le domaine de l'informatique, car elle permet de créer des systèmes qui interagissent efficacement avec les utilisateurs et d'autres systèmes. Au cours de mon BUT, j'ai acquis des compétences techniques avancées pour la création de logiciels qui supportent la communication en réseau, l'interopérabilité et l'échange sécurisé de données. J'ai appris à appliquer des protocoles de communication standards et à intégrer diverses API pour enrichir les fonctionnalités des applications tout en assurant leur fiabilité et leur sécurité.</p>
-        <div class="exemple">
-            <p>Dans le cadre du cours de réseaux avancés, j'ai participé à la création de plusieurs réseaux communicants utilisant divers protocoles pour comprendre et gérer leurs fonctionnalités spécifiques. Ce projet comprenait la mise en place de VLANs et l'optimisation de la communication en fonction de la forme de réseau choisie. Cette expérience m'a permis de développer une compréhension approfondie de la gestion de la communication entre dispositifs réseau et d'appliquer ces connaissances à la conception de solutions informatiques intégrées et sécurisées.</p>
-        </div>
-    </div>
-
-
-    <div class="competence">
-        <h2>AC2 : Utiliser des serveurs et des services réseaux virtualisés</h2>
-        <p>L'utilisation des serveurs et des services réseaux virtualisés est cruciale pour la flexibilité et l'efficacité des infrastructures informatiques modernes. Pendant mon BUT, j'ai acquis une expertise technique dans la configuration, la gestion et l'optimisation de solutions de virtualisation. Cela inclut la mise en œuvre de serveurs virtuels et la gestion de services réseau virtualisés, qui permettent une meilleure allocation des ressources, une scalabilité accrue et une réduction des coûts opérationnels.</p>
-        <div class="exemple">
-            <p>Dans un projet pratique, j'ai été responsable de la création de postes virtuels à l'aide de solutions de virtualisation comme VMware et VirtualBox. Ces postes ont été configurés spécifiquement pour des environnements de test, permettant à notre équipe de simuler différents scénarios d'utilisation et de détecter les problèmes avant le déploiement des applications. Ce projet a non seulement renforcé notre capacité à tester et à optimiser les logiciels dans un environnement contrôlé, mais a également amélioré notre agilité et notre efficacité dans le développement de nouvelles solutions.</p>
-        </div>
-    </div>
-
-    <div class="competence">
-        <h2>AC3 : Sécuriser les services et données d'un système</h2>
-        <p>La sécurité des services et des données est primordiale dans l'environnement numérique actuel, caractérisé par une augmentation constante des menaces cybernétiques. Au cours de mon BUT, j'ai développé des compétences avancées pour sécuriser à la fois les services en ligne et les données stockées ou transmises. Cela comprend l'implémentation de mesures de sécurité robustes, l'application de protocoles sécurisés et la conformité aux normes de sécurité internationales pour prévenir les violations de données et assurer l'intégrité des systèmes.</p>
-        <div class="exemple">
-            <p>Pour un projet de site d'e-commerce, j'ai été chargé de sécuriser les transactions et les données des utilisateurs. En utilisant des protocoles de sécurisation des données comme HTTPS et en appliquant des méthodes de chiffrement fort, nous avons pu protéger efficacement les informations sensibles contre les interceptions et les attaques par injection SQL. De plus, la mise en œuvre de mécanismes d'authentification multi-facteurs a renforcé la sécurité des comptes utilisateurs, minimisant ainsi les risques de fraudes et de piratage.</p>
-        </div>
-    </div>
-    </div>
-
-
-
-
-
-
-
-    <div class="competence">
-        <h2>Compétence 4 : Gérer des données de l'information</h2>
-
-
-    <div class="competence">
-        <h2>AC1 : Optimiser les modèles de données de l'entreprise</h2>
-        <p>L'optimisation des modèles de données est cruciale pour maximiser l'efficacité et la performance des systèmes d'information au sein des entreprises. Durant mon BUT, j'ai développé les compétences nécessaires pour évaluer, redéfinir et optimiser les structures de données existantes afin d'améliorer le traitement des informations et la prise de décision stratégique. J'ai appris à identifier les goulots d'étranglement dans les modèles de données et à implémenter des solutions innovantes pour augmenter l'efficacité des opérations de données.</p>
-        <div class="exemple">
-            <p>Dans notre projet 'Noissap Voyage', j'ai joué un rôle clé dans la restructuration de la base de données de l'entreprise de voyages. L'analyse et la refonte du modèle de données existant ont permis d'améliorer significativement la performance des requêtes et la gestion des données de réservations et d'itinéraires de voyage. Cette optimisation a conduit à une réduction des temps de chargement et à une meilleure expérience utilisateur, démontrant ainsi l'impact direct de modèles de données bien conçus sur l'efficacité opérationnelle et la satisfaction client.</p>        </div>
-    </div>
-
-    <div class="competence">
-        <h2>AC2 : Assurer la confidentialité des données (intégrité et sécurité)</h2>
-        <p>Assurer la confidentialité, l'intégrité et la sécurité des données est fondamental dans le domaine de l'informatique, en particulier face à l'augmentation des menaces cybernétiques et des exigences réglementaires. Au cours de mon BUT, j'ai acquis des compétences essentielles pour protéger les données contre les accès non autorisés et les altérations, tout en garantissant leur disponibilité. J'ai appris à mettre en œuvre des protocoles de sécurité avancés, des techniques de chiffrement, et des politiques de sécurité pour renforcer les systèmes d'information contre les vulnérabilités.</p>
-        <div class="exemple">
-        </div>
-    </div>
-
-   <div class="competence">
-    <h2>AC3 : Organiser la restitution de données à travers la programmation et la visualisation</h2>
-    <p>La capacité à organiser et restituer des données de manière efficace et intuitive est cruciale dans le domaine de l'analyse de données et du développement informatique. Pendant mon BUT, j'ai acquis des compétences essentielles pour transformer des données complexes en visualisations compréhensibles et interactives. J'ai appris à utiliser des outils de programmation avancés et des bibliothèques de visualisation pour créer des dashboards et des rapports qui facilitent la prise de décision et la communication des informations clés.</p>
-    <div class="exemple">
-        <p>Lors d'un projet académique, j'ai développé une application qui permettait de visualiser des données de performance des ventes pour une entreprise fictive. En utilisant des technologies comme JavaScript et des bibliothèques telles que D3.js, j'ai créé des graphiques interactifs et des tableaux de bord qui non seulement représentaient l'évolution des ventes en temps réel mais aussi permettaient aux utilisateurs de filtrer et d'analyser les données selon différents critères. Ce projet a démontré comment la visualisation des données peut être utilisée pour rendre les informations accessibles et utiles à tous les niveaux de l'organisation.</p>
-    </div>
-</div>
-
-        <div class="competence">
-            <h2>AC4 : Manipuler des données hétérogènes</h2>
-            <p>La capacité à manipuler des données hétérogènes est essentielle pour les professionnels de l'informatique confrontés à la diversité et à la complexité croissantes des données dans les environnements numériques. Durant mon BUT, j'ai développé des compétences avancées pour traiter, intégrer et analyser des données provenant de sources diversifiées. Cela inclut l'apprentissage de techniques de nettoyage de données, de transformation et d'unification pour assurer la qualité et la cohérence des informations traitées.</p>
-            <div class="exemple">
-                <p>Dans le cadre du projet de Noissap Voyage, j'ai été confronté à la tâche de fusionner des ensembles de données issus de différentes sources pour une analyse de marché. Les données comprenaient des formats variés, tels que des fichiers CSV, des bases de données SQL et des feuilles de calcul Excel. j'ai réussi à nettoyer, transformer et unifier ces données pour créer un modèle de données cohérent. Cette manipulation a permis une analyse approfondie des tendances du marché, démontrant l'importance de savoir gérer efficacement des données hétérogènes pour en extraire des données pertinents.</p>
+    <div class="nav-container">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown" id="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
             </div>
         </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="header-section">
+            <h1 class="main-title" data-fr="Portfolio d'Apprentissage Critique" data-en="Critical Learning Portfolio">Portfolio d'Apprentissage Critique</h1>
+            <p class="subtitle" data-fr="Transition BUT 2 → BUT 3 - Spécialité IAMSI" data-en="BUT 2 → BUT 3 Transition - IAMSI Specialization">Transition BUT 2 → BUT 3 - Spécialité IAMSI</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <p class="intro-text" data-fr="Ce portfolio présente une analyse critique des compétences acquises durant mes deux premières années de BUT Informatique, spécialité Intégration d'Applications et Management des Systèmes d'Information. Il met en évidence ma progression technique et professionnelle, ainsi que ma préparation pour la troisième année." data-en="This portfolio presents a critical analysis of the skills acquired during my first two years of BUT Computer Science, specializing in Application Integration and Information Systems Management. It highlights my technical and professional progression, as well as my preparation for the third year.">
+                Ce portfolio présente une analyse critique des compétences acquises durant mes deux premières années de BUT Informatique, spécialité <strong>Intégration d'Applications et Management des Systèmes d'Information (IAMSI)</strong>. Il met en évidence ma progression technique et professionnelle, ainsi que ma préparation pour la troisième année.
+            </p>
         </div>
 
+        <!-- Compétence 2 -->
+        <div class="competence-section comp-2" data-competence="2">
+            <div class="competence-header" onclick="toggleCompetence(2)">
+                <div class="competence-icon">🚀</div>
+                <div>
+                    <h2 class="competence-title" data-fr="Compétence 2 : Optimiser des applications informatiques" data-en="Competence 2: Optimize computer applications">Compétence 2 : Optimiser des applications informatiques</h2>
+                    <p class="competence-subtitle" data-fr="Développer des solutions techniques performantes et durables" data-en="Develop efficient and sustainable technical solutions">Développer des solutions techniques performantes et durables</p>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+
+            <div class="competence-content">
+                <div class="ac-cards">
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC21</div>
+                            <h3 class="ac-title" data-fr="Choix et mise en œuvre de structures de données complexes" data-en="Choice and implementation of complex data structures">Choix et mise en œuvre de structures de données complexes</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage :" data-en="Learning context:">Contexte d'apprentissage :</h4>
+                            <p data-fr="Le choix judicieux de structures de données complexes constitue un pilier fondamental en informatique, particulièrement crucial pour la modélisation et l'optimisation des processus dans des contextes professionnels variés." data-en="The judicious choice of complex data structures is a fundamental pillar in computer science, particularly crucial for modeling and optimizing processes in various professional contexts.">Le choix judicieux de structures de données complexes constitue un pilier fondamental en informatique, particulièrement crucial pour la modélisation et l'optimisation des processus dans des contextes professionnels variés.</p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Projet e-commerce floral (Next.js/React) : Implémentation de graphes pour modéliser les relations entre articles, optimisant les recherches et mises à jour d'inventaire avec une amélioration de 40% des performances" data-en="Floral e-commerce project (Next.js/React): Implementation of graphs to model relationships between items, optimizing searches and inventory updates with a 40% performance improvement">Projet e-commerce floral (Next.js/React) : Implémentation de graphes pour modéliser les relations entre articles, optimisant les recherches et mises à jour d'inventaire avec une <span class="metric-highlight">amélioration de 40% des performances</span></li>
+                                <li data-fr="SAE E-commerce aspirateurs (IUT) : Conception d'un système de panier utilisant des structures de données optimisées" data-en="SAE E-commerce vacuum cleaners (IUT): Design of a cart system using optimized data structures">SAE E-commerce aspirateurs (IUT) : Conception d'un système de panier utilisant des structures de données optimisées</li>
+                                <li data-fr="Algorithmes de recherche avancés : Utilisation de tables de hachage et d'arbres binaires pour l'indexation" data-en="Advanced search algorithms: Use of hash tables and binary trees for indexing">Algorithmes de recherche avancés : Utilisation de tables de hachage et d'arbres binaires pour l'indexation</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Graphes</span>
+                            <span class="tech-tag">Hash Tables</span>
+                            <span class="tech-tag">Arbres Binaires</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Vers la 3ème année :" data-en="Towards the 3rd year:">Vers la 3ème année :</h4>
+                            <p data-fr="Cette compétence sera cruciale pour les projets d'architecture logicielle avancée et l'optimisation de systèmes d'information complexes en entreprise." data-en="This skill will be crucial for advanced software architecture projects and optimization of complex information systems in companies.">Cette compétence sera cruciale pour les projets d'architecture logicielle avancée et l'optimisation de systèmes d'information complexes en entreprise.</p>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC22</div>
+                            <h3 class="ac-title" data-fr="Application de techniques algorithmiques avancées" data-en="Application of advanced algorithmic techniques">Application de techniques algorithmiques avancées</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage :" data-en="Learning context:">Contexte d'apprentissage :</h4>
+                            <p data-fr="L'application de techniques algorithmiques avancées est indispensable pour développer des solutions informatiques performantes. J'ai acquis une maîtrise approfondie de ces techniques en implémentant des méthodes de recherche opérationnelle et d'optimisation." data-en="The application of advanced algorithmic techniques is essential for developing efficient IT solutions. I have acquired a thorough mastery of these techniques by implementing operational research and optimization methods.">L'application de techniques algorithmiques avancées est indispensable pour développer des solutions informatiques performantes. J'ai acquis une maîtrise approfondie de ces techniques en implémentant des méthodes de recherche opérationnelle et d'optimisation.</p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Cours 'Développement efficace' : Maîtrise de la récursivité, stratégie 'Diviser pour régner'" data-en="'Efficient Development' course: Mastery of recursion, 'Divide and conquer' strategy">Cours "Développement efficace" : Maîtrise de la récursivité, stratégie "Diviser pour régner"</li>
+                                <li data-fr="Algorithmes de tri optimisés : Implémentation de QuickSort et MergeSort avec analyse de complexité" data-en="Optimized sorting algorithms: Implementation of QuickSort and MergeSort with complexity analysis">Algorithmes de tri optimisés : Implémentation de QuickSort et MergeSort avec analyse de complexité</li>
+                                <li data-fr="Recherche opérationnelle : Application d'algorithmes d'optimisation pour la gestion de ressources" data-en="Operational research: Application of optimization algorithms for resource management">Recherche opérationnelle : Application d'algorithmes d'optimisation pour la gestion de ressources</li>
+                            </ul>
+                        </div>
+
+                        <p><span class="metric-highlight">Amélioration de 60%</span> de l'efficacité des applications développées grâce à l'optimisation algorithmique.</p>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Récursivité</span>
+                            <span class="tech-tag">QuickSort</span>
+                            <span class="tech-tag">MergeSort</span>
+                            <span class="tech-tag">Analyse de complexité</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Vers la 3ème année :" data-en="Towards the 3rd year:">Vers la 3ème année :</h4>
+                            <p data-fr="Ces compétences seront essentielles pour l'analyse de performance des systèmes d'information et l'optimisation de processus métier en entreprise." data-en="These skills will be essential for performance analysis of information systems and optimization of business processes in companies.">Ces compétences seront essentielles pour l'analyse de performance des systèmes d'information et l'optimisation de processus métier en entreprise.</p>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC23</div>
+                            <h3 class="ac-title" data-fr="Sécurisation avancée des données et du code" data-en="Advanced data and code security">Sécurisation avancée des données et du code</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage :" data-en="Learning context:">Contexte d'apprentissage :</h4>
+                            <p data-fr="La sécurisation des données et du code représente un enjeu majeur dans le contexte actuel de menaces cybernétiques croissantes. J'ai développé une expertise en cryptographie avancée et en sécurisation d'applications." data-en="Data and code security represents a major challenge in the current context of growing cybernetic threats. I have developed expertise in advanced cryptography and application security.">La sécurisation des données et du code représente un enjeu majeur dans le contexte actuel de menaces cybernétiques croissantes. J'ai développé une expertise en cryptographie avancée et en sécurisation d'applications.</p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Site e-commerce sécurisé : Implémentation du modèle MVC en PHP avec protection contre les injections SQL et failles XSS" data-en="Secure e-commerce site: Implementation of MVC model in PHP with protection against SQL injections and XSS vulnerabilities">Site e-commerce sécurisé : Implémentation du modèle MVC en PHP avec protection contre les injections SQL et failles XSS</li>
+                                <li data-fr="Authentification multi-facteurs : Développement de systèmes d'authentification sécurisée avec tokens JWT" data-en="Multi-factor authentication: Development of secure authentication systems with JWT tokens">Authentification multi-facteurs : Développement de systèmes d'authentification sécurisée avec tokens JWT</li>
+                                <li data-fr="Chiffrement des données : Application de protocoles de chiffrement AES-256" data-en="Data encryption: Application of AES-256 encryption protocols">Chiffrement des données : Application de protocoles de chiffrement AES-256</li>
+                            </ul>
+                        </div>
+
+                        <p><strong data-fr="Certifications obtenues :" data-en="Certifications obtained:">Certifications obtenues :</strong> Sensibilisation à la cybersécurité (IUT), Bonnes pratiques de développement sécurisé</p>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">PHP MVC</span>
+                            <span class="tech-tag">JWT</span>
+                            <span class="tech-tag">AES-256</span>
+                            <span class="tech-tag">SQL Injection</span>
+                            <span class="tech-tag">XSS Protection</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Vers la 3ème année :" data-en="Towards the 3rd year:">Vers la 3ème année :</h4>
+                            <p data-fr="Cette expertise sera fondamentale pour les projets de sécurisation des systèmes d'information en entreprise et la conformité RGPD." data-en="This expertise will be fundamental for information systems security projects in companies and GDPR compliance.">Cette expertise sera fondamentale pour les projets de sécurisation des systèmes d'information en entreprise et la conformité RGPD.</p>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC24</div>
+                            <h3 class="ac-title" data-fr="Évaluation et réduction de l'impact environnemental" data-en="Environmental impact assessment and reduction">Évaluation et réduction de l'impact environnemental</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage :" data-en="Learning context:">Contexte d'apprentissage :</h4>
+                            <p data-fr="Dans un contexte de développement durable, l'évaluation de l'impact environnemental des solutions technologiques est devenue essentielle. J'ai intégré cette dimension éco-responsable dans tous mes projets." data-en="In a context of sustainable development, evaluating the environmental impact of technological solutions has become essential. I have integrated this eco-responsible dimension into all my projects.">Dans un contexte de développement durable, l'évaluation de l'impact environnemental des solutions technologiques est devenue essentielle. J'ai intégré cette dimension éco-responsable dans tous mes projets.</p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Projet 'Noissap Voyage' : Mise en œuvre de solutions écoresponsables avec réduction de 30% de la consommation énergétique" data-en="'Noissap Voyage' project: Implementation of eco-responsible solutions with 30% reduction in energy consumption">Projet "Noissap Voyage" : Mise en œuvre de solutions écoresponsables avec <span class="metric-highlight">réduction de 30% de la consommation énergétique</span></li>
+                                <li data-fr="Green IT : Application de principes de développement durable dans tous les projets" data-en="Green IT: Application of sustainable development principles in all projects">Green IT : Application de principes de développement durable dans tous les projets</li>
+                                <li data-fr="Optimisation énergétique : Réduction des requêtes serveur et code optimisé" data-en="Energy optimization: Reduction of server requests and optimized code">Optimisation énergétique : Réduction des requêtes serveur et code optimisé</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Green IT</span>
+                            <span class="tech-tag">Optimisation énergétique</span>
+                            <span class="tech-tag">Développement durable</span>
+                            <span class="tech-tag">Empreinte carbone</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Vers la 3ème année :" data-en="Towards the 3rd year:">Vers la 3ème année :</h4>
+                            <p data-fr="Cette sensibilité environnementale sera cruciale pour conseiller les entreprises sur des choix technologiques durables et éthiques." data-en="This environmental sensitivity will be crucial for advising companies on sustainable and ethical technological choices.">Cette sensibilité environnementale sera cruciale pour conseiller les entreprises sur des choix technologiques durables et éthiques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compétence 3 -->
+        <div class="competence-section comp-3" data-competence="3">
+            <div class="competence-header" onclick="toggleCompetence(3)">
+                <div class="competence-icon">🌐</div>
+                <div>
+                    <h2 class="competence-title" data-fr="Compétence 3 : Administrer des systèmes informatiques communicants complexes" data-en="Competence 3: Administer complex communicating computer systems">Compétence 3 : Administrer des systèmes informatiques communicants complexes</h2>
+                    <p class="competence-subtitle" data-fr="Concevoir et gérer des infrastructures réseau robustes et sécurisées" data-en="Design and manage robust and secure network infrastructures">Concevoir et gérer des infrastructures réseau robustes et sécurisées</p>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+
+            <div class="competence-content">
+                <div class="ac-cards">
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC31</div>
+                            <h3 class="ac-title" data-fr="Conception et développement d'applications communicantes" data-en="Design and development of communicating applications">Conception et développement d'applications communicantes</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage :" data-en="Learning context:">Contexte d'apprentissage :</h4>
+                            <p data-fr="La capacité à concevoir et développer des applications communicantes est essentielle dans l'écosystème informatique moderne. J'ai acquis des compétences techniques avancées pour créer des systèmes interopérables, sécurisés et performants." data-en="The ability to design and develop communicating applications is essential in the modern IT ecosystem. I have acquired advanced technical skills to create interoperable, secure and efficient systems.">La capacité à concevoir et développer des applications communicantes est essentielle dans l'écosystème informatique moderne. J'ai acquis des compétences techniques avancées pour créer des systèmes interopérables, sécurisés et performants.</p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Réseaux communicants avancés : Création de plusieurs architectures réseau utilisant TCP/IP, HTTP/HTTPS, WebSockets" data-en="Advanced communicating networks: Creation of several network architectures using TCP/IP, HTTP/HTTPS, WebSockets">Réseaux communicants avancés : Création de plusieurs architectures réseau utilisant TCP/IP, HTTP/HTTPS, WebSockets</li>
+                                <li data-fr="Configuration VLANs : Mise en place et optimisation de réseaux virtuels" data-en="VLAN configuration: Setup and optimization of virtual networks">Configuration VLANs : Mise en place et optimisation de réseaux virtuels</li>
+                                <li data-fr="APIs REST/GraphQL : Développement d'interfaces de programmation pour l'intégration de services tiers" data-en="REST/GraphQL APIs: Development of programming interfaces for third-party service integration">APIs REST/GraphQL : Développement d'interfaces de programmation pour l'intégration de services tiers</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">TCP/IP</span>
+                            <span class="tech-tag">HTTP/HTTPS</span>
+                            <span class="tech-tag">WebSockets</span>
+                            <span class="tech-tag">VLANs</span>
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">GraphQL</span>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC32</div>
+                            <h3 class="ac-title" data-fr="Virtualisation et services réseaux" data-en="Virtualization and network services">Virtualisation et services réseaux</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Environnements virtualisés : Configuration de postes virtuels avec VMware vSphere et VirtualBox" data-en="Virtualized environments: Configuration of virtual workstations with VMware vSphere and VirtualBox">Environnements virtualisés : Configuration de postes virtuels avec VMware vSphere et VirtualBox</li>
+                                <li data-fr="Conteneurisation : Utilisation de Docker pour le déploiement d'applications" data-en="Containerization: Use of Docker for application deployment">Conteneurisation : Utilisation de Docker pour le déploiement d'applications</li>
+                                <li data-fr="Réduction de 50% des coûts d'infrastructure grâce à la virtualisation" data-en="50% reduction in infrastructure costs through virtualization">Réduction de <span class="metric-highlight">50% des coûts d'infrastructure</span> grâce à la virtualisation</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">VMware vSphere</span>
+                            <span class="tech-tag">VirtualBox</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Azure</span>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC33</div>
+                            <h3 class="ac-title" data-fr="Sécurisation complète des systèmes et données" data-en="Complete system and data security">Sécurisation complète des systèmes et données</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="E-commerce sécurisé : Implémentation complète de la sécurité (HTTPS, chiffrement, authentification forte)" data-en="Secure e-commerce: Complete security implementation (HTTPS, encryption, strong authentication)">E-commerce sécurisé : Implémentation complète de la sécurité (HTTPS, chiffrement, authentification forte)</li>
+                                <li data-fr="Audit de sécurité : Analyse de vulnérabilités avec OWASP ZAP et Nessus" data-en="Security audit: Vulnerability analysis with OWASP ZAP and Nessus">Audit de sécurité : Analyse de vulnérabilités avec OWASP ZAP et Nessus</li>
+                                <li data-fr="Plan de reprise d'activité : Conception de stratégies de sauvegarde et de récupération" data-en="Business continuity plan: Design of backup and recovery strategies">Plan de reprise d'activité : Conception de stratégies de sauvegarde et de récupération</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTTPS</span>
+                            <span class="tech-tag">OWASP ZAP</span>
+                            <span class="tech-tag">Nessus</span>
+                            <span class="tech-tag">Audit sécurité</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compétence 4 -->
+        <div class="competence-section comp-4" data-competence="4">
+            <div class="competence-header" onclick="toggleCompetence(4)">
+                <div class="competence-icon">📊</div>
+                <div>
+                    <h2 class="competence-title" data-fr="Compétence 4 : Gérer des données de l'information" data-en="Competence 4: Manage information data">Compétence 4 : Gérer des données de l'information</h2>
+                    <p class="competence-subtitle" data-fr="Maîtriser le cycle de vie complet des données d'entreprise" data-en="Master the complete lifecycle of enterprise data">Maîtriser le cycle de vie complet des données d'entreprise</p>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+
+            <div class="competence-content">
+                <div class="ac-cards">
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC41</div>
+                            <h3 class="ac-title" data-fr="Optimisation des modèles de données d'entreprise" data-en="Optimization of enterprise data models">Optimisation des modèles de données d'entreprise</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Projet 'Noissap Voyage' : Restructuration complète de la base de données avec amélioration de 65% des performances des requêtes" data-en="'Noissap Voyage' project: Complete database restructuring with 65% improvement in query performance">Projet "Noissap Voyage" : Restructuration complète de la base de données avec <span class="metric-highlight">amélioration de 65% des performances des requêtes</span></li>
+                                <li data-fr="Modélisation conceptuelle : Maîtrise des diagrammes Entité-Association et UML" data-en="Conceptual modeling: Mastery of Entity-Association diagrams and UML">Modélisation conceptuelle : Maîtrise des diagrammes Entité-Association et UML</li>
+                                <li data-fr="Réduction de 70% des temps de chargement après optimisation" data-en="70% reduction in loading times after optimization">Réduction de <span class="metric-highlight">70% des temps de chargement</span> après optimisation</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">UML</span>
+                            <span class="tech-tag">Entité-Association</span>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC42</div>
+                            <h3 class="ac-title" data-fr="Confidentialité, intégrité et sécurité des données" data-en="Data confidentiality, integrity and security">Confidentialité, intégrité et sécurité des données</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Conformité RGPD : Mise en place de procédures de protection des données personnelles" data-en="GDPR compliance: Implementation of personal data protection procedures">Conformité RGPD : Mise en place de procédures de protection des données personnelles</li>
+                                <li data-fr="Chiffrement avancé : Implémentation de solutions de chiffrement bout-en-bout" data-en="Advanced encryption: Implementation of end-to-end encryption solutions">Chiffrement avancé : Implémentation de solutions de chiffrement bout-en-bout</li>
+                                <li data-fr="Formation RGPD (40h) et certification cybersécurité niveau avancé" data-en="GDPR training (40h) and advanced cybersecurity certification">Formation RGPD (40h) et certification cybersécurité niveau avancé</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">RGPD</span>
+                            <span class="tech-tag">Chiffrement</span>
+                            <span class="tech-tag">Audit sécurité</span>
+                            <span class="tech-tag">Traçabilité</span>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC43</div>
+                            <h3 class="ac-title" data-fr="Restitution et visualisation avancée de données" data-en="Advanced data restitution and visualization">Restitution et visualisation avancée de données</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Dashboard de ventes : Application JavaScript avec D3.js pour visualisations interactives en temps réel" data-en="Sales dashboard: JavaScript application with D3.js for real-time interactive visualizations">Dashboard de ventes : Application JavaScript avec D3.js pour visualisations interactives en temps réel</li>
+                                <li data-fr="Business Intelligence : Création de rapports avec Power BI et Tableau" data-en="Business Intelligence: Report creation with Power BI and Tableau">Business Intelligence : Création de rapports avec Power BI et Tableau</li>
+                                <li data-fr="Analyses prédictives : Utilisation de Python (Pandas, Matplotlib, Seaborn)" data-en="Predictive analytics: Use of Python (Pandas, Matplotlib, Seaborn)">Analyses prédictives : Utilisation de Python (Pandas, Matplotlib, Seaborn)</li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Power BI</span>
+                            <span class="tech-tag">Tableau</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">Matplotlib</span>
+                        </div>
+                    </div>
+
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC44</div>
+                            <h3 class="ac-title" data-fr="Manipulation et intégration de données hétérogènes" data-en="Manipulation and integration of heterogeneous data">Manipulation et intégration de données hétérogènes</h3>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes :" data-en="Concrete achievements:">Réalisations concrètes :</h4>
+                            <ul>
+                                <li data-fr="Projet 'Noissap Voyage' : Fusion de données multisources (CSV, SQL, Excel, APIs) pour analyse de marché complète" data-en="'Noissap Voyage' project: Multi-source data fusion (CSV, SQL, Excel, APIs) for complete market analysis">Projet "Noissap Voyage" : Fusion de données multisources (CSV, SQL, Excel, APIs) pour analyse de marché complète</li>
+                                <li data-fr="Pipeline ETL : Automatisation du traitement de données avec Python et Apache Airflow" data-en="ETL pipeline: Data processing automation with Python and Apache Airflow">Pipeline ETL : Automatisation du traitement de données avec Python et Apache Airflow</li>
+                                <li data-fr="Traitement automatisé de plus de 100 000 enregistrements par heure" data-en="Automated processing of more than 100,000 records per hour">Traitement automatisé de <span class="metric-highlight">plus de 100 000 enregistrements par heure</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">ETL</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Apache Airflow</span>
+                            <span class="tech-tag">Kafka</span>
+                            <span class="tech-tag">Data Lakes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Synthesis Section -->
+        <div class="synthesis-section">
+            <h2 class="synthesis-title" data-fr="Préparation à la 3ème année et perspectives professionnelles" data-en="Preparation for the 3rd year and professional prospects">Préparation à la 3ème année et perspectives professionnelles</h2>
+
+            <div class="synthesis-grid">
+                <div class="synthesis-card">
+                    <h3 data-fr="Synthèse des acquis" data-en="Summary of achievements">Synthèse des acquis</h3>
+                    <p data-fr="Mes deux années de formation m'ont permis de développer une base solide dans les quatre compétences clés du référentiel IAMSI, avec une vision stratégique des enjeux informatiques." data-en="My two years of training have allowed me to develop a solid foundation in the four key skills of the IAMSI reference system, with a strategic vision of IT challenges.">Mes deux années de formation m'ont permis de développer une base solide dans les quatre compétences clés du référentiel IAMSI, avec une vision stratégique des enjeux informatiques.</p>
+                </div>
+
+                <div class="synthesis-card">
+                    <h3 data-fr="Objectifs 3ème année" data-en="3rd year objectives">Objectifs 3ème année</h3>
+                    <p data-fr="Approfondissement technique, développement des compétences managériales, exploration des technologies émergentes (IA, IoT, Blockchain) et préparation aux enjeux internationaux." data-en="Technical deepening, development of managerial skills, exploration of emerging technologies (AI, IoT, Blockchain) and preparation for international challenges.">Approfondissement technique, développement des compétences managériales, exploration des technologies émergentes (IA, IoT, Blockchain) et préparation aux enjeux internationaux.</p>
+                </div>
+
+                <div class="synthesis-card">
+                    <h3 data-fr="Vision professionnelle" data-en="Professional vision">Vision professionnelle</h3>
+                    <p data-fr="Ces compétences me préparent à exercer comme architecte de systèmes d'information, consultant en transformation digitale, ou chef de projet technique avec spécialisation IAMSI." data-en="These skills prepare me to work as an information systems architect, digital transformation consultant, or technical project manager with IAMSI specialization.">Ces compétences me préparent à exercer comme architecte de systèmes d'information, consultant en transformation digitale, ou chef de projet technique avec spécialisation IAMSI.</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<script>
+    // Configuration avancée pour la page Portfolio d'Apprentissage
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Portfolio d'Apprentissage - DOM chargé");
+
+        // Ajouter la classe loaded pour les animations
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 300);
+
+        // Charger les préférences sauvegardées
+        loadSavedPreferences();
+
+        // Configurer les gestionnaires d'événements
+        setupEventHandlers();
+
+        // Démarrer les animations de fond
+        setupBackgroundAnimations();
+
+        // Configurer l'intersection observer pour les animations au scroll
+        setupIntersectionObserver();
+
+        // Animer la barre de progression
+        setTimeout(() => {
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                progressBar.classList.add('animate');
+            }
+        }, 1000);
+    });
+
+    // Charger les préférences sauvegardées
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr' && langToggle) {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    // Configuration des gestionnaires d'événements
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                this.classList.remove('theme-animation');
+                void this.offsetWidth;
+                this.classList.add('theme-animation');
+
+                document.body.classList.add('theme-transition');
+
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    this.classList.remove('theme-animation');
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                this.classList.remove('lang-animation');
+                void this.offsetWidth;
+                this.classList.add('lang-animation');
+
+                const elementsToAnimate = document.querySelectorAll('[data-en], [data-fr]');
+                elementsToAnimate.forEach(el => {
+                    el.classList.remove('lang-animation');
+                    void el.offsetWidth;
+                    el.classList.add('lang-animation');
+                });
+
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+
+                setTimeout(() => {
+                    this.classList.remove('lang-animation');
+                    elementsToAnimate.forEach(el => {
+                        el.classList.remove('lang-animation');
+                    });
+                }, 500);
+            });
+        }
+    }
+
+    // Changer la langue
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+
+            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
+                const span = element.querySelector('span');
+                if (span) {
+                    span.textContent = newText;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Toggle des sections de compétences
+    function toggleCompetence(competenceNumber) {
+        const section = document.querySelector(`[data-competence="${competenceNumber}"]`);
+        if (section) {
+            section.classList.toggle('expanded');
+        }
+    }
+
+    // Animations de fond
+    function setupBackgroundAnimations() {
+        const shapes = document.querySelectorAll('.shape');
+
+        document.addEventListener('mousemove', function(e) {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.02;
+                const moveX = x * 30 * speed;
+                const moveY = y * 30 * speed;
+
+                shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const nav = document.querySelector('.nav-container');
+
+                    // Navigation scrolled effect
+                    if (scrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+
+                    // Parallax shapes
+                    shapes.forEach((shape, index) => {
+                        const speed = (index + 1) * 0.1;
+                        shape.style.transform += ` translateY(${scrollY * speed}px)`;
+                    });
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // Intersection Observer pour les animations au scroll
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.competence-section, .synthesis-section').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    console.log("Portfolio d'Apprentissage - Initialisé avec succès !");
+</script>
 </body>
 </html>

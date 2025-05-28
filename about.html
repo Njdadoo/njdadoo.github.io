@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Quentin Grelier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --achievement-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b3c1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+        }
+
+        body.theme-transition {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.loaded {
+            animation: pageLoaded 1s ease-out;
+        }
+
+        @keyframes pageLoaded {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .about-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: float 25s infinite ease-in-out;
+            transition: all 0.3s ease;
+            filter: blur(1px);
+        }
+
+        .shape:nth-child(1) {
+            width: 350px;
+            height: 350px;
+            background: var(--primary-gradient);
+            top: -175px;
+            left: -175px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            background: var(--secondary-gradient);
+            top: 15%;
+            right: -125px;
+            animation-delay: -8s;
+        }
+
+        .shape:nth-child(3) {
+            width: 450px;
+            height: 450px;
+            background: var(--accent-gradient);
+            bottom: -225px;
+            left: 25%;
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            background: var(--achievement-gradient);
+            top: 70%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(5) {
+            width: 300px;
+            height: 300px;
+            background: var(--primary-gradient);
+            top: 45%;
+            left: 5%;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.08;
+            }
+            33% {
+                transform: translateY(-40px) rotate(120deg) scale(1.1);
+                opacity: 0.12;
+            }
+            66% {
+                transform: translateY(30px) rotate(240deg) scale(0.9);
+                opacity: 0.06;
+            }
+        }
+
+        /* Navigation - Same as other pages */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown,
+        .menu-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .lang-toggle {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-toggle.theme-animation {
+            animation: themeChange 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-toggle.lang-animation {
+            animation: langChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes themeChange {
+            0% { transform: translateY(-2px) scale(1); }
+            25% { transform: translateY(-2px) scale(1.1) rotateY(180deg); }
+            50% { transform: translateY(-2px) scale(1.2) rotateY(360deg); }
+            75% { transform: translateY(-2px) scale(1.1) rotateY(540deg); }
+            100% { transform: translateY(-2px) scale(1) rotateY(720deg); }
+        }
+
+        @keyframes langChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotateX(180deg); }
+            100% { transform: scale(1) rotateX(360deg); }
+        }
+
+        [data-fr], [data-en] {
+            transition: all 0.3s ease;
+        }
+
+        [data-fr].lang-animation, [data-en].lang-animation {
+            animation: textChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes textChange {
+            0% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 140px);
+            align-items: center;
+        }
+
+        /* Content Container */
+        .content-container {
+            flex: 1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .about-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .title-line {
+            width: 100px;
+            height: 3px;
+            background: var(--primary-gradient);
+            margin-bottom: 2rem;
+            border-radius: 2px;
+            opacity: 0;
+            transform: scaleX(0);
+            animation: expandLine 1s ease 0.5s both;
+        }
+
+        @keyframes expandLine {
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        .bio-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 0.7s both;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 2.5rem 0 1rem;
+            position: relative;
+            display: inline-block;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 0.9s both;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.5s ease;
+        }
+
+        .section-title:hover::after {
+            width: 100%;
+        }
+
+        /* Highlight Text */
+        .highlight {
+            background: var(--primary-gradient) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            font-weight: 700 !important;
+            position: relative;
+        }
+
+        .highlight::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-gradient);
+            opacity: 0.3;
+        }
+
+        /* Countries Section */
+        .countries {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 1.1s both;
+        }
+
+        .country {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .country::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .country:hover::before {
+            left: 0;
+            opacity: 0.1;
+        }
+
+        .country:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        /* Photo Section */
+        .photo-section {
+            flex: 0 0 350px;
+            height: 500px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            background: var(--primary-gradient);
+            background-clip: padding-box;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 80px rgba(102, 126, 234, 0.3);
+        }
+
+        .photo-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: var(--primary-gradient);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(20px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column-reverse;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .photo-section {
+                flex: none;
+                width: 100%;
+                max-width: 350px;
+                height: 400px;
+                margin: 0 auto;
+            }
+
+            .content-container {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .photo-section {
+                height: 300px;
+                max-width: 280px;
+            }
+
+            .bio-text {
+                font-size: 1rem;
+            }
+
+            .countries {
+                justify-content: center;
+            }
+
+            .menu-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .bio-text {
+                font-size: 0.95rem;
+            }
+
+            .photo-section {
+                height: 250px;
+                max-width: 250px;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Staggered animations for sections */
+        .bio-text:nth-of-type(2) { animation-delay: 0.9s; }
+        .bio-text:nth-of-type(3) { animation-delay: 1.1s; }
+        .bio-text:nth-of-type(4) { animation-delay: 1.3s; }
+        .bio-text:nth-of-type(5) { animation-delay: 1.5s; }
+    </style>
+</head>
+<body class="loaded">
+<div class="about-page">
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown" id="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-container">
+            <h1 class="about-title" data-fr="À PROPOS" data-en="ABOUT">À PROPOS</h1>
+            <div class="title-line"></div>
+
+            <p class="bio-text" data-fr="Étudiant en deuxième année de BUT Informatique à Montpellier-Sète, je me spécialise dans l'Intégration d'Applications et le Management des Systèmes d'Information (IAMSI). Mon parcours est marqué par un équilibre entre rigueur technique et créativité, reflété dans mes expériences professionnelles et mes réussites personnelles." data-en="As a second-year student in Computer Science at BUT Montpellier-Sète, I specialize in Application Integration and Information Systems Management (IAMSI). My journey is characterized by a balance between technical rigor and creativity, reflected in my professional experiences and personal achievements.">
+                Étudiant en deuxième année de BUT Informatique à Montpellier-Sète, je me spécialise dans l'Intégration d'Applications et le Management des Systèmes d'Information (<span class="highlight">IAMSI</span>). Mon parcours est marqué par un équilibre entre rigueur technique et créativité, reflété dans mes expériences professionnelles et mes réussites personnelles.
+            </p>
+
+            <h2 class="section-title" data-fr="RÉUSSITES" data-en="ACHIEVEMENTS">RÉUSSITES</h2>
+
+            <p class="bio-text" data-fr="Finaliste de la Nuit de l'Info 2025 (3ème place) et lauréat du prix du meilleur design à la Code Game Jam 2023, j'ai démontré ma capacité à exceller dans les environnements créatifs sous pression. Ces expériences ont renforcé ma conviction que l'innovation naît souvent de la collaboration et du dépassement de soi." data-en="Finalist of the Nuit de l'Info 2025 (3rd place) and winner of the best design award at the Code Game Jam 2023, I've demonstrated my ability to excel in creative environments under pressure. These experiences have strengthened my belief that innovation often arises from collaboration and self-improvement.">
+                Finaliste de la <span class="highlight">Nuit de l'Info 2025</span> (3ème place) et lauréat du prix du <span class="highlight">meilleur design à la Code Game Jam 2023</span>, j'ai démontré ma capacité à exceller dans les environnements créatifs sous pression. Ces expériences ont renforcé ma conviction que l'innovation naît souvent de la collaboration et du dépassement de soi.
+            </p>
+
+            <h2 class="section-title" data-fr="PASSION" data-en="PASSION">PASSION</h2>
+
+            <p class="bio-text" data-fr="Ce qui me passionne dans la gestion de projets, c'est l'opportunité d'explorer de nouveaux horizons et de transformer des concepts abstraits en solutions concrètes. Chaque projet est pour moi une aventure d'apprentissage où je peux mettre à profit mes compétences techniques et ma vision créative." data-en="What drives my passion for project management is the opportunity to explore new horizons and transform abstract concepts into tangible solutions. Each project is a learning adventure where I can leverage both my technical skills and creative vision.">
+                Ce qui me passionne dans la gestion de projets, c'est l'opportunité d'explorer de nouveaux horizons et de transformer des concepts abstraits en solutions concrètes. Chaque projet est pour moi une aventure d'apprentissage où je peux mettre à profit mes compétences techniques et ma vision créative.
+            </p>
+
+            <h2 class="section-title" data-fr="AMBITIONS" data-en="AMBITIONS">AMBITIONS</h2>
+
+            <p class="bio-text" data-fr="Mon ambition ? Poursuivre un Master en Management à l'IAE tout en nourrissant ma curiosité pour le monde. J'aspire à voyager et travailler dans d'autres pays tels que des pays anglophones pour perfectionner mon anglais, puis en Corée du Sud pour m'immerger dans une culture technologiquement avancée et radicalement différente." data-en="My ambition? To pursue a Master's degree in Management at IAE while nurturing my curiosity about the world. I aspire to travel and work in other countries such as English-speaking countries to perfect my English, then in South Korea to immerse myself in a technologically advanced and radically different culture.">
+                Mon ambition ? Poursuivre un <span class="highlight">Master en Management à l'IAE</span> tout en nourrissant ma curiosité pour le monde. J'aspire à voyager et travailler dans d'autres pays tels que des pays anglophones pour perfectionner mon anglais, puis en <span class="highlight">Corée du Sud</span> pour m'immerger dans une culture technologiquement avancée et radicalement différente.
+            </p>
+
+            <h2 class="section-title" data-fr="EXPÉRIENCE INTERNATIONALE" data-en="INTERNATIONAL EXPERIENCE">EXPÉRIENCE INTERNATIONALE</h2>
+
+            <p class="bio-text" data-fr="Mes voyages ont déjà façonné ma vision multiculturelle du monde :" data-en="My travels have already shaped my multicultural vision of the world:">
+                Mes voyages ont déjà façonné ma vision multiculturelle du monde :
+            </p>
+
+            <div class="countries">
+                <span class="country" data-fr="Allemagne" data-en="Germany">Allemagne</span>
+                <span class="country" data-fr="Italie" data-en="Italy">Italie</span>
+                <span class="country" data-fr="Angleterre" data-en="England">Angleterre</span>
+                <span class="country" data-fr="Finlande" data-en="Finland">Finlande</span>
+                <span class="country" data-fr="États-Unis" data-en="United States">États-Unis</span>
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <img src="asset/images/IMG-20240220-WA0000.jpg" alt="Quentin Grelier" class="profile-image">
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration avancée pour la page À propos
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Page À propos - DOM chargé");
+
+        // Ajouter la classe loaded pour les animations
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 300);
+
+        // Charger les préférences sauvegardées
+        loadSavedPreferences();
+
+        // Configurer les gestionnaires d'événements
+        setupEventHandlers();
+
+        // Démarrer les animations de fond
+        setupBackgroundAnimations();
+
+        // Configurer les effets de survol avancés
+        setupAdvancedHoverEffects();
+    });
+
+    // Charger les préférences sauvegardées
+    function loadSavedPreferences() {
+        // Charger le thème
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Charger la langue
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr' && langToggle) {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    // Configuration des gestionnaires d'événements
+    function setupEventHandlers() {
+        // Bouton de thème
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Animation du bouton
+                this.classList.remove('theme-animation');
+                void this.offsetWidth;
+                this.classList.add('theme-animation');
+
+                // Transition du body
+                document.body.classList.add('theme-transition');
+
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                // Nettoyer les classes après l'animation
+                setTimeout(() => {
+                    this.classList.remove('theme-animation');
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        // Bouton de langue
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Animation du bouton
+                this.classList.remove('lang-animation');
+                void this.offsetWidth;
+                this.classList.add('lang-animation');
+
+                // Animer tous les éléments qui vont changer
+                const elementsToAnimate = document.querySelectorAll('[data-en], [data-fr]');
+                elementsToAnimate.forEach(el => {
+                    el.classList.remove('lang-animation');
+                    void el.offsetWidth;
+                    el.classList.add('lang-animation');
+                });
+
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+
+                // Nettoyer les animations
+                setTimeout(() => {
+                    this.classList.remove('lang-animation');
+                    elementsToAnimate.forEach(el => {
+                        el.classList.remove('lang-animation');
+                    });
+                }, 500);
+            });
+        }
+    }
+
+    // Changer la langue avec préservation des highlights
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        // Mapping pour les textes en surbrillance
+        const highlightMap = {
+            fr: {
+                'IAMSI': 'IAMSI',
+                'Nuit de l\'Info 2025': 'Nuit de l\'Info 2025',
+                'meilleur design à la Code Game Jam 2023': 'meilleur design à la Code Game Jam 2023',
+                'Master en Management à l\'IAE': 'Master en Management à l\'IAE',
+                'Corée du Sud': 'Corée du Sud'
+            },
+            en: {
+                'IAMSI': 'IAMSI',
+                'Nuit de l\'Info 2025': 'Nuit de l\'Info 2025',
+                'meilleur design à la Code Game Jam 2023': 'best design award at the Code Game Jam 2023',
+                'Master en Management à l\'IAE': 'Master\'s degree in Management at IAE',
+                'Corée du Sud': 'South Korea'
+            }
+        };
+
+        // Traiter les éléments standard
+        document.querySelectorAll(`[data-${lang}]:not(.bio-text)`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+
+            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
+                const span = element.querySelector('span');
+                if (span) {
+                    span.textContent = newText;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                element.textContent = newText;
+            }
+        });
+
+        // Traiter les paragraphes bio-text avec highlights
+        document.querySelectorAll(`.bio-text[data-${lang}]`).forEach(paragraph => {
+            let newText = paragraph.getAttribute(`data-${lang}`);
+
+            // Appliquer les highlights selon la langue
+            const highlights = highlightMap[lang];
+            Object.keys(highlights).forEach(key => {
+                const value = highlights[key];
+                if (newText.includes(value)) {
+                    newText = newText.replace(value, `<span class="highlight">${value}</span>`);
+                }
+            });
+
+            paragraph.innerHTML = newText;
+        });
+    }
+
+    // Animations de fond avancées
+    function setupBackgroundAnimations() {
+        const shapes = document.querySelectorAll('.shape');
+
+        // Animation au mouvement de la souris
+        document.addEventListener('mousemove', function(e) {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.02;
+                const moveX = x * 30 * speed;
+                const moveY = y * 30 * speed;
+
+                shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        // Animation au scroll avec parallax
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+
+                    shapes.forEach((shape, index) => {
+                        const speed = (index + 1) * 0.1;
+                        shape.style.transform += ` translateY(${scrollY * speed}px)`;
+                    });
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // Effets de survol avancés
+    function setupAdvancedHoverEffects() {
+        // Effet sur les pays
+        const countries = document.querySelectorAll('.country');
+        countries.forEach(country => {
+            country.addEventListener('mouseenter', function() {
+                this.style.animation = 'none';
+                this.style.transform = 'translateY(-2px) scale(1.05)';
+            });
+
+            country.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Navigation avec effet blur
+        const nav = document.querySelector('.nav-container');
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                nav.style.background = 'rgba(10, 10, 15, 0.9)';
+                nav.style.backdropFilter = 'blur(20px)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+            } else {
+                nav.style.background = 'transparent';
+                nav.style.backdropFilter = 'none';
+                nav.style.borderBottom = 'none';
+            }
+        });
+
+        // Effet sur l'image de profil
+        const profileImage = document.querySelector('.profile-image');
+        if (profileImage) {
+            profileImage.addEventListener('mouseenter', function() {
+                this.style.animation = 'none';
+            });
+
+            profileImage.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        }
+    }
+
+    // Animation échelonnée pour les sections
+    function staggeredAboutAnimation() {
+        const elements = [
+            '.about-title',
+            '.title-line',
+            '.bio-text:nth-of-type(1)',
+            '.section-title:nth-of-type(1)',
+            '.bio-text:nth-of-type(2)',
+            '.section-title:nth-of-type(2)',
+            '.bio-text:nth-of-type(3)',
+            '.section-title:nth-of-type(3)',
+            '.bio-text:nth-of-type(4)',
+            '.section-title:nth-of-type(4)',
+            '.bio-text:nth-of-type(5)',
+            '.section-title:nth-of-type(5)',
+            '.bio-text:nth-of-type(6)',
+            '.countries',
+            '.photo-section'
+        ];
+
+        elements.forEach((selector, index) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                element.style.animationDelay = `${0.3 + (index * 0.1)}s`;
+            }
+        });
+    }
+
+    // Démarrer les animations personnalisées
+    setTimeout(staggeredAboutAnimation, 100);
+
+    console.log("Page À propos - Initialisée avec succès !");
+</script>
+</body>
+</html>
