@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuit de l'Info 2024 - Quentin Grelier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --nuit-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+            --ocean-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --medical-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --success-gradient: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b3c1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        body.theme-transition {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.loaded {
+            animation: pageLoaded 1s ease-out;
+        }
+
+        @keyframes pageLoaded {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .nuit-info-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Ocean Waves */
+        .ocean-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 200px;
+            background: var(--nuit-gradient);
+            opacity: 0.1;
+            border-radius: 50%;
+            animation: wave 15s infinite ease-in-out;
+        }
+
+        .wave:nth-child(1) {
+            top: 20%;
+            left: -50%;
+            animation-delay: 0s;
+        }
+
+        .wave:nth-child(2) {
+            top: 40%;
+            left: -60%;
+            animation-delay: -5s;
+            opacity: 0.08;
+        }
+
+        .wave:nth-child(3) {
+            top: 60%;
+            left: -40%;
+            animation-delay: -10s;
+            opacity: 0.06;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(30px) rotate(5deg);
+            }
+        }
+
+        /* Navigation - Same as other pages */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--nuit-gradient);
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(33, 147, 176, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(33, 147, 176, 0.5);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown,
+        .menu-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--nuit-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .lang-toggle {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--nuit-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 147, 176, 0.3);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--nuit-gradient);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            background: var(--nuit-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .hero-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(33, 147, 176, 0.2);
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--nuit-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            background: var(--nuit-gradient);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Event Context Section */
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .context-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .context-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .context-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .context-highlight {
+            background: var(--nuit-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* Team Section */
+        .team-composition {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--nuit-gradient);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .member-role {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Innovation Section */
+        .innovation-timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .innovation-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--nuit-gradient);
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--nuit-gradient);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Technical Details */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-category {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .tech-category h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: var(--nuit-gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Challenges & Solutions */
+        .challenge-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .challenge-card, .solution-card {
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .challenge-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(238, 90, 36, 0.1));
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(0, 206, 201, 0.1));
+            border-color: rgba(0, 184, 148, 0.3);
+        }
+
+        .challenge-card h4 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .solution-card h4 {
+            color: #00b894;
+            margin-bottom: 1rem;
+        }
+
+        /* Skills Development */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .skill-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--nuit-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .skill-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .skill-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        /* Results Section */
+        .results-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(33, 147, 176, 0.2);
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .result-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Visual Traces Section */
+        .visual-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .visual-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .visual-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(33, 147, 176, 0.2);
+        }
+
+        .visual-placeholder {
+            height: 200px;
+            background: var(--ocean-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.2)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+
+        .visual-caption {
+            padding: 1rem;
+        }
+
+        .visual-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .visual-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Quote Section */
+        .reflection-quote {
+            background: linear-gradient(135deg, rgba(33, 147, 176, 0.1), rgba(109, 213, 237, 0.1));
+            border: 1px solid rgba(33, 147, 176, 0.3);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .reflection-quote::before {
+            content: '"';
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            color: var(--nuit-gradient);
+            background: var(--nuit-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Back to Projects Button */
+        .back-to-projects {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--nuit-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 147, 176, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .hero-section {
+                padding: 2rem 0;
+            }
+
+            .section-content {
+                padding: 2rem;
+            }
+
+            .context-grid,
+            .team-composition,
+            .tech-stack,
+            .skills-grid,
+            .results-showcase,
+            .visual-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .challenge-solution {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .reflection-quote {
+                padding: 2rem;
+            }
+
+            .menu-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .cta-button:focus {
+            outline: 2px solid #2193b0;
+            outline-offset: 2px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="loaded">
+<div class="nuit-info-page">
+    <div class="ocean-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown" id="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-badge" data-fr="Hackathon National 2024" data-en="National Hackathon 2024">Hackathon National 2024</div>
+            <h1 class="hero-title" data-fr="Nuit de l'Info 2024" data-en="Nuit de l'Info 2024">Nuit de l'Info 2024</h1>
+            <p class="hero-subtitle" data-fr="12 heures de développement intensif pour créer 'Mr Docteur Océan', une application révolutionnaire sensibilisant à la préservation des océans. Performance exceptionnelle : 5ème place sur 909 équipes nationales." data-en="12 hours of intensive development to create 'Mr Doctor Ocean', a revolutionary application raising awareness about ocean preservation. Exceptional performance: 5th place out of 909 national teams.">
+                12 heures de développement intensif pour créer <strong>"Mr Docteur Océan"</strong>, une application révolutionnaire sensibilisant à la préservation des océans. Performance exceptionnelle : <strong>5ème place sur 909 équipes nationales</strong>.
+            </p>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">5ème</div>
+                    <div class="hero-stat-label" data-fr="Position nationale" data-en="National position">Position nationale</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">6067</div>
+                    <div class="hero-stat-label" data-fr="Participants total" data-en="Total participants">Participants total</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">12h</div>
+                    <div class="hero-stat-label" data-fr="Développement non-stop" data-en="Non-stop development">Développement non-stop</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🌊</div>
+                <h2 class="section-title" data-fr="Contexte de l'Événement" data-en="Event Context">Contexte de l'Événement</h2>
+            </div>
+            <div class="section-content">
+                <div class="context-grid">
+                    <div class="context-card">
+                        <h4 data-fr="🎯 L'Événement" data-en="🎯 The Event">🎯 L'Événement</h4>
+                        <p data-fr="La Nuit de l'Info est le plus grand hackathon étudiant français, organisé annuellement depuis 2007. Un événement solidaire et éducatif réunissant étudiants et professionnels de l'informatique pour développer des solutions innovantes en 12h non-stop." data-en="Nuit de l'Info is France's largest student hackathon, organized annually since 2007. A solidarity and educational event bringing together students and IT professionals to develop innovative solutions in 12 non-stop hours.">
+                            La <span class="context-highlight">Nuit de l'Info</span> est le plus grand hackathon étudiant français, organisé annuellement depuis 2007. Un événement solidaire et éducatif réunissant étudiants et professionnels de l'informatique pour développer des solutions innovantes en <span class="context-highlight">12h non-stop</span>.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="📅 Édition 2024" data-en="📅 2024 Edition">📅 Édition 2024</h4>
+                        <p data-fr="Date : 5-6 décembre 2024 (nuit du jeudi au vendredi), de 19h à 7h du matin. Ampleur exceptionnelle avec 6067 participants répartis en 909 équipes sur plus de 50 sites à travers la France. Localisation : IUT Montpellier-Sète." data-en="Date: December 5-6, 2024 (Thursday to Friday night), from 7 PM to 7 AM. Exceptional scale with 6067 participants divided into 909 teams across more than 50 sites throughout France. Location: IUT Montpellier-Sète.">
+                            <strong>Date :</strong> 5-6 décembre 2024 (nuit du jeudi au vendredi), de 19h à 7h du matin. Ampleur exceptionnelle avec <span class="context-highlight">6067 participants</span> répartis en <span class="context-highlight">909 équipes</span> sur plus de 50 sites à travers la France. <strong>Localisation :</strong> IUT Montpellier-Sète.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="🤝 Partenaire 2024" data-en="🤝 2024 Partner">🤝 Partenaire 2024</h4>
+                        <p data-fr="Organisation partenaire : Race For Water Foundation. Thématique imposée : 'Et si l'océan était un corps humain ?'. Objectif pédagogique : sensibiliser à la préservation des océans via les parallèles corps humain/écosystèmes marins." data-en="Partner organization: Race For Water Foundation. Imposed theme: 'What if the ocean were a human body?'. Educational objective: raise awareness about ocean preservation through human body/marine ecosystems parallels.">
+                            <strong>Organisation partenaire :</strong> <span class="context-highlight">Race For Water Foundation</span>. <strong>Thématique imposée :</strong> "Et si l'océan était un corps humain ?". Objectif pédagogique : sensibiliser à la préservation des océans via les parallèles corps humain/écosystèmes marins.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="💻 Contraintes Techniques" data-en="💻 Technical Constraints">💻 Contraintes Techniques</h4>
+                        <p data-fr="Application web éducative, interactive et responsive (mobile + desktop). Intégration de contenu multimédia, gamification de l'expérience utilisateur, et respect des standards d'accessibilité web. Livraison fonctionnelle obligatoire à 7h précises." data-en="Educational, interactive and responsive web application (mobile + desktop). Multimedia content integration, user experience gamification, and compliance with web accessibility standards. Functional delivery required at exactly 7 AM.">
+                            Application web <span class="context-highlight">éducative, interactive et responsive</span> (mobile + desktop). Intégration de contenu multimédia, gamification de l'expérience utilisateur, et respect des standards d'accessibilité web. Livraison fonctionnelle obligatoire à 7h précises.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Innovation Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2 class="section-title" data-fr="Innovation Conceptuelle : 'Mr Docteur Océan'" data-en="Conceptual Innovation: 'Mr Doctor Ocean'">Innovation Conceptuelle : "Mr Docteur Océan"</h2>
+            </div>
+            <div class="section-content">
+                <div class="innovation-timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr=" Brainstorming Initial (19h-20h)" data-en=" Initial Brainstorming (7-8 PM)"> Brainstorming Initial (19h-20h)</div>
+                        <div class="timeline-description" data-fr="Analyse du brief et exploration créative. Comment traduire la métaphore 'océan = corps humain' en expérience interactive ? Plusieurs concepts évalués : quiz éducatif, simulation environnementale, jeu de sensibilisation." data-en="Brief analysis and creative exploration. How to translate the 'ocean = human body' metaphor into an interactive experience? Several concepts evaluated: educational quiz, environmental simulation, awareness game.">
+                            Analyse du brief et exploration créative. Comment traduire la métaphore "océan = corps humain" en expérience interactive ? Plusieurs concepts évalués : quiz éducatif, simulation environnementale, jeu de sensibilisation.
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr=" Moment Eurêka (20h15)" data-en=" Eureka Moment (8:15 PM)"> Moment Eurêka (20h15)</div>
+                        <div class="timeline-description" data-fr="L'idée révolutionnaire : créer un cabinet médical virtuel où l'utilisateur consulte un médecin pour soigner l'océan comme un patient. Concept unique de médicalisation de l'écologie avec diagnostic, traitement et guérison." data-en="The revolutionary idea: create a virtual medical office where the user consults a doctor to treat the ocean like a patient. Unique concept of medicalizing ecology with diagnosis, treatment and healing.">
+                            L'idée révolutionnaire : créer un <strong>cabinet médical virtuel</strong> où l'utilisateur consulte un médecin pour soigner l'océan comme un patient. Concept unique de médicalisation de l'écologie avec diagnostic, traitement et guérison.
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr=" Validation Collective (20h30)" data-en=" Collective Validation (8:30 PM)"> Validation Collective (20h30)</div>
+                        <div class="timeline-description" data-fr="Validation unanime de l'équipe pour le concept. Analyse concurrentielle rapide : originalité confirmée par rapport aux approches traditionnelles de sensibilisation environnementale. Angle différenciant : gamification médicale." data-en="Unanimous team validation for the concept. Quick competitive analysis: originality confirmed compared to traditional environmental awareness approaches. Differentiating angle: medical gamification.">
+                            Validation unanime de l'équipe pour le concept. Analyse concurrentielle rapide : originalité confirmée par rapport aux approches traditionnelles de sensibilisation environnementale. <strong>Angle différenciant :</strong> gamification médicale.
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr="️ Architecture Narrative (21h-22h)" data-en=" Narrative Architecture (9-10 PM)"> Architecture Narrative (21h-22h)</div>
+                        <div class="timeline-description" data-fr="Développement du storytelling complet : salle d'attente virtuelle, consultation interactive, diagnostic personnalisé, prescription de traitements éco-responsables, suivi de guérison avec mini-jeux thérapeutiques." data-en="Complete storytelling development: virtual waiting room, interactive consultation, personalized diagnosis, prescription of eco-responsible treatments, healing follow-up with therapeutic mini-games.">
+                            Développement du storytelling complet : salle d'attente virtuelle, consultation interactive, diagnostic personnalisé, prescription de traitements éco-responsables, suivi de guérison avec mini-jeux thérapeutiques.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);" data-fr="🔄 Parallèles Maladie/Océan Développées" data-en="🔄 Disease/Ocean Parallels Developed">🔄 Parallèles Maladie/Océan Développées</h4>
+                    <div class="context-grid">
+                        <div class="context-card">
+                            <h4 data-fr="🩸 Circulation Sanguine = Courants Marins" data-en="🩸 Blood Circulation = Ocean Currents">🩸 Circulation Sanguine = Courants Marins</h4>
+                            <p data-fr="Les courants océaniques comme système circulatoire planétaire. Diagnostic des obstructions (plastiques) et traitement par nettoyage des artères marines." data-en="Ocean currents as planetary circulatory system. Diagnosis of obstructions (plastics) and treatment by cleaning marine arteries.">Les courants océaniques comme système circulatoire planétaire. Diagnostic des obstructions (plastiques) et traitement par nettoyage des artères marines.</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="🫁 Respiration = Échanges Gazeux" data-en="🫁 Breathing = Gas Exchange">🫁 Respiration = Échanges Gazeux</h4>
+                            <p data-fr="L'océan comme poumon de la planète produisant 50% de l'oxygène. Pathologies liées à l'acidification et traitements de réduction du CO2." data-en="The ocean as the planet's lung producing 50% of oxygen. Pathologies related to acidification and CO2 reduction treatments.">L'océan comme poumon de la planète produisant 50% de l'oxygène. Pathologies liées à l'acidification et traitements de réduction du CO2.</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="🦠 Infections = Pollutions" data-en="🦠 Infections = Pollution">🦠 Infections = Pollutions</h4>
+                            <p data-fr="Pollution chimique et plastique comme infections à traiter. Antibiotiques écologiques et thérapies de désintoxication marine." data-en="Chemical and plastic pollution as infections to treat. Ecological antibiotics and marine detoxification therapies.">Pollution chimique et plastique comme infections à traiter. Antibiotiques écologiques et thérapies de désintoxication marine.</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="🌡️ Fièvre = Réchauffement" data-en="🌡️ Fever = Warming">🌡️ Fièvre = Réchauffement</h4>
+                            <p data-fr="Température océanique élevée comme symptôme de fièvre planétaire. Traitement par réduction des émissions et médication climatique." data-en="High ocean temperature as symptom of planetary fever. Treatment through emission reduction and climate medication.">Température océanique élevée comme symptôme de fièvre planétaire. Traitement par réduction des émissions et médication climatique.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Realization Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2 class="section-title" data-fr="Réalisation Technique Détaillée" data-en="Detailed Technical Realization">Réalisation Technique Détaillée</h2>
+            </div>
+            <div class="section-content">
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4 data-fr="🎨 Front-End" data-en="🎨 Front-End">🎨 Front-End</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">React.js</span>
+                            <span class="tech-tag">Responsive Design</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4 data-fr="🔧 Back-End" data-en="🔧 Back-End">🔧 Back-End</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">REST API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="margin-bottom: 2rem; color: var(--text-primary);" data-fr="🏗️ Fonctionnalités Développées" data-en="🏗️ Developed Features">🏗️ Fonctionnalités Développées</h4>
+                    <div class="challenge-solution">
+                        <div class="challenge-card">
+                            <h4 data-fr="🏥 Salle d'Attente Virtuelle" data-en="🏥 Virtual Waiting Room">🏥 Salle d'Attente Virtuelle</h4>
+                            <p data-fr="Interface immersive avec ambiance médicale (sons, musique d'attente). Système de file d'attente interactive avec temps d'attente simulé. Magazines virtuels sur l'écologie marine pour patienter." data-en="Immersive interface with medical atmosphere (sounds, waiting music). Interactive queue system with simulated waiting time. Virtual magazines on marine ecology to wait.">Interface immersive avec ambiance médicale (sons, musique d'attente). Système de file d'attente interactive avec temps d'attente simulé. Magazines virtuels sur l'écologie marine pour patienter.</p>
+                        </div>
+                        <div class="solution-card">
+                            <h4 data-fr="🩺 Système de Consultation" data-en="🩺 Consultation System">🩺 Système de Consultation</h4>
+                            <p data-fr="IA de diagnostic basée sur questionnaire interactif. Base de connaissances maladie/océan avec 50+ correspondances. Prescription personnalisée d'actions éco-responsables." data-en="Diagnostic AI based on interactive questionnaire. Disease/ocean knowledge base with 50+ correspondences. Personalized prescription of eco-responsible actions.">IA de diagnostic basée sur questionnaire interactif. Base de connaissances maladie/océan avec 50+ correspondences. Prescription personnalisée d'actions éco-responsables.</p>
+                        </div>
+                    </div>
+
+                    <div class="challenge-solution" style="margin-top: 1rem;">
+                        <div class="solution-card">
+                            <h4 data-fr="🎮 Mini-Jeux Thérapeutiques" data-en="🎮 Therapeutic Mini-Games">🎮 Mini-Jeux Thérapeutiques</h4>
+                            <p data-fr="Jeu de nettoyage des océans (réflexes). Puzzle de reconstitution d'écosystèmes. Quiz éducatif sur la biodiversité marine. Système de points et badges de progression." data-en="Ocean cleaning game (reflexes). Ecosystem reconstruction puzzle. Educational quiz on marine biodiversity. Point system and progression badges.">Jeu de nettoyage des océans (réflexes). Puzzle de reconstitution d'écosystèmes. Quiz éducatif sur la biodiversité marine. Système de points et badges de progression.</p>
+                        </div>
+                        <div class="challenge-card">
+                            <h4 data-fr="📱 Responsive & Multimédia" data-en="📱 Responsive & Multimedia">📱 Responsive & Multimédia</h4>
+                            <p data-fr="Adaptation mobile/desktop fluide. Intégration audio (podcasts océan, effets sonores). Animations CSS3 et JavaScript. Optimisation performance et accessibilité." data-en="Fluid mobile/desktop adaptation. Audio integration (ocean podcasts, sound effects). CSS3 and JavaScript animations. Performance and accessibility optimization.">Adaptation mobile/desktop fluide. Intégration audio (podcasts océan, effets sonores). Animations CSS3 et JavaScript. Optimisation performance et accessibilité.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Management Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2 class="section-title" data-fr="Gestion de Projet Sous Contrainte Extrême" data-en="Project Management Under Extreme Constraints">Gestion de Projet Sous Contrainte Extrême</h2>
+            </div>
+            <div class="section-content">
+                <div class="innovation-timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr="🎯 Planification Initiale (19h-21h)" data-en="🎯 Initial Planning (7-9 PM)">🎯 Planification Initiale (19h-21h)</div>
+                        <div class="timeline-description" data-fr="Analyse du brief et définition du MVP (Minimum Viable Product). Fonctionnalités prioritaires identifiées : consultation médicale + 2 mini-jeux. Répartition des tâches selon les compétences. Timeline prévisionnelle avec jalons critiques." data-en="Brief analysis and MVP (Minimum Viable Product) definition. Priority features identified: medical consultation + 2 mini-games. Task distribution according to skills. Provisional timeline with critical milestones.">
+                            Analyse du brief et définition du <strong>MVP (Minimum Viable Product)</strong>. Fonctionnalités prioritaires identifiées : consultation médicale + 2 mini-jeux. Répartition des tâches selon les compétences. Timeline prévisionnelle avec jalons critiques.
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr="🔄 Adaptation Continue (21h-3h)" data-en="🔄 Continuous Adaptation (9 PM-3 AM)">🔄 Adaptation Continue (21h-3h)</div>
+                        <div class="timeline-description" data-fr="Points d'étape toutes les 2h avec ajustements de cap. Priorisation dynamique face aux blocages techniques. Abandon de fonctionnalités secondaires pour garantir la qualité du cœur applicatif. Gestion proactive des risques." data-en="Checkpoints every 2 hours with course adjustments. Dynamic prioritization facing technical blocks. Abandonment of secondary features to guarantee core application quality. Proactive risk management.">
+                            Points d'étape toutes les 2h avec ajustements de cap. Priorisation dynamique face aux blocages techniques. Abandon de fonctionnalités secondaires pour garantir la qualité du cœur applicatif. Gestion proactive des risques.
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-title" data-fr="🚀 Sprint Final (3h-7h)" data-en="🚀 Final Sprint (3-7 AM)">🚀 Sprint Final (3h-7h)</div>
+                        <div class="timeline-description" data-fr="Intégration intensive des composants développés en parallèle. Debug critique sous pression temporelle. Tests utilisateur express avec corrections en temps réel. Préparation du pitch et démonstration pour le jury." data-en="Intensive integration of components developed in parallel. Critical debugging under time pressure. Express user testing with real-time corrections. Pitch preparation and demonstration for the jury.">
+                            Intégration intensive des composants développés en parallèle. Debug critique sous pression temporelle. Tests utilisateur express avec corrections en temps réel. Préparation du pitch et démonstration pour le jury.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="margin-bottom: 2rem; color: var(--text-primary);" data-fr="⚡ Défis Techniques Surmontés" data-en="⚡ Technical Challenges Overcome">⚡ Défis Techniques Surmontés</h4>
+                    <div class="challenge-solution">
+                        <div class="challenge-card">
+                            <h4 data-fr="🔥 Problèmes Rencontrés" data-en="🔥 Problems Encountered">🔥 Problèmes Rencontrés</h4>
+                            <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.5rem;">• Conflits Git lors de l'intégration (2h30)</li>
+                                <li style="margin-bottom: 0.5rem;">• Bug critique Canvas mobile (4h15)</li>
+                                <li style="margin-bottom: 0.5rem;">• Performance audio sur Firefox (5h45)</li>
+                                <li style="margin-bottom: 0.5rem;">• Responsive design de dernière minute</li>
+                            </ul>
+                        </div>
+                        <div class="solution-card">
+                            <h4 data-fr="✅ Solutions Implementées" data-en="✅ Implemented Solutions">✅ Solutions Implementées</h4>
+                            <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.5rem;">• Merge stratégique et résolution coordonnée</li>
+                                <li style="margin-bottom: 0.5rem;">• Fallback Canvas avec détection mobile</li>
+                                <li style="margin-bottom: 0.5rem;">• Optimisation Web Audio API</li>
+                                <li style="margin-bottom: 0.5rem;">• CSS Grid adaptatif en urgence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Development Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2 class="section-title" data-fr="Compétences Acquises & Renforcées" data-en="Skills Acquired & Reinforced">Compétences Acquises & Renforcées</h2>
+            </div>
+            <div class="section-content">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="skill-icon">💻</div>
+                        <h3 class="skill-title" data-fr="Hard Skills Techniques" data-en="Technical Hard Skills">Hard Skills Techniques</h3>
+                        <ul class="skill-list">
+                            <li data-fr="Développement React.js avancé en mode rush" data-en="Advanced React.js development in rush mode">Développement React.js avancé en mode rush</li>
+                            <li data-fr="Animations Canvas et Web Audio API" data-en="Canvas animations and Web Audio API">Animations Canvas et Web Audio API</li>
+                            <li data-fr="Debugging intensif sous contrainte temporelle" data-en="Intensive debugging under time constraints">Debugging intensif sous contrainte temporelle</li>
+                            <li data-fr="Optimisation performance mobile" data-en="Mobile performance optimization">Optimisation performance mobile</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-icon">🚀</div>
+                        <h3 class="skill-title" data-fr="Méthodologies Agiles" data-en="Agile Methodologies">Méthodologies Agiles</h3>
+                        <ul class="skill-list">
+                            <li data-fr="Sprints ultra-courts (2h) efficaces" data-en="Effective ultra-short sprints (2h)">Sprints ultra-courts (2h) efficaces</li>
+                            <li data-fr="Adaptation permanente aux imprévus" data-en="Permanent adaptation to unexpected events">Adaptation permanente aux imprévus</li>
+                            <li data-fr="Design thinking accéléré" data-en="Accelerated design thinking">Design thinking accéléré</li>
+                            <li data-fr="Lean development en situation extrême" data-en="Lean development in extreme situation">Lean development en situation extrême</li>
+                            <li data-fr="Feedback loops instantanés" data-en="Instant feedback loops">Feedback loops instantanés</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-icon">👥</div>
+                        <h3 class="skill-title" data-fr="Soft Skills Leadership" data-en="Leadership Soft Skills">Soft Skills Leadership</h3>
+                        <ul class="skill-list">
+                            <li data-fr="Prise de décision rapide sous stress" data-en="Quick decision-making under stress">Prise de décision rapide sous stress</li>
+                            <li data-fr="Motivation d'équipe en nuit blanche" data-en="Team motivation during all-nighter">Motivation d'équipe en nuit blanche</li>
+                            <li data-fr="Communication claire en urgence" data-en="Clear communication in emergency">Communication claire en urgence</li>
+                            <li data-fr="Résolution de conflits techniques" data-en="Technical conflict resolution">Résolution de conflits techniques</li>
+                            <li data-fr="Persévérance et résilience" data-en="Perseverance and resilience">Persévérance et résilience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results & Impact Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🏆</div>
+                <h2 class="section-title" data-fr="Résultats & Impact Exceptionnel" data-en="Results & Exceptional Impact">Résultats & Impact Exceptionnel</h2>
+            </div>
+            <div class="section-content">
+                <div class="results-showcase">
+                    <div class="result-card">
+                        <div class="result-icon">🥉</div>
+                        <h3 class="result-title" data-fr="5ème Place Nationale" data-en="5th Place Nationally">5ème Place Nationale</h3>
+                        <p class="result-description" data-fr="Performance exceptionnelle sur 909 équipes participantes, plaçant notre équipe dans le top 0.55% national" data-en="Exceptional performance out of 909 participating teams, placing our team in the top 0.55% nationally">Performance exceptionnelle sur 909 équipes participantes, plaçant notre équipe dans le top 0.55% national</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">🎖️</div>
+                        <h3 class="result-title" data-fr="Prix Spécial Innovation" data-en="Special Innovation Award">Prix Spécial Innovation</h3>
+                        <p class="result-description" data-fr="Reconnaissance du jury pour l'originalité du concept 'médicalisation de l'écologie' et la qualité d'exécution" data-en="Jury recognition for the originality of the 'medicalization of ecology' concept and execution quality">Reconnaissance du jury pour l'originalité du concept "médicalisation de l'écologie" et la qualité d'exécution</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">👥</div>
+                        <h3 class="result-title" data-fr="Travail d'Équipe Exemplaire" data-en="Exemplary Teamwork">Travail d'Équipe Exemplaire</h3>
+                        <p class="result-description" data-fr="Synergie collective parfaite avec livraison fonctionnelle complète malgré les contraintes temporelles extrêmes" data-en="Perfect collective synergy with complete functional delivery despite extreme time constraints">Synergie collective parfaite avec livraison fonctionnelle complète malgré les contraintes temporelles extrêmes</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">🌍</div>
+                        <h3 class="result-title" data-fr="Impact Pédagogique" data-en="Educational Impact">Impact Pédagogique</h3>
+                        <p class="result-description" data-fr="Application réellement éducative avec retours utilisateur positifs sur l'approche ludique de sensibilisation écologique" data-en="Truly educational application with positive user feedback on the playful approach to ecological awareness">Application réellement éducative avec retours utilisateur positifs sur l'approche ludique de sensibilisation écologique</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Traces Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">📸</div>
+                <h2 class="section-title" data-fr="Traces Visuelles & Portfolio" data-en="Visual Traces & Portfolio">Traces Visuelles & Portfolio</h2>
+            </div>
+            <div class="section-content">
+                <div class="visual-gallery">
+                    <div class="visual-item">
+                        <div class="visual-placeholder">🏥</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Salle d'Attente Virtuelle" data-en="Virtual Waiting Room">Salle d'Attente Virtuelle</h4>
+                            <p class="visual-description" data-fr="Interface immersive avec ambiance médicale, file d'attente interactive et magazines virtuels sur l'écologie marine" data-en="Immersive interface with medical atmosphere, interactive queue and virtual magazines on marine ecology">Interface immersive avec ambiance médicale, file d'attente interactive et magazines virtuels sur l'écologie marine</p>
+                        </div>
+                    </div>
+                    <div class="visual-item">
+                        <div class="visual-placeholder">🩺</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Consultation Médicale" data-en="Medical Consultation">Consultation Médicale</h4>
+                            <p class="visual-description" data-fr="Système de diagnostic interactif avec IA médicale virtuelle, questionnaires personnalisés et prescriptions éco-responsables" data-en="Interactive diagnostic system with virtual medical AI, personalized questionnaires and eco-responsible prescriptions">Système de diagnostic interactif avec IA médicale virtuelle, questionnaires personnalisés et prescriptions éco-responsables</p>
+                        </div>
+                    </div>
+                    <div class="visual-item">
+                        <div class="visual-placeholder">🎮</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Mini-Jeux Thérapeutiques" data-en="Therapeutic Mini-Games">Mini-Jeux Thérapeutiques</h4>
+                            <p class="visual-description" data-fr="Jeu de nettoyage des océans, puzzle d'écosystèmes et quiz éducatif avec système de progression et badges" data-en="Ocean cleaning game, ecosystem puzzles and educational quiz with progression system and badges">Jeu de nettoyage des océans, puzzle d'écosystèmes et quiz éducatif avec système de progression et badges</p>
+                        </div>
+                    </div>
+                    <div class="visual-item">
+                        <div class="visual-placeholder">👥</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Équipe en Action" data-en="Team in Action">Équipe en Action</h4>
+                            <p class="visual-description" data-fr="Photos de l'équipe pendant la nuit de développement, moments de collaboration et célébration du résultat final" data-en="Team photos during the development night, collaboration moments and final result celebration">Photos de l'équipe pendant la nuit de développement, moments de collaboration et célébration du résultat final</p>
+                        </div>
+                    </div>
+                    <div class="visual-item">
+                        <div class="visual-placeholder">🏆</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Cérémonie de Remise des Prix" data-en="Awards Ceremony">Cérémonie de Remise des Prix</h4>
+                            <p class="visual-description" data-fr="Moment de la proclamation des résultats, remise du prix et interview de l'équipe gagnante" data-en="Results announcement moment, award presentation and winning team interview">Moment de la proclamation des résultats, remise du prix et interview de l'équipe gagnante</p>
+                        </div>
+                    </div>
+                    <div class="visual-item">
+                        <div class="visual-placeholder">📊</div>
+                        <div class="visual-caption">
+                            <h4 class="visual-title" data-fr="Architecture Technique" data-en="Technical Architecture">Architecture Technique</h4>
+                            <p class="visual-description" data-fr="Schémas de l'architecture applicative, diagrammes de flux et documentation technique du projet" data-en="Application architecture diagrams, flow charts and technical project documentation">Schémas de l'architecture applicative, diagrammes de flux et documentation technique du projet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reflection Quote -->
+        <div class="reflection-quote">
+            <p class="quote-text" data-fr="Cette expérience m'a démontré qu'en situation de haute pression, l'innovation naît souvent de la contrainte. Transformer un brief complexe en concept révolutionnaire, puis en application fonctionnelle en 12h, a repoussé mes limites techniques et créatives. Le plus gratifiant ? Voir notre idée folle de 'médicalisation de l'écologie' reconnue au niveau national et inspirante pour d'autres équipes." data-en="This experience showed me that in high-pressure situations, innovation often comes from constraint. Transforming a complex brief into a revolutionary concept, then into a functional application in 12h, pushed my technical and creative limits. The most rewarding? Seeing our crazy idea of 'medicalizing ecology' recognized nationally and inspiring other teams.">
+                Cette expérience m'a démontré qu'en situation de haute pression, l'innovation naît souvent de la contrainte. Transformer un brief complexe en concept révolutionnaire, puis en application fonctionnelle en 12h, a repoussé mes limites techniques et créatives. Le plus gratifiant ? Voir notre idée folle de "médicalisation de l'écologie" reconnue au niveau national et inspirante pour d'autres équipes.
+            </p>
+            <p class="quote-author" data-fr="— Quentin Grelier, Chef de projet équipe 'SELECT * FROM talents;'" data-en="— Quentin Grelier, Project Manager team 'SELECT * FROM talents;'">— Quentin Grelier, Chef de projet équipe "SELECT * FROM talents;"</p>
+        </div>
+
+        <!-- Back to Projects -->
+        <div class="back-to-projects">
+            <a href="realisations.html" class="cta-button" data-fr="← Retour aux réalisations" data-en="← Back to achievements">← Retour aux réalisations</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration pour la page Nuit de l'Info détaillée
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Nuit de l'Info 2024 - Page détaillée chargée");
+
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 300);
+
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupIntersectionObserver();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr' && langToggle) {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.body.classList.add('theme-transition');
+
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+
+        // Navigation scroll effect
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const nav = document.querySelector('.nav-container');
+                    const scrollY = window.scrollY;
+
+                    if (scrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+
+            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
+                const span = element.querySelector('span');
+                if (span) {
+                    span.textContent = newText;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                element.innerHTML = newText; // Use innerHTML to preserve HTML tags like <br>
+            }
+        });
+    }
+
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.content-section').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    console.log("Nuit de l'Info 2024 - Expérience complète initialisée !");
+</script>
+</body>
+</html>

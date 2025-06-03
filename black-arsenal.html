@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Arsenal - Quentin Grelier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gaming-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --weapon-gradient: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            --php-gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --mysql-gradient: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            --mvc-gradient: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b3c1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        body.theme-transition {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.loaded {
+            animation: pageLoaded 1s ease-out;
+        }
+
+        @keyframes pageLoaded {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .ecommerce-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Gaming Effects */
+        .gaming-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .pixel {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gaming-gradient);
+            opacity: 0.1;
+            animation: pixelFloat 20s infinite ease-in-out;
+        }
+
+        .pixel:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .pixel:nth-child(2) { top: 20%; left: 80%; animation-delay: -5s; }
+        .pixel:nth-child(3) { top: 60%; left: 20%; animation-delay: -10s; }
+        .pixel:nth-child(4) { top: 80%; left: 70%; animation-delay: -15s; }
+        .pixel:nth-child(5) { top: 40%; left: 90%; animation-delay: -8s; }
+        .pixel:nth-child(6) { top: 70%; left: 5%; animation-delay: -12s; }
+
+        @keyframes pixelFloat {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.2);
+                opacity: 0.2;
+            }
+        }
+
+        /* Navigation - Same style as other pages */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--gaming-gradient);
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(255, 107, 107, 0.5);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown,
+        .menu-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--gaming-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .lang-toggle {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--gaming-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gaming-gradient);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            background: var(--gaming-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .hero-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gaming-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            background: var(--gaming-gradient);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Context Grid */
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .context-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .context-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .context-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .context-highlight {
+            background: var(--gaming-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tech-category {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .tech-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .php-tech { background: var(--php-gradient); }
+        .mysql-tech { background: var(--mysql-gradient); }
+        .mvc-tech { background: var(--mvc-gradient); }
+        .gaming-tech { background: var(--gaming-gradient); }
+
+        .tech-category:hover .tech-logo {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .tech-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .tech-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--gaming-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .feature-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: var(--gaming-gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .mvc-diagram {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .mvc-layer {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .mvc-layer:hover {
+            transform: translateY(-4px);
+            border-color: var(--gaming-gradient);
+        }
+
+        .mvc-layer h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .mvc-layer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Security Features */
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .security-item {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(238, 90, 36, 0.1));
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .security-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .security-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .security-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Database Schema */
+        .database-schema {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .table-card {
+            background: var(--mysql-gradient);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .table-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .table-description {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .result-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Reflection Quote */
+        .reflection-quote {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(238, 90, 36, 0.1));
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .reflection-quote::before {
+            content: '"';
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            background: var(--gaming-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Back Button */
+        .back-to-projects {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gaming-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .hero-section {
+                padding: 2rem 0;
+            }
+
+            .section-content {
+                padding: 2rem;
+            }
+
+            .mvc-diagram {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="loaded">
+<div class="ecommerce-page">
+    <div class="gaming-background">
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown" id="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-badge" data-fr="Projet Académique IUT" data-en="IUT Academic Project">Projet Académique IUT</div>
+            <h1 class="hero-title" data-fr="Black Arsenal" data-en="Black Arsenal">Black Arsenal</h1>
+            <p class="hero-subtitle" data-fr="E-commerce d'armes virtuelles développé en PHP avec architecture MVC et base de données MySQL. Projet académique complet intégrant sécurité, gestion utilisateur et interface gaming immersive." data-en="Virtual weapons e-commerce developed in PHP with MVC architecture and MySQL database. Complete academic project integrating security, user management and immersive gaming interface.">
+                E-commerce d'armes virtuelles développé en <strong>PHP avec architecture MVC</strong> et base de données <strong>MySQL</strong>. Projet académique complet intégrant sécurité, gestion utilisateur et interface gaming immersive.
+            </p>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">100%</div>
+                    <div class="hero-stat-label" data-fr="Architecture MVC" data-en="MVC Architecture">Architecture MVC</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">15+</div>
+                    <div class="hero-stat-label" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">8</div>
+                    <div class="hero-stat-label" data-fr="Tables MySQL" data-en="MySQL Tables">Tables MySQL</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">A+</div>
+                    <div class="hero-stat-label" data-fr="Note obtenue" data-en="Grade obtained">Note obtenue</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Context -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2 class="section-title" data-fr="Contexte du Projet Académique" data-en="Academic Project Context">Contexte du Projet Académique</h2>
+            </div>
+            <div class="section-content">
+                <div class="context-grid">
+                    <div class="context-card">
+                        <h4 data-fr="🏫 Cadre Pédagogique" data-en="🏫 Educational Framework">🏫 Cadre Pédagogique</h4>
+                        <p data-fr="Projet de développement web avancé dans le cadre du BUT Informatique à l'IUT Montpellier-Sète. Objectif : maîtriser le développement PHP orienté objet avec architecture MVC et intégration base de données relationnelle." data-en="Advanced web development project as part of the Computer Science BUT at IUT Montpellier-Sète. Objective: master object-oriented PHP development with MVC architecture and relational database integration.">
+                            Projet de développement web avancé dans le cadre du <span class="context-highlight">BUT Informatique à l'IUT Montpellier-Sète</span>. Objectif : maîtriser le développement PHP orienté objet avec architecture MVC et intégration base de données relationnelle.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="🎮 Thématique Gaming" data-en="🎮 Gaming Theme">🎮 Thématique Gaming</h4>
+                        <p data-fr="Choix créatif d'un e-commerce d'armes virtuelles inspiré de l'univers des jeux vidéo (CS:GO, Valorant, Call of Duty). Approche ludique pour rendre le projet engageant tout en respectant les contraintes techniques académiques." data-en="Creative choice of a virtual weapons e-commerce inspired by the video game universe (CS:GO, Valorant, Call of Duty). Playful approach to make the project engaging while respecting academic technical constraints.">
+                            Choix créatif d'un <span class="context-highlight">e-commerce d'armes virtuelles</span> inspiré de l'univers des jeux vidéo (CS:GO, Valorant, Call of Duty). Approche ludique pour rendre le projet engageant tout en respectant les contraintes techniques académiques.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="⚡ Contraintes Techniques" data-en="⚡ Technical Constraints">⚡ Contraintes Techniques</h4>
+                        <p data-fr="Développement 100% PHP vanilla avec architecture MVC stricte. Base de données MySQL avec requêtes optimisées. Sécurisation complète contre les vulnérabilités web courantes. Interface responsive et accessible." data-en="100% vanilla PHP development with strict MVC architecture. MySQL database with optimized queries. Complete security against common web vulnerabilities. Responsive and accessible interface.">
+                            Développement <span class="context-highlight">100% PHP vanilla</span> avec architecture MVC stricte. Base de données MySQL avec requêtes optimisées. Sécurisation complète contre les vulnérabilités web courantes. Interface responsive et accessible.
+                        </p>
+                    </div>
+                    <div class="context-card">
+                        <h4 data-fr="👥 Collaboration Équipe" data-en="👥 Team Collaboration">👥 Collaboration Équipe</h4>
+                        <p data-fr="Projet réalisé en binôme avec répartition des responsabilités : développement backend/frontend, conception base de données, sécurisation et tests. Utilisation de Git pour le versioning collaboratif." data-en="Project carried out in pairs with responsibility sharing: backend/frontend development, database design, security and testing. Use of Git for collaborative versioning.">
+                            Projet réalisé en <span class="context-highlight">binôme</span> avec répartition des responsabilités : développement backend/frontend, conception base de données, sécurisation et tests. Utilisation de Git pour le versioning collaboratif.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Architecture -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2 class="section-title" data-fr="Architecture Technique & Stack" data-en="Technical Architecture & Stack">Architecture Technique & Stack</h2>
+            </div>
+            <div class="section-content">
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <div class="tech-logo php-tech">🐘</div>
+                        <h3 class="tech-title" data-fr="PHP 8.1" data-en="PHP 8.1">PHP 8.1</h3>
+                        <p class="tech-description" data-fr="Développement backend 100% PHP vanilla avec programmation orientée objet, gestion des sessions, validation des données et traitement des formulaires sécurisés." data-en="100% vanilla PHP backend development with object-oriented programming, session management, data validation and secure form processing.">Développement backend 100% PHP vanilla avec programmation orientée objet, gestion des sessions, validation des données et traitement des formulaires sécurisés.</p>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-logo mysql-tech">🗄️</div>
+                        <h3 class="tech-title" data-fr="MySQL 8.0" data-en="MySQL 8.0">MySQL 8.0</h3>
+                        <p class="tech-description" data-fr="Base de données relationnelle avec 8 tables optimisées, requêtes SQL complexes, index de performance et procédures stockées pour la logique métier critique." data-en="Relational database with 8 optimized tables, complex SQL queries, performance indexes and stored procedures for critical business logic.">Base de données relationnelle avec 8 tables optimisées, requêtes SQL complexes, index de performance et procédures stockées pour la logique métier critique.</p>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-logo mvc-tech">🏗️</div>
+                        <h3 class="tech-title" data-fr="Architecture MVC" data-en="MVC Architecture">Architecture MVC</h3>
+                        <p class="tech-description" data-fr="Implémentation stricte du pattern Modèle-Vue-Contrôleur avec séparation claire des responsabilités, routage personnalisé et injection de dépendances." data-en="Strict implementation of the Model-View-Controller pattern with clear separation of responsibilities, custom routing and dependency injection.">Implémentation stricte du pattern Modèle-Vue-Contrôleur avec séparation claire des responsabilités, routage personnalisé et injection de dépendances.</p>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-logo gaming-tech">🎮</div>
+                        <h3 class="tech-title" data-fr="Interface Gaming" data-en="Gaming Interface">Interface Gaming</h3>
+                        <p class="tech-description" data-fr="Frontend immersif avec thème gaming, animations CSS3, responsive design et expérience utilisateur optimisée pour l'e-commerce de gaming." data-en="Immersive frontend with gaming theme, CSS3 animations, responsive design and user experience optimized for gaming e-commerce.">Frontend immersif avec thème gaming, animations CSS3, responsive design et expérience utilisateur optimisée pour l'e-commerce de gaming.</p>
+                    </div>
+                </div>
+
+                <div class="architecture-diagram">
+                    <h4 style="margin-bottom: 2rem; color: var(--text-primary);" data-fr="🏗️ Architecture MVC Implementée" data-en="🏗️ Implemented MVC Architecture">🏗️ Architecture MVC Implementée</h4>
+                    <div class="mvc-diagram">
+                        <div class="mvc-layer">
+                            <h4 data-fr="📊 Modèle (Model)" data-en="📊 Model">📊 Modèle (Model)</h4>
+                            <p data-fr="Classes PHP pour la logique métier : User, Product, Order, Cart. Interaction avec la base de données MySQL via PDO. Validation des données et règles business." data-en="PHP classes for business logic: User, Product, Order, Cart. Interaction with MySQL database via PDO. Data validation and business rules.">Classes PHP pour la logique métier : User, Product, Order, Cart. Interaction avec la base de données MySQL via PDO. Validation des données et règles business.</p>
+                        </div>
+                        <div class="mvc-layer">
+                            <h4 data-fr="👁️ Vue (View)" data-en="👁️ View">👁️ Vue (View)</h4>
+                            <p data-fr="Templates PHP avec intégration HTML/CSS. Interface gaming responsive, gestion des états d'affichage et présentation des données utilisateur." data-en="PHP templates with HTML/CSS integration. Responsive gaming interface, display state management and user data presentation.">Templates PHP avec intégration HTML/CSS. Interface gaming responsive, gestion des états d'affichage et présentation des données utilisateur.</p>
+                        </div>
+                        <div class="mvc-layer">
+                            <h4 data-fr="🎛️ Contrôleur (Controller)" data-en="🎛️ Controller">🎛️ Contrôleur (Controller)</h4>
+                            <p data-fr="Routage des requêtes HTTP, orchestration Modèle-Vue, gestion des sessions utilisateur et traitement des actions CRUD sur les produits." data-en="HTTP request routing, Model-View orchestration, user session management and CRUD action processing on products.">Routage des requêtes HTTP, orchestration Modèle-Vue, gestion des sessions utilisateur et traitement des actions CRUD sur les produits.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features & Functionality -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2 class="section-title" data-fr="Fonctionnalités Développées" data-en="Developed Features">Fonctionnalités Développées</h2>
+            </div>
+            <div class="section-content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3 class="feature-title" data-fr="Système d'Authentification" data-en="Authentication System">Système d'Authentification</h3>
+                        <p class="feature-description" data-fr="Inscription, connexion et gestion de profil avec validation des données, hachage sécurisé des mots de passe (password_hash) et gestion des sessions PHP. Système de rôles utilisateur/admin." data-en="Registration, login and profile management with data validation, secure password hashing (password_hash) and PHP session management. User/admin role system.">Inscription, connexion et gestion de profil avec validation des données, hachage sécurisé des mots de passe (password_hash) et gestion des sessions PHP. Système de rôles utilisateur/admin.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">PHP Sessions</span>
+                            <span class="tech-tag">Password Hash</span>
+                            <span class="tech-tag">Data Validation</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🛒</div>
+                        <h3 class="feature-title" data-fr="Panier & Commandes" data-en="Cart & Orders">Panier & Commandes</h3>
+                        <p class="feature-description" data-fr="Système de panier persistant en session, gestion des quantités, calcul automatique des totaux avec TVA. Processus de commande complet avec historique et statuts de livraison." data-en="Persistent cart system in session, quantity management, automatic total calculation with VAT. Complete order process with history and delivery status.">Système de panier persistant en session, gestion des quantités, calcul automatique des totaux avec TVA. Processus de commande complet avec historique et statuts de livraison.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">Session Management</span>
+                            <span class="tech-tag">MySQL Transactions</span>
+                            <span class="tech-tag">Business Logic</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚔️</div>
+                        <h3 class="feature-title" data-fr="Catalogue d'Armes" data-en="Weapons Catalog">Catalogue d'Armes</h3>
+                        <p class="feature-description" data-fr="Base de données complète d'armes gaming avec catégories (pistolets, fusils, sniper), caractéristiques techniques, prix et système de recherche/filtrage avancé." data-en="Complete gaming weapons database with categories (pistols, rifles, sniper), technical characteristics, prices and advanced search/filtering system.">Base de données complète d'armes gaming avec catégories (pistolets, fusils, sniper), caractéristiques techniques, prix et système de recherche/filtrage avancé.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">MySQL Indexes</span>
+                            <span class="tech-tag">Search Algorithm</span>
+                            <span class="tech-tag">Category System</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3 class="feature-title" data-fr="Administration" data-en="Administration">Administration</h3>
+                        <p class="feature-description" data-fr="Panel d'administration complet pour la gestion des produits (CRUD), utilisateurs, commandes et statistiques. Interface dédiée avec contrôle d'accès par rôles." data-en="Complete administration panel for product management (CRUD), users, orders and statistics. Dedicated interface with role-based access control.">Panel d'administration complet pour la gestion des produits (CRUD), utilisateurs, commandes et statistiques. Interface dédiée avec contrôle d'accès par rôles.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">Role Management</span>
+                            <span class="tech-tag">CRUD Operations</span>
+                            <span class="tech-tag">Admin Dashboard</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title" data-fr="Recherche Avancée" data-en="Advanced Search">Recherche Avancée</h3>
+                        <p class="feature-description" data-fr="Moteur de recherche avec filtres multiples : catégorie, prix, rareté, jeu d'origine. Recherche textuelle optimisée avec suggestions automatiques et tri personnalisable." data-en="Search engine with multiple filters: category, price, rarity, origin game. Optimized text search with automatic suggestions and customizable sorting.">Moteur de recherche avec filtres multiples : catégorie, prix, rareté, jeu d'origine. Recherche textuelle optimisée avec suggestions automatiques et tri personnalisable.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">Full-text Search</span>
+                            <span class="tech-tag">Dynamic Filtering</span>
+                            <span class="tech-tag">AJAX Requests</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title" data-fr="Système de Stats" data-en="Stats System">Système de Stats</h3>
+                        <p class="feature-description" data-fr="Dashboard avec statistiques de vente, produits populaires, revenus par période. Génération de rapports PDF et export CSV pour l'analyse business." data-en="Dashboard with sales statistics, popular products, revenue by period. PDF report generation and CSV export for business analysis.">Dashboard avec statistiques de vente, produits populaires, revenus par période. Génération de rapports PDF et export CSV pour l'analyse business.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">Data Analysis</span>
+                            <span class="tech-tag">Report Generation</span>
+                            <span class="tech-tag">Chart.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security & Database -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h2 class="section-title" data-fr="Sécurité & Base de Données" data-en="Security & Database">Sécurité & Base de Données</h2>
+            </div>
+            <div class="section-content">
+                <h4 style="margin-bottom: 2rem; color: var(--text-primary);" data-fr="🛡️ Sécurisation Avancée" data-en="🛡️ Advanced Security">🛡️ Sécurisation Avancée</h4>
+                <div class="security-grid">
+                    <div class="security-item">
+                        <div class="security-icon">🚫</div>
+                        <h4 class="security-title" data-fr="Protection SQL Injection" data-en="SQL Injection Protection">Protection SQL Injection</h4>
+                        <p class="security-description" data-fr="Requêtes préparées PDO avec paramètres liés pour toutes les interactions base de données" data-en="PDO prepared statements with bound parameters for all database interactions">Requêtes préparées PDO avec paramètres liés pour toutes les interactions base de données</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">🔐</div>
+                        <h4 class="security-title" data-fr="Chiffrement Mots de Passe" data-en="Password Encryption">Chiffrement Mots de Passe</h4>
+                        <p class="security-description" data-fr="Utilisation de password_hash() et password_verify() avec algorithme bcrypt sécurisé" data-en="Use of password_hash() and password_verify() with secure bcrypt algorithm">Utilisation de password_hash() et password_verify() avec algorithme bcrypt sécurisé</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">🚧</div>
+                        <h4 class="security-title" data-fr="Protection XSS" data-en="XSS Protection">Protection XSS</h4>
+                        <p class="security-description" data-fr="Échappement htmlspecialchars() pour tous les affichages de données utilisateur" data-en="htmlspecialchars() escaping for all user data displays">Échappement htmlspecialchars() pour tous les affichages de données utilisateur</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">🔑</div>
+                        <h4 class="security-title" data-fr="Gestion Sessions" data-en="Session Management">Gestion Sessions</h4>
+                        <p class="security-description" data-fr="Sessions sécurisées avec regeneration d'ID et expiration automatique" data-en="Secure sessions with ID regeneration and automatic expiration">Sessions sécurisées avec regeneration d'ID et expiration automatique</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">✅</div>
+                        <h4 class="security-title" data-fr="Validation Données" data-en="Data Validation">Validation Données</h4>
+                        <p class="security-description" data-fr="Validation côté serveur complète avec sanitisation et filtres PHP" data-en="Complete server-side validation with sanitization and PHP filters">Validation côté serveur complète avec sanitisation et filtres PHP</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">🎯</div>
+                        <h4 class="security-title" data-fr="Contrôle Accès" data-en="Access Control">Contrôle Accès</h4>
+                        <p class="security-description" data-fr="Système de rôles avec vérification d'autorisation sur chaque action sensible" data-en="Role system with authorization verification on each sensitive action">Système de rôles avec vérification d'autorisation sur chaque action sensible</p>
+                    </div>
+                </div>
+
+                <div class="database-schema">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);" data-fr="🗄️ Schéma de Base de Données MySQL" data-en="🗄️ MySQL Database Schema">🗄️ Schéma de Base de Données MySQL</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;" data-fr="Architecture relationnelle optimisée avec 8 tables principales, relations cohérentes et index de performance pour les requêtes critiques." data-en="Optimized relational architecture with 8 main tables, coherent relationships and performance indexes for critical queries.">Architecture relationnelle optimisée avec 8 tables principales, relations cohérentes et index de performance pour les requêtes critiques.</p>
+
+                    <div class="tables-grid">
+                        <div class="table-card">
+                            <div class="table-name">users</div>
+                            <div class="table-description" data-fr="Utilisateurs et admins" data-en="Users and admins">Utilisateurs et admins</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">products</div>
+                            <div class="table-description" data-fr="Catalogue d'armes" data-en="Weapons catalog">Catalogue d'armes</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">categories</div>
+                            <div class="table-description" data-fr="Types d'armes" data-en="Weapon types">Types d'armes</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">orders</div>
+                            <div class="table-description" data-fr="Commandes clients" data-en="Customer orders">Commandes clients</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">order_items</div>
+                            <div class="table-description" data-fr="Détails commandes" data-en="Order details">Détails commandes</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">cart</div>
+                            <div class="table-description" data-fr="Panier utilisateur" data-en="User cart">Panier utilisateur</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">reviews</div>
+                            <div class="table-description" data-fr="Avis produits" data-en="Product reviews">Avis produits</div>
+                        </div>
+                        <div class="table-card">
+                            <div class="table-name">sessions</div>
+                            <div class="table-description" data-fr="Sessions actives" data-en="Active sessions">Sessions actives</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Acquired -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2 class="section-title" data-fr="Compétences Acquises & Maîtrisées" data-en="Skills Acquired & Mastered">Compétences Acquises & Maîtrisées</h2>
+            </div>
+            <div class="section-content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🐘</div>
+                        <h3 class="feature-title" data-fr="Développement PHP Avancé" data-en="Advanced PHP Development">Développement PHP Avancé</h3>
+                        <p class="feature-description" data-fr="Maîtrise de la programmation orientée objet en PHP, gestion des erreurs avec try-catch, utilisation des traits et namespaces, intégration PSR standards pour un code professionnel." data-en="Mastery of object-oriented programming in PHP, error handling with try-catch, use of traits and namespaces, PSR standards integration for professional code.">Maîtrise de la programmation orientée objet en PHP, gestion des erreurs avec try-catch, utilisation des traits et namespaces, intégration PSR standards pour un code professionnel.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">OOP PHP</span>
+                            <span class="tech-tag">Exception Handling</span>
+                            <span class="tech-tag">PSR Standards</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🏗️</div>
+                        <h3 class="feature-title" data-fr="Architecture MVC Professionnelle" data-en="Professional MVC Architecture">Architecture MVC Professionnelle</h3>
+                        <p class="feature-description" data-fr="Implémentation complète du pattern MVC avec routage personnalisé, injection de dépendances, separation of concerns et structure modulaire pour la maintenabilité." data-en="Complete MVC pattern implementation with custom routing, dependency injection, separation of concerns and modular structure for maintainability.">Implémentation complète du pattern MVC avec routage personnalisé, injection de dépendances, separation of concerns et structure modulaire pour la maintenabilité.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">MVC Pattern</span>
+                            <span class="tech-tag">Custom Routing</span>
+                            <span class="tech-tag">Dependency Injection</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🗄️</div>
+                        <h3 class="feature-title" data-fr="Base de Données Avancée" data-en="Advanced Database">Base de Données Avancée</h3>
+                        <p class="feature-description" data-fr="Conception de schémas relationnels optimisés, requêtes SQL complexes avec jointures, index de performance, procédures stockées et gestion des transactions ACID." data-en="Design of optimized relational schemas, complex SQL queries with joins, performance indexes, stored procedures and ACID transaction management.">Conception de schémas relationnels optimisés, requêtes SQL complexes avec jointures, index de performance, procédures stockées et gestion des transactions ACID.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">MySQL Advanced</span>
+                            <span class="tech-tag">SQL Optimization</span>
+                            <span class="tech-tag">Database Design</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title" data-fr="Sécurité Web Avancée" data-en="Advanced Web Security">Sécurité Web Avancée</h3>
+                        <p class="feature-description" data-fr="Maîtrise des techniques de sécurisation web : protection contre OWASP Top 10, authentification sécurisée, gestion des sessions et validation rigoureuse des données." data-en="Mastery of web security techniques: protection against OWASP Top 10, secure authentication, session management and rigorous data validation.">Maîtrise des techniques de sécurisation web : protection contre OWASP Top 10, authentification sécurisée, gestion des sessions et validation rigoureuse des données.</p>
+                        <div class="feature-tech">
+                            <span class="tech-tag">OWASP Security</span>
+                            <span class="tech-tag">Data Validation</span>
+                            <span class="tech-tag">Session Security</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results & Impact -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🏆</div>
+                <h2 class="section-title" data-fr="Résultats & Impact Académique" data-en="Results & Academic Impact">Résultats & Impact Académique</h2>
+            </div>
+            <div class="section-content">
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-icon">⭐</div>
+                        <h3 class="result-title" data-fr="Excellence Académique" data-en="Academic Excellence">Excellence Académique</h3>
+                        <p class="result-description" data-fr="Note de A+ obtenue pour ce projet avec félicitations du jury pour la qualité technique et l'originalité de l'approche gaming" data-en="A+ grade obtained for this project with jury congratulations for technical quality and originality of the gaming approach">Note de A+ obtenue pour ce projet avec félicitations du jury pour la qualité technique et l'originalité de l'approche gaming</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">🎯</div>
+                        <h3 class="result-title" data-fr="Objectifs Techniques Atteints" data-en="Technical Objectives Achieved">Objectifs Techniques Atteints</h3>
+                        <p class="result-description" data-fr="100% des fonctionnalités spécifiées implémentées avec architecture MVC stricte et sécurité renforcée" data-en="100% of specified features implemented with strict MVC architecture and enhanced security">100% des fonctionnalités spécifiées implémentées avec architecture MVC stricte et sécurité renforcée</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">🚀</div>
+                        <h3 class="result-title" data-fr="Performance Optimale" data-en="Optimal Performance">Performance Optimale</h3>
+                        <p class="result-description" data-fr="Application entièrement fonctionnelle avec temps de réponse < 200ms et interface responsive sur tous supports" data-en="Fully functional application with response time < 200ms and responsive interface on all devices">Application entièrement fonctionnelle avec temps de réponse < 200ms et interface responsive sur tous supports</p>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon">🛡️</div>
+                        <h3 class="result-title" data-fr="Sécurité Validée" data-en="Validated Security">Sécurité Validée</h3>
+                        <p class="result-description" data-fr="Tests de sécurité complets réussis sans vulnérabilité détectée, conformité aux standards OWASP" data-en="Complete security tests passed with no vulnerability detected, OWASP standards compliance">Tests de sécurité complets réussis sans vulnérabilité détectée, conformité aux standards OWASP</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="margin-bottom: 2rem; color: var(--text-primary);" data-fr="📊 Métriques de Qualité" data-en="📊 Quality Metrics">📊 Métriques de Qualité</h4>
+                    <div class="context-grid">
+                        <div class="context-card">
+                            <h4 data-fr="⚡ Performance" data-en="⚡ Performance">⚡ Performance</h4>
+                            <p data-fr="• Temps de chargement < 200ms<br>• Base de données optimisée<br>• 0 erreur PHP en production<br>• Interface 100% responsive" data-en="• Loading time < 200ms<br>• Optimized database<br>• 0 PHP errors in production<br>• 100% responsive interface">• Temps de chargement < 200ms<br>• Base de données optimisée<br>• 0 erreur PHP en production<br>• Interface 100% responsive</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="🔒 Sécurité" data-en="🔒 Security">🔒 Sécurité</h4>
+                            <p data-fr="• Protection SQL Injection 100%<br>• Authentification sécurisée<br>• Validation données complète<br>• Sessions sécurisées" data-en="• 100% SQL Injection protection<br>• Secure authentication<br>• Complete data validation<br>• Secure sessions">• Protection SQL Injection 100%<br>• Authentification sécurisée<br>• Validation données complète<br>• Sessions sécurisées</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="🏗️ Code Quality" data-en="🏗️ Code Quality">🏗️ Code Quality</h4>
+                            <p data-fr="• Architecture MVC stricte<br>• Code PSR-4 compliant<br>• Documentation complète<br>• Tests unitaires validés" data-en="• Strict MVC architecture<br>• PSR-4 compliant code<br>• Complete documentation<br>• Validated unit tests">• Architecture MVC stricte<br>• Code PSR-4 compliant<br>• Documentation complète<br>• Tests unitaires validés</p>
+                        </div>
+                        <div class="context-card">
+                            <h4 data-fr="👥 Collaboration" data-en="👥 Collaboration">👥 Collaboration</h4>
+                            <p data-fr="• Git workflow maîtrisé<br>• Code review systématique<br>• Documentation partagée<br>• Répartition équilibrée" data-en="• Mastered Git workflow<br>• Systematic code review<br>• Shared documentation<br>• Balanced distribution">• Git workflow maîtrisé<br>• Code review systématique<br>• Documentation partagée<br>• Répartition équilibrée</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reflection Quote -->
+        <div class="reflection-quote">
+            <p class="quote-text" data-fr="Ce projet m'a permis de maîtriser véritablement l'architecture MVC en PHP et de comprendre l'importance d'une sécurisation rigoureuse en développement web. Transformer une thématique gaming en application e-commerce professionnelle m'a enseigné à allier créativité et contraintes techniques. L'aspect le plus enrichissant fut de construire une architecture scalable respectant les standards industriels." data-en="This project allowed me to truly master MVC architecture in PHP and understand the importance of rigorous security in web development. Transforming a gaming theme into a professional e-commerce application taught me to combine creativity with technical constraints. The most enriching aspect was building a scalable architecture respecting industry standards.">
+                Ce projet m'a permis de maîtriser véritablement l'architecture MVC en PHP et de comprendre l'importance d'une sécurisation rigoureuse en développement web. Transformer une thématique gaming en application e-commerce professionnelle m'a enseigné à allier créativité et contraintes techniques. L'aspect le plus enrichissant fut de construire une architecture scalable respectant les standards industriels.
+            </p>
+            <p class="quote-author" data-fr="— Quentin Grelier, Développeur Full-Stack PHP" data-en="— Quentin Grelier, Full-Stack PHP Developer">— Quentin Grelier, Développeur Full-Stack PHP</p>
+        </div>
+
+        <!-- Back to Projects -->
+        <div class="back-to-projects">
+            <a href="realisations.html" class="cta-button" data-fr="← Retour aux réalisations" data-en="← Back to achievements">← Retour aux réalisations</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration pour la page E-commerce Gaming
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Black Arsenal - Page détaillée chargée");
+
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 300);
+
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupIntersectionObserver();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr' && langToggle) {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.body.classList.add('theme-transition');
+
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+
+        // Navigation scroll effect
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const nav = document.querySelector('.nav-container');
+                    const scrollY = window.scrollY;
+
+                    if (scrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+
+            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
+                const span = element.querySelector('span');
+                if (span) {
+                    span.textContent = newText;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                element.innerHTML = newText; // Use innerHTML to preserve HTML tags like <br>
+            }
+        });
+    }
+
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.content-section').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    console.log("Black Arsenal - Expérience complète initialisée !");
+</script>
+</body>
+</html>

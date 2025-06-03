@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réalisations & Événements - Quentin Grelier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            --warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --nuit-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b3c1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(0, 0, 0, 0.05);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        body.theme-transition {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.loaded {
+            animation: pageLoaded 1s ease-out;
+        }
+
+        @keyframes pageLoaded {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .realisations-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: float 25s infinite ease-in-out;
+            transition: all 0.3s ease;
+            filter: blur(1px);
+        }
+
+        .shape:nth-child(1) {
+            width: 350px;
+            height: 350px;
+            background: var(--primary-gradient);
+            top: -175px;
+            left: -175px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            background: var(--nuit-gradient);
+            top: 15%;
+            right: -125px;
+            animation-delay: -8s;
+        }
+
+        .shape:nth-child(3) {
+            width: 450px;
+            height: 450px;
+            background: var(--accent-gradient);
+            bottom: -225px;
+            left: 25%;
+            animation-delay: -15s;
+        }
+
+        .shape:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            background: var(--success-gradient);
+            top: 70%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(5) {
+            width: 300px;
+            height: 300px;
+            background: var(--warning-gradient);
+            top: 45%;
+            left: 5%;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.08;
+            }
+            33% {
+                transform: translateY(-40px) rotate(120deg) scale(1.1);
+                opacity: 0.12;
+            }
+            66% {
+                transform: translateY(30px) rotate(240deg) scale(0.9);
+                opacity: 0.06;
+            }
+        }
+
+        /* Navigation - Same as other pages */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown,
+        .menu-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .lang-toggle {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-toggle.theme-animation {
+            animation: themeChange 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-toggle.lang-animation {
+            animation: langChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes themeChange {
+            0% { transform: translateY(-2px) scale(1); }
+            25% { transform: translateY(-2px) scale(1.1) rotateY(180deg); }
+            50% { transform: translateY(-2px) scale(1.2) rotateY(360deg); }
+            75% { transform: translateY(-2px) scale(1.1) rotateY(540deg); }
+            100% { transform: translateY(-2px) scale(1) rotateY(720deg); }
+        }
+
+        @keyframes langChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotateX(180deg); }
+            100% { transform: scale(1) rotateX(360deg); }
+        }
+
+        [data-fr], [data-en] {
+            transition: all 0.3s ease;
+        }
+
+        [data-fr].lang-animation, [data-en].lang-animation {
+            animation: textChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes textChange {
+            0% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Featured Project - Nuit de l'Info */
+        .featured-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+        .featured-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--nuit-gradient);
+        }
+
+        .featured-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(33, 147, 176, 0.3);
+            border-color: rgba(33, 147, 176, 0.4);
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .featured-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--nuit-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: var(--nuit-gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .featured-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .featured-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(33, 147, 176, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .highlight-item::before {
+            content: '🏆';
+            font-size: 1rem;
+        }
+
+        .featured-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--nuit-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .featured-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 147, 176, 0.4);
+        }
+
+        .featured-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mock-screenshot {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 12px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mock-screenshot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .project-stat {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .project-stat-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .project-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Other Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .project-card:nth-child(1) { animation: fadeInUp 1s ease 0.8s both; }
+        .project-card:nth-child(2) { animation: fadeInUp 1s ease 1.0s both; }
+        .project-card:nth-child(3) { animation: fadeInUp 1s ease 1.2s both; }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-gradient);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .featured-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .featured-highlights {
+                flex-direction: column;
+            }
+
+            .menu-dropdown {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .featured-cta:focus,
+        .project-link:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="loaded">
+<div class="realisations-page">
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown" id="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="header-section">
+            <h1 class="main-title" data-fr="Réalisations & Événements" data-en="Achievements & Events">Réalisations & Événements</h1>
+            <p class="subtitle" data-fr="Découvrez mes projets techniques, participations à des événements et réussites académiques qui illustrent mon parcours et mes compétences en développement." data-en="Discover my technical projects, event participations and academic achievements that illustrate my journey and skills in development.">
+                Découvrez mes projets techniques, participations à des événements et réussites académiques qui illustrent mon parcours et mes compétences en développement.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label" data-fr="Projets réalisés" data-en="Projects completed">Projets réalisés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5ème</div>
+                    <div class="stat-label" data-fr="Nuit de l'Info 2024" data-en="Nuit de l'Info 2024">Nuit de l'Info 2024</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label" data-fr="Événements tech" data-en="Tech events">Événements tech</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label" data-fr="Passion" data-en="Passion">Passion</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Project: Nuit de l'Info -->
+        <div class="featured-section">
+            <h2 class="section-title" data-fr="🏆 Projet Phare" data-en="🏆 Featured Project">🏆 Projet Phare</h2>
+
+            <div class="featured-card">
+                <div class="featured-content">
+                    <div class="featured-info">
+                        <div class="featured-badge" data-fr="Événement National" data-en="National Event">Événement National</div>
+                        <h3 data-fr="Nuit de l'Info 2024" data-en="Nuit de l'Info 2024">Nuit de l'Info 2024</h3>
+                        <p class="featured-description" data-fr="Hackathon national de 12h non-stop avec 6067 participants et 909 équipes. Notre équipe a développé 'Mr Docteur Océan', une application web innovante sensibilisant à la préservation des océans via une métaphore médicale créative." data-en="12-hour non-stop national hackathon with 6067 participants and 909 teams. Our team developed 'Mr Doctor Ocean', an innovative web application raising awareness about ocean preservation through a creative medical metaphor.">
+                            Hackathon national de 12h non-stop avec <strong>6067 participants</strong> et <strong>909 équipes</strong>. Notre équipe a développé <strong>"Mr Docteur Océan"</strong>, une application web innovante sensibilisant à la préservation des océans via une métaphore médicale créative.
+                        </p>
+
+                        <div class="featured-highlights">
+                            <span class="highlight-item" data-fr="5ème place nationale" data-en="5th place nationally">5ème place nationale</span>
+                            <span class="highlight-item" data-fr="Top 0.55%" data-en="Top 0.55%">Top 0.55%</span>
+                            <span class="highlight-item" data-fr="Concept innovant" data-en="Innovative concept">Concept innovant</span>
+                            <span class="highlight-item" data-fr="12h de dev" data-en="12h of dev">12h de dev</span>
+                        </div>
+
+                        <a href="nuit-de-linfo-2024.html" class="featured-cta" data-fr="Découvrir l'expérience complète →" data-en="Discover the complete experience →">
+                            Découvrir l'expérience complète →
+                        </a>
+                    </div>
+
+                    <div class="featured-visual">
+                        <div class="mock-screenshot">
+                            🩺🌊
+                        </div>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <div class="project-stat-number">909</div>
+                                <div class="project-stat-label" data-fr="Équipes" data-en="Teams">Équipes</div>
+                            </div>
+                            <div class="project-stat">
+                                <div class="project-stat-number">5ème</div>
+                                <div class="project-stat-label" data-fr="Position" data-en="Position">Position</div>
+                            </div>
+                            <div class="project-stat">
+                                <div class="project-stat-number">12h</div>
+                                <div class="project-stat-label" data-fr="Durée" data-en="Duration">Durée</div>
+                            </div>
+                            <div class="project-stat">
+                                <div class="project-stat-number">6067</div>
+                                <div class="project-stat-label" data-fr="Participants" data-en="Participants">Participants</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Projects -->
+        <div class="projects-section">
+            <h2 class="section-title" data-fr="Autres Réalisations" data-en="Other Achievements">Autres Réalisations</h2>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">🌸</div>
+                    <h3 class="project-title" data-fr="E-commerce Floral" data-en="Floral E-commerce">E-commerce Floral</h3>
+                    <p class="project-subtitle" data-fr="Application de vente en ligne" data-en="Online sales application">Application de vente en ligne</p>
+                    <p class="project-description" data-fr="Développement d'une plateforme e-commerce complète pour la vente de fleurs avec Next.js. Implémentation de structures de données avancées pour optimiser la gestion d'inventaire et les performances de 40%." data-en="Development of a complete e-commerce platform for flower sales with Next.js. Implementation of advanced data structures to optimize inventory management and performance by 40%.">
+                        Développement d'une plateforme e-commerce complète pour la vente de fleurs avec Next.js. Implémentation de structures de données avancées pour optimiser la gestion d'inventaire et les performances de 40%.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>🔗</span>
+                            <span data-fr="Voir le projet" data-en="View project">Voir le projet</span>
+                        </a>
+                        <a href="#" class="project-link">
+                            <span>💻</span>
+                            <span data-fr="Code source" data-en="Source code">Code source</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">🎮</div>
+                    <h3 class="project-title" data-fr="Code Game Jam 2023" data-en="Code Game Jam 2023">Code Game Jam 2023</h3>
+                    <p class="project-subtitle" data-fr="Prix du meilleur design" data-en="Best design award">Prix du meilleur design</p>
+                    <p class="project-description" data-fr="Participation à une game jam avec développement d'un jeu innovant en 48h. Récompensé pour l'excellence du design et de l'expérience utilisateur. Collaboration en équipe multidisciplinaire." data-en="Participation in a game jam with development of an innovative game in 48h. Awarded for excellence in design and user experience. Multidisciplinary team collaboration.">
+                        Participation à une game jam avec développement d'un jeu innovant en 48h. Récompensé pour l'excellence du design et de l'expérience utilisateur. Collaboration en équipe multidisciplinaire.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML5 Canvas</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">Game Design</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>🏆</span>
+                            <span data-fr="Voir les résultats" data-en="View results">Voir les résultats</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">🔫</div>
+                    <h3 class="project-title" data-fr="Black Arsenal" data-en="Black Arsenal">Black Arsenal</h3>
+                    <p class="project-subtitle" data-fr="E-commerce d'armes gaming" data-en="Gaming weapons e-commerce">E-commerce d'armes gaming</p>
+                    <p class="project-description" data-fr="E-commerce d'armes virtuelles développé en PHP avec architecture MVC stricte et base de données MySQL. Thématique gaming immersive avec système d'authentification, panier, administration et sécurisation complète contre les vulnérabilités OWASP." data-en="Virtual weapons e-commerce developed in PHP with strict MVC architecture and MySQL database. Immersive gaming theme with authentication system, cart, administration and complete security against OWASP vulnerabilities.">
+                        E-commerce d'armes virtuelles développé en PHP avec architecture MVC stricte et base de données MySQL. Thématique gaming immersive avec système d'authentification, panier, administration et sécurisation complète contre les vulnérabilités OWASP.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">PHP 8.1</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">MVC</span>
+                        <span class="tech-tag">Sécurité OWASP</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="black-arsenal.html" class="project-link">
+                            <span>🔗</span>
+                            <span data-fr="Voir le projet détaillé" data-en="View detailed project">Voir le projet détaillé</span>
+                        </a>
+                        <a href="#" class="project-link">
+                            <span>💻</span>
+                            <span data-fr="Code source" data-en="Source code">Code source</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">✈️</div>
+                    <h3 class="project-title" data-fr="Noissap Voyage" data-en="Noissap Travel">Noissap Voyage</h3>
+                    <p class="project-subtitle" data-fr="Système de gestion de voyages" data-en="Travel management system">Système de gestion de voyages</p>
+                    <p class="project-description" data-fr="Restructuration complète de la base de données d'une agence de voyage avec amélioration de 65% des performances. Fusion de données multi-sources et optimisation des requêtes complexes." data-en="Complete restructuring of a travel agency database with 65% performance improvement. Multi-source data fusion and complex query optimization.">
+                        Restructuration complète de la base de données d'une agence de voyage avec amélioration de 65% des performances. Fusion de données multi-sources et optimisation des requêtes complexes.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">ETL</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Data Analysis</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>📊</span>
+                            <span data-fr="Analyse technique" data-en="Technical analysis">Analyse technique</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">📊</div>
+                    <h3 class="project-title" data-fr="Dashboard de Ventes" data-en="Sales Dashboard">Dashboard de Ventes</h3>
+                    <p class="project-subtitle" data-fr="Visualisation de données interactive" data-en="Interactive data visualization">Visualisation de données interactive</p>
+                    <p class="project-description" data-fr="Création d'un tableau de bord interactif avec D3.js pour la visualisation en temps réel des données de vente. Interface responsive avec graphiques dynamiques et filtres avancés." data-en="Creation of an interactive dashboard with D3.js for real-time sales data visualization. Responsive interface with dynamic charts and advanced filters.">
+                        Création d'un tableau de bord interactif avec D3.js pour la visualisation en temps réel des données de vente. Interface responsive avec graphiques dynamiques et filtres avancés.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Data Viz</span>
+                        <span class="tech-tag">REST API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>📈</span>
+                            <span data-fr="Démonstration" data-en="Demo">Démonstration</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">🔐</div>
+                    <h3 class="project-title" data-fr="Audit de Sécurité" data-en="Security Audit">Audit de Sécurité</h3>
+                    <p class="project-subtitle" data-fr="Analyse de vulnérabilités" data-en="Vulnerability analysis">Analyse de vulnérabilités</p>
+                    <p class="project-description" data-fr="Réalisation d'audits de sécurité sur applications web avec OWASP ZAP et Nessus. Identification et correction de failles de sécurité, mise en place de protocoles de protection." data-en="Conducting security audits on web applications with OWASP ZAP and Nessus. Identification and correction of security flaws, implementation of protection protocols.">
+                        Réalisation d'audits de sécurité sur applications web avec OWASP ZAP et Nessus. Identification et correction de failles de sécurité, mise en place de protocoles de protection.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">OWASP ZAP</span>
+                        <span class="tech-tag">Nessus</span>
+                        <span class="tech-tag">Cybersécurité</span>
+                        <span class="tech-tag">Pentesting</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>🛡️</span>
+                            <span data-fr="Rapport" data-en="Report">Rapport</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline-section">
+            <h2 class="section-title" data-fr="Chronologie des Réussites" data-en="Timeline of Achievements">Chronologie des Réussites</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date" data-fr="Décembre 2024" data-en="December 2024">Décembre 2024</div>
+                    <h3 class="timeline-title" data-fr="Nuit de l'Info 2024 - 5ème place nationale" data-en="Nuit de l'Info 2024 - 5th place nationally">Nuit de l'Info 2024 - 5ème place nationale</h3>
+                    <p class="timeline-description" data-fr="Performance exceptionnelle lors du plus grand hackathon étudiant français avec l'équipe 'SELECT * FROM talents;'" data-en="Exceptional performance at France's largest student hackathon with team 'SELECT * FROM talents;'">Performance exceptionnelle lors du plus grand hackathon étudiant français avec l'équipe "SELECT * FROM talents;"</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date" data-fr="Septembre 2024" data-en="September 2024">Septembre 2024</div>
+                    <h3 class="timeline-title" data-fr="Début spécialisation IAMSI" data-en="Start of IAMSI specialization">Début spécialisation IAMSI</h3>
+                    <p class="timeline-description" data-fr="Intégration de la spécialité Intégration d'Applications et Management des Systèmes d'Information en BUT 2" data-en="Integration into the Application Integration and Information Systems Management specialty in BUT 2">Intégration de la spécialité Intégration d'Applications et Management des Systèmes d'Information en BUT 2</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date" data-fr="Mai 2023" data-en="May 2023">Mai 2023</div>
+                    <h3 class="timeline-title" data-fr="Code Game Jam 2023 - Prix du meilleur design" data-en="Code Game Jam 2023 - Best design award">Code Game Jam 2023 - Prix du meilleur design</h3>
+                    <p class="timeline-description" data-fr="Reconnaissance de l'excellence en design et expérience utilisateur lors d'une compétition de développement de jeux" data-en="Recognition of excellence in design and user experience during a game development competition">Reconnaissance de l'excellence en design et expérience utilisateur lors d'une compétition de développement de jeux</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date" data-fr="Septembre 2022" data-en="September 2022">Septembre 2022</div>
+                    <h3 class="timeline-title" data-fr="Début BUT Informatique" data-en="Start of BUT Computer Science">Début BUT Informatique</h3>
+                    <p class="timeline-description" data-fr="Intégration à l'IUT Montpellier-Sète en première année de Bachelor Universitaire de Technologie Informatique" data-en="Integration at IUT Montpellier-Sète in first year of University Bachelor of Technology in Computer Science">Intégration à l'IUT Montpellier-Sète en première année de Bachelor Universitaire de Technologie Informatique</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuration avancée pour la page Réalisations
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Page Réalisations - DOM chargé");
+
+        // Ajouter la classe loaded pour les animations
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 300);
+
+        // Charger les préférences sauvegardées
+        loadSavedPreferences();
+
+        // Configurer les gestionnaires d'événements
+        setupEventHandlers();
+
+        // Démarrer les animations de fond
+        setupBackgroundAnimations();
+
+        // Configurer l'intersection observer
+        setupIntersectionObserver();
+    });
+
+    // Charger les préférences sauvegardées
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr' && langToggle) {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    // Configuration des gestionnaires d'événements
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                this.classList.remove('theme-animation');
+                void this.offsetWidth;
+                this.classList.add('theme-animation');
+
+                document.body.classList.add('theme-transition');
+
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    this.classList.remove('theme-animation');
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                this.classList.remove('lang-animation');
+                void this.offsetWidth;
+                this.classList.add('lang-animation');
+
+                const elementsToAnimate = document.querySelectorAll('[data-en], [data-fr]');
+                elementsToAnimate.forEach(el => {
+                    el.classList.remove('lang-animation');
+                    void el.offsetWidth;
+                    el.classList.add('lang-animation');
+                });
+
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+
+                setTimeout(() => {
+                    this.classList.remove('lang-animation');
+                    elementsToAnimate.forEach(el => {
+                        el.classList.remove('lang-animation');
+                    });
+                }, 500);
+            });
+        }
+    }
+
+    // Changer la langue
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+
+            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
+                const span = element.querySelector('span');
+                if (span) {
+                    span.textContent = newText;
+                } else {
+                    element.textContent = newText;
+                }
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Animations de fond
+    function setupBackgroundAnimations() {
+        const shapes = document.querySelectorAll('.shape');
+
+        document.addEventListener('mousemove', function(e) {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.02;
+                const moveX = x * 30 * speed;
+                const moveY = y * 30 * speed;
+
+                shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const nav = document.querySelector('.nav-container');
+
+                    if (scrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+
+                    shapes.forEach((shape, index) => {
+                        const speed = (index + 1) * 0.1;
+                        shape.style.transform += ` translateY(${scrollY * speed}px)`;
+                    });
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // Intersection Observer pour les animations au scroll
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    console.log("Page Réalisations - Initialisée avec succès !");
+</script>
+</body>
+</html>
