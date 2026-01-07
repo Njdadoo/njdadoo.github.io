@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Quentin Grelier</title>
+    <title>Q.G. - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,138 +13,99 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --bg-dark: #0a0a0f;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: #b0b3c1;
-            --border-color: rgba(255, 255, 255, 0.1);
+            /* Thème QG Command Center - Navy & Gold */
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+            --circle-color: rgba(214, 158, 46, 0.1);
         }
 
         [data-theme="light"] {
-            --bg-dark: #f8fafc;
-            --bg-card: rgba(0, 0, 0, 0.05);
-            --text-primary: #1a202c;
-            --text-secondary: #4a5568;
-            --border-color: rgba(0, 0, 0, 0.1);
+            --bg-primary: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+            --circle-color: rgba(26, 54, 93, 0.1);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.theme-transition {
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.loaded {
-            animation: pageLoaded 1s ease-out;
-        }
-
-        @keyframes pageLoaded {
-            from { opacity: 0.8; }
-            to { opacity: 1; }
+            transition: all 0.5s ease;
         }
 
         .container {
             min-height: 100vh;
-            position: relative;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Background Animation */
-        .background-shapes {
+        /* Cercles concentriques en arrière-plan */
+        .radar-background {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .shape {
+        .radar-circle {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--circle-color);
             border-radius: 50%;
-            opacity: 0.1;
-            animation: float 20s infinite ease-in-out;
-            transition: all 0.3s ease;
-            filter: blur(1px);
+            animation: pulse 4s ease-in-out infinite;
         }
 
-        .shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: var(--primary-gradient);
-            top: -150px;
-            left: -150px;
+        .radar-circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
             animation-delay: 0s;
         }
 
-        .shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            background: var(--secondary-gradient);
-            top: 20%;
-            right: -100px;
-            animation-delay: -5s;
-        }
-
-        .shape:nth-child(3) {
+        .radar-circle:nth-child(2) {
             width: 400px;
             height: 400px;
-            background: var(--accent-gradient);
-            bottom: -200px;
-            left: 30%;
-            animation-delay: -10s;
+            animation-delay: 0.5s;
         }
 
-        .shape:nth-child(4) {
-            width: 150px;
-            height: 150px;
-            background: var(--primary-gradient);
-            top: 60%;
-            right: 20%;
-            animation-delay: -15s;
+        .radar-circle:nth-child(3) {
+            width: 600px;
+            height: 600px;
+            animation-delay: 1s;
         }
 
-        .shape:nth-child(5) {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            top: 40%;
-            left: 10%;
-            animation-delay: -8s;
+        .radar-circle:nth-child(4) {
+            width: 800px;
+            height: 800px;
+            animation-delay: 1.5s;
         }
 
-        .shape:nth-child(6) {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            bottom: 30%;
-            right: 10%;
-            animation-delay: -12s;
-        }
-
-        @keyframes float {
+        @keyframes pulse {
             0%, 100% {
-                transform: translateY(0px) rotate(0deg) scale(1);
-                opacity: 0.1;
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1);
             }
-            33% {
-                transform: translateY(-30px) rotate(120deg) scale(1.1);
-                opacity: 0.15;
-            }
-            66% {
-                transform: translateY(20px) rotate(240deg) scale(0.9);
-                opacity: 0.08;
+            50% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1.02);
             }
         }
 
@@ -152,7 +114,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             position: relative;
             z-index: 100;
         }
@@ -165,36 +127,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: var(--primary-gradient);
-            border-radius: 16px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
             font-weight: 700;
-            color: white;
+            color: var(--accent-color);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
         .nav-logo:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
         }
 
         .menu-dropdown {
             position: absolute;
             top: 100%;
             left: 0;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 0.5rem;
-            min-width: 200px;
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -203,8 +166,7 @@
             margin-top: 0.5rem;
         }
 
-        .nav-logo-wrapper:hover .menu-dropdown,
-        .menu-dropdown:hover {
+        .nav-logo-wrapper:hover .menu-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -215,81 +177,44 @@
             padding: 0.75rem 1rem;
             color: var(--text-primary);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s ease;
             font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
         }
 
         .menu-item:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateX(4px);
+            background: var(--accent-color);
+            color: var(--bg-primary);
         }
 
         .nav-controls {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .theme-toggle, .lang-toggle {
-            padding: 0.75rem 1rem;
-            background: var(--bg-card);
+            padding: 0.6rem 1rem;
+            background: transparent;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 6px;
             color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
-            position: relative;
-            overflow: hidden;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
         }
 
         .theme-toggle:hover, .lang-toggle:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
         }
 
-        .theme-toggle.theme-animation {
-            animation: themeChange 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .lang-toggle.lang-animation {
-            animation: langChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes themeChange {
-            0% { transform: translateY(-2px) scale(1); }
-            25% { transform: translateY(-2px) scale(1.1) rotateY(180deg); }
-            50% { transform: translateY(-2px) scale(1.2) rotateY(360deg); }
-            75% { transform: translateY(-2px) scale(1.1) rotateY(540deg); }
-            100% { transform: translateY(-2px) scale(1) rotateY(720deg); }
-        }
-
-        @keyframes langChange {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2) rotateX(180deg); }
-            100% { transform: scale(1) rotateX(360deg); }
-        }
-
-        /* Animation pour les éléments avec changement de langue */
-        [data-fr], [data-en] {
-            transition: all 0.3s ease;
-        }
-
-        [data-fr].lang-animation, [data-en].lang-animation {
-            animation: textChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes textChange {
-            0% { opacity: 1; transform: translateY(0); }
-            50% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Main Content */
+        /* Contenu principal */
         .content {
             flex: 1;
             display: flex;
@@ -298,7 +223,106 @@
             justify-content: center;
             text-align: center;
             padding: 2rem;
-            animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Badge Accès Autorisé */
+        .access-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .access-badge svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-color);
+        }
+
+        .access-badge span {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--accent-color);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo Q.G. principal */
+        .main-logo {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .qg-text {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: 900;
+            letter-spacing: 0.3em;
+            color: var(--text-primary);
+            text-shadow:
+                0 0 20px var(--accent-glow),
+                0 0 40px var(--accent-glow),
+                0 0 60px rgba(214, 158, 46, 0.3);
+            position: relative;
+        }
+
+        .qg-text .dot {
+            color: var(--accent-color);
+            text-shadow:
+                0 0 20px var(--accent-glow),
+                0 0 40px var(--accent-glow);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Titre Quartier Général */
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            letter-spacing: 0.5em;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease 0.5s both;
+        }
+
+        /* Sous-titre */
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            letter-spacing: 0.1em;
+            animation: fadeIn 1s ease 0.7s both;
+        }
+
+        /* Cartes de navigation */
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 900px;
+            width: 100%;
+            animation: fadeInUp 1s ease 0.9s both;
         }
 
         @keyframes fadeInUp {
@@ -312,190 +336,164 @@
             }
         }
 
-        .greeting {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-
-        .name {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 3rem;
-            line-height: 1.6;
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-
-        /* Navigation Links */
-        .nav-links {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            max-width: 1000px;
-            width: 100%;
-            animation: fadeInUp 1s ease 0.8s both;
-        }
-
-        .nav-link {
+        .nav-card {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
+            gap: 0.75rem;
+            padding: 2rem 1.5rem;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             text-decoration: none;
-            color: var(--text-primary);
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
 
-        .nav-link::before {
+        .nav-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-gradient);
-            transition: left 0.5s ease;
-            z-index: -1;
-        }
-
-        .nav-link:hover::before {
             left: 0;
-        }
-
-        .nav-link:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
-            color: white;
-            border-color: transparent;
-        }
-
-        .nav-link svg {
+            right: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transform: scaleX(0);
             transition: transform 0.3s ease;
         }
 
-        .nav-link:hover svg {
+        .nav-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 30px rgba(214, 158, 46, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .nav-card svg {
+            width: 28px;
+            height: 28px;
+            color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover svg {
             transform: scale(1.1);
+            filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
-        .nav-link span {
-            font-weight: 600;
-            font-size: 1.1rem;
+        .nav-card .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--accent-color);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .nav-links {
+        .nav-card .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .status-value {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-cards {
                 grid-template-columns: repeat(2, 1fr);
-                max-width: 600px;
+                max-width: 500px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .nav-container {
                 padding: 1rem;
             }
 
-            .nav-controls {
-                gap: 0.5rem;
-            }
-
-            .theme-toggle, .lang-toggle {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .content {
-                padding: 1rem;
-            }
-
-            .nav-links {
+            .nav-cards {
                 grid-template-columns: 1fr;
-                gap: 1rem;
-                max-width: 400px;
+                max-width: 300px;
             }
 
-            .nav-link {
-                padding: 1.25rem;
+            .nav-card {
+                padding: 1.5rem 1rem;
             }
 
-            .subtitle {
-                font-size: 1.1rem;
+            .status-bar {
+                gap: 2rem;
+                flex-wrap: wrap;
             }
 
-            .menu-dropdown {
-                min-width: 180px;
+            .access-badge {
+                padding: 0.5rem 1.5rem;
+            }
+
+            .access-badge span {
+                font-size: 0.75rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .nav-logo {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
-            }
-
-            .greeting {
-                font-size: 1rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
+        /* Focus styles */
+        .nav-card:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .nav-logo:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
         }
 
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-
-        /* Focus styles for accessibility */
-        .nav-link:focus,
-        .theme-toggle:focus,
-        .lang-toggle:focus,
-        .nav-logo:focus {
-            outline: 2px solid #667eea;
-            outline-offset: 2px;
-        }
     </style>
 </head>
 <body>
-<div class="container home">
-    <div class="background-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+<div class="container">
+    <!-- Cercles radar en arrière-plan -->
+    <div class="radar-background">
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
     </div>
 
+    <!-- Navigation -->
     <div class="nav-container">
         <div class="nav-logo-wrapper">
-            <a href="#" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
-            <div class="menu-dropdown" id="menu-dropdown">
+            <a href="#" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
                 <a href="index.html" class="menu-item">Accueil</a>
                 <a href="about.html" class="menu-item">À propos</a>
                 <a href="contact.html" class="menu-item">Contact</a>
@@ -509,71 +507,93 @@
         </div>
     </div>
 
+    <!-- Contenu principal -->
     <div class="content">
-        <div class="greeting" data-fr="BONJOUR, JE SUIS" data-en="HELLO, I AM">BONJOUR, JE SUIS</div>
-        <div class="name">QUENTIN GRELIER</div>
-        <div class="subtitle" data-fr="Étudiant en développement web et logiciel à BUT Montpellier Sète, spécialisation IAMSI" data-en="Web & Software Development Student at BUT Montpellier Sète, IAMSI specialization">Étudiant en développement web et logiciel à BUT Montpellier Sète, spécialisation IAMSI</div>
+        <!-- Badge Accès -->
+        <div class="access-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span data-fr="ACCÈS AUTORISÉ" data-en="ACCESS GRANTED">ACCÈS AUTORISÉ</span>
+        </div>
 
-        <div class="nav-links">
-            <a href="realisations.html" class="nav-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 14H14V21H21V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10 14H3V21H10V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 3H14V10H21V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10 3H3V10H10V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Logo Q.G. -->
+        <div class="main-logo">
+            <div class="qg-text">Q<span class="dot">.</span>G<span class="dot">.</span></div>
+        </div>
+
+        <!-- Titre -->
+        <div class="title" data-fr="QUARTIER GÉNÉRAL" data-en="HEADQUARTERS">QUARTIER GÉNÉRAL</div>
+
+        <!-- Sous-titre -->
+        <div class="subtitle" data-fr="Quentin Grelier • Futur Chef de Projet IT" data-en="Quentin Grelier • Future IT Project Manager">Quentin Grelier • Futur Chef de Projet IT</div>
+
+        <!-- Cartes de navigation -->
+        <div class="nav-cards">
+            <a href="realisations.html" class="nav-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
                 </svg>
-                <span data-fr="Voir mes réalisations" data-en="See my achievements">Voir mes réalisations</span>
+                <span class="card-title" data-fr="MISSIONS" data-en="MISSIONS">MISSIONS</span>
+                <span class="card-subtitle" data-fr="Projets" data-en="Projects">Projets</span>
             </a>
-            <a href="about.html" class="nav-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <a href="about.html" class="nav-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span data-fr="À propos de moi" data-en="About me">À propos de moi</span>
+                <span class="card-title" data-fr="AGENT" data-en="AGENT">AGENT</span>
+                <span class="card-subtitle" data-fr="À propos" data-en="About">À propos</span>
             </a>
-            <a href="apprentissage-critique.html" class="nav-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7V21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H2V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M22 3H16C14.9391 3 13.9217 3.42143 13.1716 4.17157C12.4214 4.92172 12 5.93913 12 7V21C12 20.2044 12.3161 19.4413 12.8787 18.8787C13.4413 18.3161 14.2044 18 15 18H22V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <a href="apprentissage-critique.html" class="nav-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                 </svg>
-                <span data-fr="Portfolio d'apprentissage" data-en="Learning Portfolio">Portfolio d'apprentissage</span>
+                <span class="card-title" data-fr="SECTEUR" data-en="SECTOR">SECTEUR</span>
+                <span class="card-subtitle" data-fr="Compétences" data-en="Skills">Compétences</span>
             </a>
-            <a href="contact.html" class="nav-link">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <a href="contact.html" class="nav-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                 </svg>
-                <span data-fr="Contact" data-en="Contact">Contact</span>
+                <span class="card-title" data-fr="CONTACT" data-en="CONTACT">CONTACT</span>
+                <span class="card-subtitle" data-fr="Communication" data-en="Communication">Communication</span>
             </a>
+        </div>
+    </div>
+
+    <!-- Barre de statut -->
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-label">STATUS</div>
+            <div class="status-value" data-fr="En formation" data-en="In training">En formation</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">AGENT</div>
+            <div class="status-value">Quentin Grelier</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">CLEARANCE</div>
+            <div class="status-value" data-fr="IAE Montpellier" data-en="IAE Montpellier">IAE Montpellier</div>
         </div>
     </div>
 </div>
 
 <script>
-    // Animation pour les éléments au chargement de la page
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM fully loaded");
-
-        // Ajouter la classe 'loaded' au body pour déclencher les animations
-        setTimeout(() => {
-            document.body.classList.add('loaded');
-        }, 300);
-
-        // Charger les préférences sauvegardées
         loadSavedPreferences();
-
-        // Configurer les gestionnaires d'événements
         setupEventHandlers();
-
-        // Démarrer les animations de fond
-        setupBackgroundAnimations();
-
-        // Configurer l'observer pour les éléments animés
-        setupIntersectionObserver();
     });
 
-    // Charger les préférences sauvegardées
     function loadSavedPreferences() {
-        // Charger le thème
         const savedTheme = localStorage.getItem('theme') || 'dark';
         const html = document.documentElement;
         const themeToggle = document.getElementById('theme-toggle');
@@ -581,7 +601,6 @@
         html.setAttribute('data-theme', savedTheme);
         themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-        // Charger la langue
         const savedLang = localStorage.getItem('language') || 'fr';
         const langToggle = document.getElementById('lang-toggle');
 
@@ -592,22 +611,11 @@
         }
     }
 
-    // Configuration des gestionnaires d'événements
     function setupEventHandlers() {
-        // Bouton de thème
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Animation du bouton
-                this.classList.remove('theme-animation');
-                void this.offsetWidth; // Force reflow
-                this.classList.add('theme-animation');
-
-                // Transition du body
-                document.body.classList.add('theme-transition');
-
                 const html = document.documentElement;
                 const currentTheme = html.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -615,219 +623,32 @@
                 html.setAttribute('data-theme', newTheme);
                 this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
                 localStorage.setItem('theme', newTheme);
-
-                // Nettoyer les classes après l'animation
-                setTimeout(() => {
-                    this.classList.remove('theme-animation');
-                    document.body.classList.remove('theme-transition');
-                }, 700);
             });
         }
 
-        // Bouton de langue
         const langToggle = document.getElementById('lang-toggle');
         if (langToggle) {
             langToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Animation du bouton
-                this.classList.remove('lang-animation');
-                void this.offsetWidth;
-                this.classList.add('lang-animation');
-
-                // Animer tous les éléments qui vont changer
-                const elementsToAnimate = document.querySelectorAll('[data-en], [data-fr]');
-                elementsToAnimate.forEach(el => {
-                    el.classList.remove('lang-animation');
-                    void el.offsetWidth;
-                    el.classList.add('lang-animation');
-                });
-
                 const currentLang = this.textContent.toLowerCase();
                 const newLang = currentLang === 'fr' ? 'en' : 'fr';
 
                 this.textContent = newLang.toUpperCase();
                 changeLanguage(newLang);
                 localStorage.setItem('language', newLang);
-
-                // Nettoyer les animations
-                setTimeout(() => {
-                    this.classList.remove('lang-animation');
-                    elementsToAnimate.forEach(el => {
-                        el.classList.remove('lang-animation');
-                    });
-                }, 500);
             });
         }
     }
 
-    // Changer la langue
     function changeLanguage(lang) {
         const html = document.documentElement;
         html.setAttribute('lang', lang);
 
         document.querySelectorAll(`[data-${lang}]`).forEach(element => {
             const newText = element.getAttribute(`data-${lang}`);
-
-            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
-                const span = element.querySelector('span');
-                if (span) {
-                    span.textContent = newText;
-                } else {
-                    element.textContent = newText;
-                }
-            } else {
-                element.textContent = newText;
-            }
+            element.textContent = newText;
         });
     }
-
-    // Animations de fond avancées
-    function setupBackgroundAnimations() {
-        const shapes = document.querySelectorAll('.shape');
-
-        // Animation au mouvement de la souris
-        document.addEventListener('mousemove', function(e) {
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.02;
-                const moveX = x * 50 * speed;
-                const moveY = y * 50 * speed;
-
-                shape.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${index * 60}deg)`;
-                shape.style.opacity = 0.1 + Math.abs(x + y) * 0.1;
-            });
-        });
-
-        // Animation au scroll avec parallax
-        let ticking = false;
-
-        function updateShapesOnScroll() {
-            const scrollY = window.scrollY;
-
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.1;
-                const rotation = scrollY * 0.1;
-                shape.style.transform += ` translateY(${scrollY * speed}px) rotate(${rotation}deg)`;
-            });
-
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                requestAnimationFrame(updateShapesOnScroll);
-                ticking = true;
-            }
-        });
-
-        // Animation périodique des formes
-        setInterval(() => {
-            shapes.forEach((shape, index) => {
-                const randomScale = 0.8 + Math.random() * 0.4;
-                const randomOpacity = 0.05 + Math.random() * 0.1;
-
-                shape.style.transition = 'transform 2s ease, opacity 2s ease';
-                shape.style.transform += ` scale(${randomScale})`;
-                shape.style.opacity = randomOpacity;
-            });
-
-            setTimeout(() => {
-                shapes.forEach(shape => {
-                    shape.style.transition = 'transform 2s ease, opacity 2s ease';
-                    shape.style.transform = shape.style.transform.replace(/scale\([^)]*\)/g, 'scale(1)');
-                    shape.style.opacity = '0.1';
-                });
-            }, 2000);
-        }, 8000);
-    }
-
-    // Observer pour les animations au scroll
-    function setupIntersectionObserver() {
-        const animateElements = document.querySelectorAll('.nav-link, .name, .subtitle');
-
-        if (animateElements.length > 0) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            });
-
-            animateElements.forEach(el => {
-                observer.observe(el);
-            });
-        }
-    }
-
-    // Smooth scroll pour les liens d'ancrage
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Détection de défilement pour la navigation
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
-        const nav = document.querySelector('.nav-container');
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollTop > 50) {
-            nav.style.background = 'rgba(10, 10, 15, 0.9)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
-        } else {
-            nav.style.background = 'transparent';
-            nav.style.backdropFilter = 'none';
-            nav.style.borderBottom = 'none';
-        }
-
-        lastScrollTop = scrollTop;
-    });
-
-    // Animation d'entrée échelonnée
-    function staggeredAnimation() {
-        const elements = document.querySelectorAll('.greeting, .name, .subtitle, .nav-link');
-
-        elements.forEach((element, index) => {
-            element.style.animationDelay = `${index * 0.2}s`;
-            element.style.animation = 'fadeInUp 0.8s ease forwards';
-        });
-    }
-
-    // Démarrer l'animation échelonnée après le chargement
-    setTimeout(staggeredAnimation, 500);
-
-    // Effets visuels avancés pour les nav-links
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
-            this.style.boxShadow = '0 20px 60px rgba(102, 126, 234, 0.3)';
-        });
-
-        link.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-4px) scale(1)';
-            this.style.boxShadow = '0 12px 40px rgba(102, 126, 234, 0.2)';
-        });
-    });
-
-    console.log("Portfolio avancé initialisé avec succès !");
 </script>
 </body>
 </html>
