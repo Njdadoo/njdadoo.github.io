@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Tracker - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* QG Theme colors */
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+
+            /* Manga-inspired gradients for content */
+            --manga-red: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+            --manga-blue: linear-gradient(135deg, #3182CE 0%, #2B6CB0 100%);
+            --manga-orange: linear-gradient(135deg, #DD6B20 0%, #C05621 100%);
+
+            --bg-dark: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.7;
+        }
+
+        .manga-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Manga-themed Background */
+        .manga-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.15;
+        }
+
+        .manga-pattern {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: patternFloat 15s infinite ease-in-out;
+        }
+
+        .manga-pattern:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            color: #E53E3E;
+            animation-delay: 0s;
+        }
+
+        .manga-pattern:nth-child(2) {
+            top: 50%;
+            right: 10%;
+            color: #3182CE;
+            animation-delay: -5s;
+        }
+
+        .manga-pattern:nth-child(3) {
+            bottom: 15%;
+            left: 50%;
+            color: #DD6B20;
+            animation-delay: -10s;
+        }
+
+        @keyframes patternFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(20px, -30px) scale(1.1);
+                opacity: 0.15;
+            }
+        }
+
+        /* Navigation - QG Style */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-logo:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+
+        /* Main Content Container */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            background: var(--manga-red);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .project-badge span {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #E53E3E 0%, #3182CE 50%, #DD6B20 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-badge {
+            padding: 0.6rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: var(--manga-blue);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--manga-red);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--accent-glow);
+            border-color: #E53E3E;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #E53E3E 0%, #DD6B20 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--manga-red);
+            border-radius: 2px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--manga-red);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(229, 62, 62, 0.2);
+            border-color: #E53E3E;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--manga-red);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Screenshot Section */
+        .screenshots-section {
+            margin-bottom: 5rem;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            gap: 3rem;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .screenshot-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border-color: #E53E3E;
+        }
+
+        .screenshot-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .screenshot-number {
+            width: 50px;
+            height: 50px;
+            background: var(--manga-red);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .screenshot-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 500px;
+            background: var(--bg-section);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-placeholder:hover {
+            border-color: #E53E3E;
+            background: rgba(229, 62, 62, 0.05);
+        }
+
+        .screenshot-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* My Story Section */
+        .story-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .story-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .story-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: var(--manga-red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Feature Showcase with Images */
+        .feature-showcase {
+            margin-bottom: 5rem;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease both;
+        }
+
+        .feature-row:nth-child(even) .feature-content {
+            order: 2;
+        }
+
+        .feature-row:nth-child(even) .feature-image-wrapper {
+            order: 1;
+        }
+
+        .feature-image-wrapper {
+            position: relative;
+        }
+
+        .feature-image-placeholder {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-section);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-image-placeholder:hover {
+            border-color: var(--accent-color);
+            background: rgba(214, 158, 46, 0.05);
+        }
+
+        .feature-content {
+            padding: 2rem;
+        }
+
+        .feature-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--manga-red);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-showcase .feature-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-showcase .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(214, 158, 46, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--bg-section);
+            border-radius: 32px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 1.2s both;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #E53E3E 0%, #3182CE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: var(--manga-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px var(--accent-glow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .feature-row {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-row:nth-child(even) .feature-content,
+            .feature-row:nth-child(even) .feature-image-wrapper {
+                order: initial;
+            }
+
+            .feature-image-placeholder {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .content-wrapper {
+                padding: 0 1rem 3rem;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshot-placeholder {
+                height: 300px;
+            }
+
+            .story-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .story-title {
+                font-size: 1.6rem;
+            }
+
+            .story-content {
+                font-size: 1rem;
+            }
+
+            .feature-content {
+                padding: 1rem 0;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .menu-item:focus,
+        .cta-button:focus {
+            outline: 3px solid #E53E3E;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="manga-page">
+    <!-- Animated Background -->
+    <div class="manga-background">
+        <div class="manga-pattern"></div>
+        <div class="manga-pattern"></div>
+        <div class="manga-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="nav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="project-badge">
+                <span data-fr="📚 PROJET PERSONNEL" data-en="📚 PERSONAL PROJECT">📚 PROJET PERSONNEL</span>
+            </div>
+
+            <h1 class="hero-title" data-fr="Manga Tracker" data-en="Manga Tracker">Manga Tracker</h1>
+
+            <p class="hero-subtitle" data-fr="Plateforme complète de gestion et suivi de lectures manga avec intégration MangaDex API, système de tags personnalisables et interface moderne. Suivez votre progression, organisez votre bibliothèque et découvrez de nouveaux titres." data-en="Complete manga reading management and tracking platform with MangaDex API integration, customizable tag system and modern interface. Track your progress, organize your library and discover new titles.">
+                Plateforme complète de gestion et suivi de lectures manga avec intégration MangaDex API, système de tags personnalisables et interface moderne. Suivez votre progression, organisez votre bibliothèque et découvrez de nouveaux titres.
+            </p>
+
+            <div class="tech-stack">
+                <span class="tech-badge">Vue 3</span>
+                <span class="tech-badge">Vite</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">Supabase</span>
+                <span class="tech-badge">MangaDex API</span>
+                <span class="tech-badge">Vue Router</span>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <div class="stat-number" data-fr="Illimité" data-en="Unlimited">Illimité</div>
+                <div class="stat-label" data-fr="Mangas Trackés" data-en="Tracked Mangas">Mangas Trackés</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏷️</div>
+                <div class="stat-number" data-fr="∞" data-en="∞">∞</div>
+                <div class="stat-label" data-fr="Tags Personnalisés" data-en="Custom Tags">Tags Personnalisés</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-number">API</div>
+                <div class="stat-label" data-fr="MangaDex Intégré" data-en="MangaDex Integrated">MangaDex Intégré</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number" data-fr="Temps Réel" data-en="Real-Time">Temps Réel</div>
+                <div class="stat-label" data-fr="Synchronisation" data-en="Synchronization">Synchronisation</div>
+            </div>
+        </section>
+
+        <!-- My Story Section -->
+        <section class="story-section">
+            <div class="story-icon">📖</div>
+            <h2 class="story-title" data-fr="Pourquoi ce Projet ?" data-en="Why This Project?">Pourquoi ce Projet ?</h2>
+            <div class="story-content">
+                <p data-fr="En tant que grand fan de manga, manhwa et manhua, je suis toujours à la recherche des dernières sorties et je lis sur plusieurs plateformes différentes. Cette passion m'a confronté à de nombreux inconvénients : <strong>perte de progression</strong> entre les sites, <strong>gestion fastidieuse de multiples comptes</strong>, et surtout l'impossibilité d'avoir une <strong>vue d'ensemble unifiée</strong> de toutes mes lectures." data-en="As a big fan of manga, manhwa and manhua, I'm always looking for the latest releases and I read on several different platforms. This passion confronted me with many inconveniences: <strong>loss of progress</strong> between sites, <strong>tedious management of multiple accounts</strong>, and especially the impossibility of having a <strong>unified overview</strong> of all my readings.">
+                    En tant que grand fan de manga, manhwa et manhua, je suis toujours à la recherche des dernières sorties et je lis sur plusieurs plateformes différentes. Cette passion m'a confronté à de nombreux inconvénients : <strong>perte de progression</strong> entre les sites, <strong>gestion fastidieuse de multiples comptes</strong>, et surtout l'impossibilité d'avoir une <strong>vue d'ensemble unifiée</strong> de toutes mes lectures.
+                </p>
+                <br>
+                <p data-fr="C'est ainsi qu'est né <strong>Manga Tracker</strong> : ma solution personnelle pour centraliser et organiser efficacement toute ma bibliothèque de lecture. Le projet intègre l'<strong>API MangaDex</strong> pour faciliter la découverte de nouveaux titres, utilise <strong>Supabase</strong> pour une synchronisation en temps réel sécurisée, et offre un système de <strong>tags personnalisables</strong> pour une organisation sur mesure. Construit avec <strong>Vue 3</strong> et <strong>Tailwind CSS</strong>, l'interface est moderne, réactive et optimisée pour une utilisation quotidienne fluide." data-en="This is how <strong>Manga Tracker</strong> was born: my personal solution to centralize and efficiently organize my entire reading library. The project integrates the <strong>MangaDex API</strong> to facilitate discovering new titles, uses <strong>Supabase</strong> for secure real-time synchronization, and offers a <strong>customizable tag system</strong> for tailor-made organization. Built with <strong>Vue 3</strong> and <strong>Tailwind CSS</strong>, the interface is modern, responsive and optimized for smooth daily use.">
+                    C'est ainsi qu'est né <strong>Manga Tracker</strong> : ma solution personnelle pour centraliser et organiser efficacement toute ma bibliothèque de lecture. Le projet intègre l'<strong>API MangaDex</strong> pour faciliter la découverte de nouveaux titres, utilise <strong>Supabase</strong> pour une synchronisation en temps réel sécurisée, et offre un système de <strong>tags personnalisables</strong> pour une organisation sur mesure. Construit avec <strong>Vue 3</strong> et <strong>Tailwind CSS</strong>, l'interface est moderne, réactive et optimisée pour une utilisation quotidienne fluide.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Showcase with Images -->
+        <section class="feature-showcase">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Fonctionnalités & Aperçus" data-en="Features & Previews">Fonctionnalités & Aperçus</span>
+            </h2>
+
+            <!-- Feature Row 1: Bibliothèque + Dashboard -->
+            <div class="feature-row">
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="📸 Image à ajouter : dashboard.png" data-en="📸 Image to add: dashboard.png">📸 Image à ajouter : dashboard.png</span>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-number">1</div>
+                    <h3 class="feature-title" data-fr="Bibliothèque Centralisée" data-en="Centralized Library">Bibliothèque Centralisée</h3>
+                    <p class="feature-description" data-fr="Organisez et gérez tous vos mangas, manhwas et manhuas dans une interface unique et intuitive. Système de tri avancé par titre, progression, statut ou date. Navigation par sidebar avec dossiers personnalisables via tags (Action, Romance, Fantasy...). Filtres intelligents et barre de recherche en temps réel. Les favoris restent toujours en haut de liste pour un accès rapide." data-en="Organize and manage all your manga, manhwa and manhua in a single intuitive interface. Advanced sorting by title, progress, status or date. Sidebar navigation with customizable folders via tags (Action, Romance, Fantasy...). Smart filters and real-time search bar. Favorites always stay at the top for quick access.">
+                        Organisez et gérez tous vos mangas, manhwas et manhuas dans une interface unique et intuitive. Système de tri avancé par titre, progression, statut ou date. Navigation par sidebar avec dossiers personnalisables via tags (Action, Romance, Fantasy...). Filtres intelligents et barre de recherche en temps réel. Les favoris restent toujours en haut de liste pour un accès rapide.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Tri Multi-Critères</span>
+                        <span class="feature-tag">Tags Personnalisés</span>
+                        <span class="feature-tag">Favoris</span>
+                        <span class="feature-tag">Recherche Temps Réel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Row 2: Recherche + MangaDex -->
+            <div class="feature-row">
+                <div class="feature-content">
+                    <div class="feature-number">2</div>
+                    <h3 class="feature-title" data-fr="Découverte MangaDex" data-en="MangaDex Discovery">Découverte MangaDex</h3>
+                    <p class="feature-description" data-fr="Recherchez parmi des milliers de titres grâce à l'intégration complète de l'API MangaDex. Interface de recherche intuitive avec prévisualisation des couvertures, résumés détaillés, informations sur les auteurs et nombre de chapitres disponibles. Import automatique des métadonnées pour ajouter rapidement de nouveaux mangas à votre bibliothèque en un seul clic." data-en="Search among thousands of titles thanks to full MangaDex API integration. Intuitive search interface with cover previews, detailed summaries, author information and available chapter count. Automatic metadata import to quickly add new manga to your library with one click.">
+                        Recherchez parmi des milliers de titres grâce à l'intégration complète de l'API MangaDex. Interface de recherche intuitive avec prévisualisation des couvertures, résumés détaillés, informations sur les auteurs et nombre de chapitres disponibles. Import automatique des métadonnées pour ajouter rapidement de nouveaux mangas à votre bibliothèque en un seul clic.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">API MangaDex</span>
+                        <span class="feature-tag">Import Auto</span>
+                        <span class="feature-tag">Métadonnées Complètes</span>
+                    </div>
+                </div>
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="📸 Image à ajouter : search.png" data-en="📸 Image to add: search.png">📸 Image à ajouter : search.png</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Row 3: Gestion Tags + Settings -->
+            <div class="feature-row">
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="📸 Image à ajouter : settings.png" data-en="📸 Image to add: settings.png">📸 Image à ajouter : settings.png</span>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-number">3</div>
+                    <h3 class="feature-title" data-fr="Tags & Organisation" data-en="Tags & Organization">Tags & Organisation</h3>
+                    <p class="feature-description" data-fr="Créez et gérez vos propres catégories avec un système de tags 100% personnalisables. Définissez les icônes (emojis), couleurs et labels pour chaque catégorie selon vos préférences. Tags par défaut inclus (Action, Romance, Fantasy, Thriller...) que vous pouvez modifier ou compléter. Système de glisser-déposer pour réorganiser et possibilité de réinitialisation." data-en="Create and manage your own categories with a 100% customizable tag system. Define icons (emojis), colors and labels for each category according to your preferences. Default tags included (Action, Romance, Fantasy, Thriller...) that you can modify or complete. Drag-and-drop system to reorganize and reset option.">
+                        Créez et gérez vos propres catégories avec un système de tags 100% personnalisables. Définissez les icônes (emojis), couleurs et labels pour chaque catégorie selon vos préférences. Tags par défaut inclus (Action, Romance, Fantasy, Thriller...) que vous pouvez modifier ou compléter. Système de glisser-déposer pour réorganiser et possibilité de réinitialisation.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Tags Personnalisés</span>
+                        <span class="feature-tag">Icônes & Couleurs</span>
+                        <span class="feature-tag">Drag & Drop</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Row 4: Détail Manga + Management -->
+            <div class="feature-row">
+                <div class="feature-content">
+                    <div class="feature-number">4</div>
+                    <h3 class="feature-title" data-fr="Gestion Détaillée" data-en="Detailed Management">Gestion Détaillée</h3>
+                    <p class="feature-description" data-fr="Fiche complète pour chaque manga avec toutes les informations : couverture, titre, titre alternatif, auteur, artiste, résumé, statut de lecture et progression. Boutons rapides +1/-1 pour mettre à jour vos chapitres lus en temps réel. Gestion des tags multiples, ajout de liens personnalisés vers vos sites de lecture préférés, et système de favoris. Suivi précis de votre avancement avec visualisation du pourcentage de completion." data-en="Complete page for each manga with all information: cover, title, alternative title, author, artist, summary, reading status and progress. Quick +1/-1 buttons to update your read chapters in real-time. Multiple tag management, custom links to your favorite reading sites, and favorites system. Precise tracking of your progress with completion percentage visualization.">
+                        Fiche complète pour chaque manga avec toutes les informations : couverture, titre, titre alternatif, auteur, artiste, résumé, statut de lecture et progression. Boutons rapides +1/-1 pour mettre à jour vos chapitres lus en temps réel. Gestion des tags multiples, ajout de liens personnalisés vers vos sites de lecture préférés, et système de favoris. Suivi précis de votre avancement avec visualisation du pourcentage de complétion.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Suivi Progression</span>
+                        <span class="feature-tag">Liens Personnalisés</span>
+                        <span class="feature-tag">Édition Temps Réel</span>
+                        <span class="feature-tag">Manga/Manhwa/Manhua</span>
+                    </div>
+                </div>
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="📸 Image à ajouter : manga-detail.png" data-en="📸 Image to add: manga-detail.png">📸 Image à ajouter : manga-detail.png</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title" data-fr="Projet Personnel Complet" data-en="Complete Personal Project">Projet Personnel Complet</h2>
+            <p class="cta-description" data-fr="Ce projet démontre ma maîtrise des technologies modernes front-end (Vue 3, Composition API, Pinia) et de l'intégration d'APIs externes. Architecture propre, code maintenable, et expérience utilisateur optimale." data-en="This project demonstrates my mastery of modern front-end technologies (Vue 3, Composition API, Pinia) and external API integration. Clean architecture, maintainable code, and optimal user experience.">
+                Ce projet démontre ma maîtrise des technologies modernes front-end (Vue 3, Composition API, Pinia) et de l'intégration d'APIs externes. Architecture propre, code maintenable, et expérience utilisateur optimale.
+            </p>
+            <a href="realisations.html" class="cta-button">
+                <span data-fr="← Retour aux Réalisations" data-en="← Back to Projects">← Retour aux Réalisations</span>
+            </a>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupScrollEffects();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr') {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                document.body.classList.add('theme-transition');
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+    }
+
+    function setupScrollEffects() {
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            lastScroll = currentScroll;
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = newText;
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Page loaded animation
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+    });
+</script>
+</body>
+</html>

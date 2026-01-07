@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réalisations & Événements - Quentin Grelier</title>
+    <title>Missions - Q.G. Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,190 +13,126 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-            --warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            --nuit-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
-            --bg-dark: #0a0a0f;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: #b0b3c1;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+            --circle-color: rgba(214, 158, 46, 0.1);
+            --status-active: #10b981;
+            --status-complete: #3b82f6;
+            --status-pending: #f59e0b;
         }
 
         [data-theme="light"] {
-            --bg-dark: #f8fafc;
-            --bg-card: rgba(0, 0, 0, 0.05);
-            --text-primary: #1a202c;
-            --text-secondary: #4a5568;
-            --border-color: rgba(0, 0, 0, 0.1);
+            --bg-primary: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+            --circle-color: rgba(26, 54, 93, 0.1);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            overflow-x: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            line-height: 1.6;
-        }
-
-        body.theme-transition {
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.loaded {
-            animation: pageLoaded 1s ease-out;
-        }
-
-        @keyframes pageLoaded {
-            from { opacity: 0.8; }
-            to { opacity: 1; }
-        }
-
-        .realisations-page {
             min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             position: relative;
         }
 
-        /* Background Shapes */
-        .background-shapes {
+        /* Cercles radar en arrière-plan */
+        .radar-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1000px;
+            height: 1000px;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .shape {
+        .radar-circle {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--circle-color);
             border-radius: 50%;
-            opacity: 0.08;
-            animation: float 25s infinite ease-in-out;
-            transition: all 0.3s ease;
-            filter: blur(1px);
+            animation: pulse 4s ease-in-out infinite;
         }
 
-        .shape:nth-child(1) {
-            width: 350px;
-            height: 350px;
-            background: var(--primary-gradient);
-            top: -175px;
-            left: -175px;
-            animation-delay: 0s;
+        .radar-circle:nth-child(1) { width: 250px; height: 250px; animation-delay: 0s; }
+        .radar-circle:nth-child(2) { width: 500px; height: 500px; animation-delay: 0.5s; }
+        .radar-circle:nth-child(3) { width: 750px; height: 750px; animation-delay: 1s; }
+        .radar-circle:nth-child(4) { width: 1000px; height: 1000px; animation-delay: 1.5s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.02); }
         }
 
-        .shape:nth-child(2) {
-            width: 250px;
-            height: 250px;
-            background: var(--nuit-gradient);
-            top: 15%;
-            right: -125px;
-            animation-delay: -8s;
-        }
-
-        .shape:nth-child(3) {
-            width: 450px;
-            height: 450px;
-            background: var(--accent-gradient);
-            bottom: -225px;
-            left: 25%;
-            animation-delay: -15s;
-        }
-
-        .shape:nth-child(4) {
-            width: 180px;
-            height: 180px;
-            background: var(--success-gradient);
-            top: 70%;
-            right: 15%;
-            animation-delay: -5s;
-        }
-
-        .shape:nth-child(5) {
-            width: 300px;
-            height: 300px;
-            background: var(--warning-gradient);
-            top: 45%;
-            left: 5%;
-            animation-delay: -12s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg) scale(1);
-                opacity: 0.08;
-            }
-            33% {
-                transform: translateY(-40px) rotate(120deg) scale(1.1);
-                opacity: 0.12;
-            }
-            66% {
-                transform: translateY(30px) rotate(240deg) scale(0.9);
-                opacity: 0.06;
-            }
-        }
-
-        /* Navigation - Same as other pages */
+        /* Navigation */
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-container.scrolled {
-            background: rgba(10, 10, 15, 0.9);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-logo-wrapper {
+            padding: 1.5rem 2rem;
             position: relative;
+            z-index: 100;
         }
+
+        .nav-logo-wrapper { position: relative; }
 
         .nav-logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: var(--primary-gradient);
-            border-radius: 16px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
             font-weight: 700;
-            color: white;
+            color: var(--accent-color);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
         .nav-logo:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
         }
 
         .menu-dropdown {
             position: absolute;
             top: 100%;
             left: 0;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 0.5rem;
-            min-width: 200px;
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -204,8 +141,7 @@
             margin-top: 0.5rem;
         }
 
-        .nav-logo-wrapper:hover .menu-dropdown,
-        .menu-dropdown:hover {
+        .nav-logo-wrapper:hover .menu-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -216,165 +152,170 @@
             padding: 0.75rem 1rem;
             color: var(--text-primary);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s ease;
             font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
         }
 
         .menu-item:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateX(4px);
+            background: var(--accent-color);
+            color: var(--bg-primary);
         }
 
-        .nav-controls {
-            display: flex;
-            gap: 1rem;
-        }
+        .nav-controls { display: flex; gap: 0.75rem; }
 
         .theme-toggle, .lang-toggle {
-            padding: 0.75rem 1rem;
-            background: var(--bg-card);
+            padding: 0.6rem 1rem;
+            background: transparent;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 6px;
             color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
         }
 
         .theme-toggle:hover, .lang-toggle:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
         }
 
-        .theme-toggle.theme-animation {
-            animation: themeChange 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .lang-toggle.lang-animation {
-            animation: langChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes themeChange {
-            0% { transform: translateY(-2px) scale(1); }
-            25% { transform: translateY(-2px) scale(1.1) rotateY(180deg); }
-            50% { transform: translateY(-2px) scale(1.2) rotateY(360deg); }
-            75% { transform: translateY(-2px) scale(1.1) rotateY(540deg); }
-            100% { transform: translateY(-2px) scale(1) rotateY(720deg); }
-        }
-
-        @keyframes langChange {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2) rotateX(180deg); }
-            100% { transform: scale(1) rotateX(360deg); }
-        }
-
-        [data-fr], [data-en] {
-            transition: all 0.3s ease;
-        }
-
-        [data-fr].lang-animation, [data-en].lang-animation {
-            animation: textChange 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes textChange {
-            0% { opacity: 1; transform: translateY(0); }
-            50% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Main Content */
-        .main-container {
-            max-width: 1200px;
+        /* Contenu principal */
+        .main-content {
+            flex: 1;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 10;
+            width: 100%;
         }
 
-        /* Header Section */
+        /* Header section */
         .header-section {
             text-align: center;
-            margin-bottom: 4rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease 0.3s both;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease;
         }
 
-        .main-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
             margin-bottom: 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
+        .section-badge svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-color);
+        }
+
+        .section-badge span {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--accent-color);
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow:
+                0 0 20px var(--accent-glow),
+                0 0 40px var(--accent-glow);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            letter-spacing: 0.05em;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease 0.3s both;
         }
 
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(214, 158, 46, 0.2);
+            border-color: var(--accent-color);
         }
 
         .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px var(--accent-glow);
         }
 
         .stat-label {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* Featured Project - Nuit de l'Info */
-        .featured-section {
-            margin-bottom: 4rem;
-        }
-
+        /* Section Titles */
         .section-title {
-            font-size: 2rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-primary);
+            letter-spacing: 0.15em;
+            color: var(--accent-color);
             margin-bottom: 2rem;
+            text-transform: uppercase;
             position: relative;
             display: inline-block;
         }
@@ -386,250 +327,122 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background: var(--primary-gradient);
+            background: var(--accent-color);
             border-radius: 2px;
         }
 
-        .featured-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-
-        .featured-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--nuit-gradient);
-        }
-
-        .featured-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(33, 147, 176, 0.3);
-            border-color: rgba(33, 147, 176, 0.4);
-        }
-
-        .featured-content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-            padding: 2rem;
-        }
-
-        .featured-info h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: var(--nuit-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .featured-badge {
-            display: inline-block;
-            background: var(--nuit-gradient);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .featured-description {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .featured-highlights {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .highlight-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(33, 147, 176, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-
-        .highlight-item::before {
-            content: '🏆';
-            font-size: 1rem;
-        }
-
-        .featured-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--nuit-gradient);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .featured-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(33, 147, 176, 0.4);
-        }
-
-        .featured-visual {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .mock-screenshot {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 12px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mock-screenshot::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .project-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .project-stat {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .project-stat-number {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.2rem;
-        }
-
-        .project-stat-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* Other Projects Grid */
+        /* Projects Grid */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.6s both;
         }
 
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 2rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(50px);
         }
-
-        .project-card:nth-child(1) { animation: fadeInUp 1s ease 0.8s both; }
-        .project-card:nth-child(2) { animation: fadeInUp 1s ease 1.0s both; }
-        .project-card:nth-child(3) { animation: fadeInUp 1s ease 1.2s both; }
 
         .project-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
+            left: 0;
+            width: 4px;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s ease;
+            background: var(--accent-color);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
         }
 
         .project-card:hover::before {
-            left: 100%;
+            transform: scaleY(1);
         }
 
         .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 50px rgba(102, 126, 234, 0.2);
-            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(214, 158, 46, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
         }
 
         .project-icon {
             width: 60px;
             height: 60px;
-            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            background: var(--primary-gradient);
-            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .project-status {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--status-active);
+            border: 1px solid var(--status-active);
+        }
+
+        .status-complete {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--status-complete);
+            border: 1px solid var(--status-complete);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--status-pending);
+            border: 1px solid var(--status-pending);
         }
 
         .project-title {
-            font-size: 1.3rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
             color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
         }
 
-        .project-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        .project-category {
+            font-size: 0.85rem;
+            color: var(--accent-color);
             margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
 
         .project-description {
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
 
         .project-tech {
@@ -640,107 +453,55 @@
         }
 
         .tech-tag {
-            background: var(--bg-card);
+            padding: 0.4rem 0.9rem;
+            background: rgba(214, 158, 46, 0.1);
             border: 1px solid var(--border-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+            border-radius: 4px;
             font-size: 0.8rem;
             color: var(--text-secondary);
+            letter-spacing: 0.05em;
             transition: all 0.3s ease;
         }
 
         .tech-tag:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-1px);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            border-color: var(--accent-color);
         }
 
-        .project-links {
-            display: flex;
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
         }
 
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-primary);
-            text-decoration: none;
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .meta-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .meta-value {
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: #667eea;
-            transform: translateY(-1px);
-        }
-
-        /* Timeline Section */
-        .timeline-section {
-            margin-top: 4rem;
-            position: relative;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 1rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--primary-gradient);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            padding-left: 2rem;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 0.8s ease;
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -1.5rem;
-            top: 0.5rem;
-            width: 12px;
-            height: 12px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            border: 3px solid var(--bg-dark);
-        }
-
-        .timeline-date {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
         }
 
         /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -752,21 +513,8 @@
             }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 1rem;
-            }
-
-            .main-container {
-                padding: 1rem;
-            }
-
-            .featured-content {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
+        /* Responsive */
+        @media (max-width: 900px) {
             .projects-grid {
                 grid-template-columns: 1fr;
             }
@@ -774,66 +522,45 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .featured-highlights {
-                flex-direction: column;
-            }
-
-            .menu-dropdown {
-                min-width: 180px;
-            }
         }
 
-        @media (max-width: 480px) {
-            .nav-logo {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
-            }
+        @media (max-width: 600px) {
+            .nav-container { padding: 1rem; }
+            .main-content { padding: 1rem; }
 
-            .main-title {
+            .page-title {
                 font-size: 2rem;
             }
 
-            .subtitle {
-                font-size: 1.1rem;
-            }
-
-            .project-card {
-                padding: 1.5rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Focus styles for accessibility */
+        /* Focus styles */
         .nav-logo:focus,
         .theme-toggle:focus,
-        .lang-toggle:focus,
-        .featured-cta:focus,
-        .project-link:focus {
-            outline: 2px solid #667eea;
+        .lang-toggle:focus {
+            outline: 2px solid var(--accent-color);
             outline-offset: 2px;
         }
 
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="loaded">
-<div class="realisations-page">
-    <div class="background-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+<body>
+<div class="container">
+    <div class="radar-background">
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
     </div>
 
     <div class="nav-container">
         <div class="nav-logo-wrapper">
-            <a href="index.html" class="nav-logo" id="logo-menu-toggle" aria-label="Menu principal">QG</a>
-            <div class="menu-dropdown" id="menu-dropdown">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
                 <a href="index.html" class="menu-item">Accueil</a>
                 <a href="about.html" class="menu-item">À propos</a>
                 <a href="contact.html" class="menu-item">Contact</a>
@@ -847,17 +574,25 @@
         </div>
     </div>
 
-    <div class="main-container">
+    <div class="main-content">
         <div class="header-section">
-            <h1 class="main-title" data-fr="Réalisations & Événements" data-en="Achievements & Events">Réalisations & Événements</h1>
-            <p class="subtitle" data-fr="Découvrez mes projets techniques, participations à des événements et réussites académiques qui illustrent mon parcours et mes compétences en développement." data-en="Discover my technical projects, event participations and academic achievements that illustrate my journey and skills in development.">
-                Découvrez mes projets techniques, participations à des événements et réussites académiques qui illustrent mon parcours et mes compétences en développement.
+            <div class="section-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span data-fr="REGISTRE DES MISSIONS" data-en="MISSION REGISTRY">REGISTRE DES MISSIONS</span>
+            </div>
+
+            <h1 class="page-title" data-fr="MISSIONS" data-en="MISSIONS">MISSIONS</h1>
+            <p class="page-subtitle" data-fr="Opérations techniques, événements stratégiques et réalisations accomplies par l'agent Quentin Grelier" data-en="Technical operations, strategic events and achievements accomplished by agent Quentin Grelier">
+                Opérations techniques, événements stratégiques et réalisations accomplies par l'agent Quentin Grelier
             </p>
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label" data-fr="Projets réalisés" data-en="Projects completed">Projets réalisés</div>
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label" data-fr="Missions Complétées" data-en="Missions Completed">Missions Complétées</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">5ème</div>
@@ -865,156 +600,254 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">3+</div>
-                    <div class="stat-label" data-fr="Événements tech" data-en="Tech events">Événements tech</div>
+                    <div class="stat-label" data-fr="Événements Tech" data-en="Tech Events">Événements Tech</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">100%</div>
-                    <div class="stat-label" data-fr="Passion" data-en="Passion">Passion</div>
+                    <div class="stat-label" data-fr="Engagement" data-en="Commitment">Engagement</div>
                 </div>
             </div>
         </div>
 
-        <!-- Featured Project: Nuit de l'Info -->
-        <div class="featured-section">
-            <h2 class="section-title" data-fr="🏆 Projet Phare" data-en="🏆 Featured Project">🏆 Projet Phare</h2>
+        <h2 class="section-title" data-fr="⚡ Opérations Actives" data-en="⚡ Active Operations">⚡ Opérations Actives</h2>
 
-            <div class="featured-card">
-                <div class="featured-content">
-                    <div class="featured-info">
-                        <div class="featured-badge" data-fr="Événement National" data-en="National Event">Événement National</div>
-                        <h3 data-fr="Nuit de l'Info 2024" data-en="Nuit de l'Info 2024">Nuit de l'Info 2024</h3>
-                        <p class="featured-description" data-fr="Hackathon national de 12h non-stop avec 6067 participants et 909 équipes. Notre équipe a développé 'Mr Docteur Océan', une application web innovante sensibilisant à la préservation des océans via une métaphore médicale créative." data-en="12-hour non-stop national hackathon with 6067 participants and 909 teams. Our team developed 'Mr Doctor Ocean', an innovative web application raising awareness about ocean preservation through a creative medical metaphor.">
-                            Hackathon national de 12h non-stop avec <strong>6067 participants</strong> et <strong>909 équipes</strong>. Notre équipe a développé <strong>"Mr Docteur Océan"</strong>, une application web innovante sensibilisant à la préservation des océans via une métaphore médicale créative.
-                        </p>
-
-                        <div class="featured-highlights">
-                            <span class="highlight-item" data-fr="5ème place nationale" data-en="5th place nationally">5ème place nationale</span>
-                            <span class="highlight-item" data-fr="Top 0.55%" data-en="Top 0.55%">Top 0.55%</span>
-                            <span class="highlight-item" data-fr="Concept innovant" data-en="Innovative concept">Concept innovant</span>
-                            <span class="highlight-item" data-fr="12h de dev" data-en="12h of dev">12h de dev</span>
-                        </div>
-
-                        <a href="nuit-de-linfo-2024.html" class="featured-cta" data-fr="Découvrir l'expérience complète →" data-en="Discover the complete experience →">
-                            Découvrir l'expérience complète →
-                        </a>
+        <div class="projects-grid">
+            <!-- Projet 1: Manga Tracker -->
+            <div class="project-card" onclick="window.location.href='manga-tracker.html'" style="cursor: pointer;">
+                <div class="project-header">
+                    <div class="project-icon">📚</div>
+                    <span class="project-status status-complete" data-fr="TERMINÉ" data-en="COMPLETE">TERMINÉ</span>
+                </div>
+                <h3 class="project-title" data-fr="Manga Tracker" data-en="Manga Tracker">Manga Tracker</h3>
+                <div class="project-category" data-fr="Application Web Personnelle" data-en="Personal Web Application">Application Web Personnelle</div>
+                <p class="project-description" data-fr="Plateforme complète de gestion et suivi de lectures manga avec intégration MangaDex API. Système de tags personnalisables, suivi de progression par chapitres, et organisation intelligente. Interface moderne et responsive." data-en="Complete manga reading management and tracking platform with MangaDex API integration. Customizable tag system, chapter progress tracking, and smart organization. Modern and responsive interface.">
+                    Plateforme complète de gestion et suivi de lectures manga avec intégration MangaDex API. Système de tags personnalisables, suivi de progression par chapitres, et organisation intelligente. Interface moderne et responsive.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Vue 3</span>
+                    <span class="tech-tag">Supabase</span>
+                    <span class="tech-tag">MangaDex API</span>
+                    <span class="tech-tag">Tailwind CSS</span>
+                    <span class="tech-tag">Pinia</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Date" data-en="Date">Date</span>
+                        <span class="meta-value" data-fr="2024-2025" data-en="2024-2025">2024-2025</span>
                     </div>
-
-                    <div class="featured-visual">
-                        <div class="mock-screenshot">
-                            🩺🌊
-                        </div>
-                        <div class="project-stats">
-                            <div class="project-stat">
-                                <div class="project-stat-number">909</div>
-                                <div class="project-stat-label" data-fr="Équipes" data-en="Teams">Équipes</div>
-                            </div>
-                            <div class="project-stat">
-                                <div class="project-stat-number">5ème</div>
-                                <div class="project-stat-label" data-fr="Position" data-en="Position">Position</div>
-                            </div>
-                            <div class="project-stat">
-                                <div class="project-stat-number">12h</div>
-                                <div class="project-stat-label" data-fr="Durée" data-en="Duration">Durée</div>
-                            </div>
-                            <div class="project-stat">
-                                <div class="project-stat-number">6067</div>
-                                <div class="project-stat-label" data-fr="Participants" data-en="Participants">Participants</div>
-                            </div>
-                        </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Type" data-en="Type">Type</span>
+                        <span class="meta-value" data-fr="Projet Perso" data-en="Personal Project">Projet Perso</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Other Projects -->
-        <div class="projects-section">
-            <h2 class="section-title" data-fr="Autres Réalisations" data-en="Other Achievements">Autres Réalisations</h2>
+            <!-- Projet 2: Nuit de l'Info 2024 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🌊</div>
+                    <span class="project-status status-complete" data-fr="TERMINÉ" data-en="COMPLETE">TERMINÉ</span>
+                </div>
+                <h3 class="project-title" data-fr="Nuit de l'Info 2024" data-en="Nuit de l'Info 2024">Nuit de l'Info 2024</h3>
+                <div class="project-category" data-fr="Hackathon National" data-en="National Hackathon">Hackathon National</div>
+                <p class="project-description" data-fr="Mission de 12h non-stop : développement de 'Mr Docteur Océan', application de sensibilisation à la préservation des océans. Classement 5ème sur 909 équipes (Top 0.55%)." data-en="12-hour non-stop mission: development of 'Mr Doctor Ocean', ocean preservation awareness application. Ranked 5th out of 909 teams (Top 0.55%).">
+                    Mission de 12h non-stop : développement de "Mr Docteur Océan", application de sensibilisation à la préservation des océans. Classement 5ème sur 909 équipes (Top 0.55%).
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">PHP</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Date" data-en="Date">Date</span>
+                        <span class="meta-value" data-fr="Décembre 2024" data-en="December 2024">Décembre 2024</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Résultat" data-en="Result">Résultat</span>
+                        <span class="meta-value" data-fr="5ème Place" data-en="5th Place">5ème Place</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="projects-grid">
-
-                <div class="project-card">
+            <!-- Projet 3: Black Arsenal -->
+            <div class="project-card">
+                <div class="project-header">
                     <div class="project-icon">🔫</div>
-                    <h3 class="project-title" data-fr="Black Arsenal" data-en="Black Arsenal">Black Arsenal</h3>
-                    <p class="project-subtitle" data-fr="E-commerce d'armes gaming" data-en="Gaming weapons e-commerce">E-commerce d'armes gaming</p>
-                    <p class="project-description" data-fr="E-commerce d'armes virtuelles développé en PHP avec architecture MVC stricte et base de données MySQL. Thématique gaming immersive avec système d'authentification, panier, administration et sécurisation complète contre les vulnérabilités OWASP." data-en="Virtual weapons e-commerce developed in PHP with strict MVC architecture and MySQL database. Immersive gaming theme with authentication system, cart, administration and complete security against OWASP vulnerabilities.">
-                        E-commerce d'armes virtuelles développé en PHP avec architecture MVC stricte et base de données MySQL. Thématique gaming immersive avec système d'authentification, panier, administration et sécurisation complète contre les vulnérabilités OWASP.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">PHP 8.1</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">MVC</span>
-                        <span class="tech-tag">Sécurité OWASP</span>
+                    <span class="project-status status-complete" data-fr="TERMINÉ" data-en="COMPLETE">TERMINÉ</span>
+                </div>
+                <h3 class="project-title" data-fr="Black Arsenal" data-en="Black Arsenal">Black Arsenal</h3>
+                <div class="project-category" data-fr="E-Commerce Gaming" data-en="Gaming E-Commerce">E-Commerce Gaming</div>
+                <p class="project-description" data-fr="Plateforme e-commerce d'armes virtuelles avec architecture MVC stricte. Système d'authentification sécurisé, gestion de panier et interface d'administration. Protection complète OWASP." data-en="Virtual weapons e-commerce platform with strict MVC architecture. Secure authentication system, cart management and admin interface. Complete OWASP protection.">
+                    Plateforme e-commerce d'armes virtuelles avec architecture MVC stricte. Système d'authentification sécurisé, gestion de panier et interface d'administration. Protection complète OWASP.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">PHP 8.1</span>
+                    <span class="tech-tag">MySQL</span>
+                    <span class="tech-tag">MVC</span>
+                    <span class="tech-tag">OWASP</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Date" data-en="Date">Date</span>
+                        <span class="meta-value" data-fr="2024" data-en="2024">2024</span>
                     </div>
-                    <div class="project-links">
-                        <a href="black-arsenal.html" class="project-link">
-                            <span>🔗</span>
-                            <span data-fr="Voir le projet détaillé" data-en="View detailed project">Voir le projet détaillé</span>
-                        </a>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Type" data-en="Type">Type</span>
+                        <span class="meta-value" data-fr="Académique" data-en="Academic">Académique</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projet 4: Système de Gestion -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📊</div>
+                    <span class="project-status status-active" data-fr="EN COURS" data-en="ACTIVE">EN COURS</span>
+                </div>
+                <h3 class="project-title" data-fr="Système DataCore" data-en="DataCore System">Système DataCore</h3>
+                <div class="project-category" data-fr="Application de Gestion" data-en="Management Application">Application de Gestion</div>
+                <p class="project-description" data-fr="Développement d'une application complète de gestion des ressources avec tableaux de bord en temps réel, système de notifications et génération de rapports automatisés." data-en="Development of a complete resource management application with real-time dashboards, notification system and automated report generation.">
+                    Développement d'une application complète de gestion des ressources avec tableaux de bord en temps réel, système de notifications et génération de rapports automatisés.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Docker</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Début" data-en="Start">Début</span>
+                        <span class="meta-value" data-fr="Janvier 2025" data-en="January 2025">Janvier 2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Progrès" data-en="Progress">Progrès</span>
+                        <span class="meta-value">65%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projet 4: API Intelligence -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔌</div>
+                    <span class="project-status status-pending" data-fr="PLANIFIÉ" data-en="PLANNED">PLANIFIÉ</span>
+                </div>
+                <h3 class="project-title" data-fr="API Intelligence Hub" data-en="API Intelligence Hub">API Intelligence Hub</h3>
+                <div class="project-category" data-fr="Service Backend" data-en="Backend Service">Service Backend</div>
+                <p class="project-description" data-fr="Architecture microservices avec API RESTful pour agrégation de données multi-sources. Système de cache distribué et authentification JWT avancée pour performances optimales." data-en="Microservices architecture with RESTful API for multi-source data aggregation. Distributed cache system and advanced JWT authentication for optimal performance.">
+                    Architecture microservices avec API RESTful pour agrégation de données multi-sources. Système de cache distribué et authentification JWT avancée pour performances optimales.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">MongoDB</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Lancement" data-en="Launch">Lancement</span>
+                        <span class="meta-value" data-fr="Mars 2025" data-en="March 2025">Mars 2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Statut" data-en="Status">Statut</span>
+                        <span class="meta-value" data-fr="Planification" data-en="Planning">Planification</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projet 5: Dashboard Analytics -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📈</div>
+                    <span class="project-status status-complete" data-fr="TERMINÉ" data-en="COMPLETE">TERMINÉ</span>
+                </div>
+                <h3 class="project-title" data-fr="TacticalView Dashboard" data-en="TacticalView Dashboard">TacticalView Dashboard</h3>
+                <div class="project-category" data-fr="Visualisation de Données" data-en="Data Visualization">Visualisation de Données</div>
+                <p class="project-description" data-fr="Interface de visualisation interactive avec graphiques dynamiques, filtres avancés et exports personnalisables. Intégration temps réel via WebSockets pour suivi opérationnel." data-en="Interactive visualization interface with dynamic charts, advanced filters and customizable exports. Real-time integration via WebSockets for operational monitoring.">
+                    Interface de visualisation interactive avec graphiques dynamiques, filtres avancés et exports personnalisables. Intégration temps réel via WebSockets pour suivi opérationnel.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Vue.js</span>
+                    <span class="tech-tag">D3.js</span>
+                    <span class="tech-tag">WebSocket</span>
+                    <span class="tech-tag">TypeScript</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Date" data-en="Date">Date</span>
+                        <span class="meta-value" data-fr="Nov 2024" data-en="Nov 2024">Nov 2024</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Équipe" data-en="Team">Équipe</span>
+                        <span class="meta-value" data-fr="4 agents" data-en="4 agents">4 agents</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projet 6: Mobile SecureComm -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📱</div>
+                    <span class="project-status status-active" data-fr="EN COURS" data-en="ACTIVE">EN COURS</span>
+                </div>
+                <h3 class="project-title" data-fr="SecureComm Mobile" data-en="SecureComm Mobile">SecureComm Mobile</h3>
+                <div class="project-category" data-fr="Application Mobile" data-en="Mobile Application">Application Mobile</div>
+                <p class="project-description" data-fr="Application de messagerie sécurisée cross-platform avec chiffrement end-to-end. Système de notifications push, synchronisation cloud et interface native performante." data-en="Secure cross-platform messaging application with end-to-end encryption. Push notification system, cloud sync and high-performance native interface.">
+                    Application de messagerie sécurisée cross-platform avec chiffrement end-to-end. Système de notifications push, synchronisation cloud et interface native performante.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">React Native</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">AES-256</span>
+                    <span class="tech-tag">GraphQL</span>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Début" data-en="Start">Début</span>
+                        <span class="meta-value" data-fr="Déc 2024" data-en="Dec 2024">Déc 2024</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-fr="Progrès" data-en="Progress">Progrès</span>
+                        <span class="meta-value">42%</span>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
-    // Configuration avancée pour la page Réalisations
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("Page Réalisations - DOM chargé");
-
-        // Ajouter la classe loaded pour les animations
-        setTimeout(() => {
-            document.body.classList.add('loaded');
-        }, 300);
-
-        // Charger les préférences sauvegardées
         loadSavedPreferences();
-
-        // Configurer les gestionnaires d'événements
         setupEventHandlers();
-
-        // Démarrer les animations de fond
-        setupBackgroundAnimations();
-
-        // Configurer l'intersection observer
-        setupIntersectionObserver();
     });
 
-    // Charger les préférences sauvegardées
     function loadSavedPreferences() {
         const savedTheme = localStorage.getItem('theme') || 'dark';
         const html = document.documentElement;
         const themeToggle = document.getElementById('theme-toggle');
 
         html.setAttribute('data-theme', savedTheme);
-        if (themeToggle) {
-            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-        }
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
         const savedLang = localStorage.getItem('language') || 'fr';
         const langToggle = document.getElementById('lang-toggle');
 
-        if (savedLang !== 'fr' && langToggle) {
+        if (savedLang !== 'fr') {
             langToggle.textContent = savedLang.toUpperCase();
             html.setAttribute('lang', savedLang);
             changeLanguage(savedLang);
         }
     }
 
-    // Configuration des gestionnaires d'événements
     function setupEventHandlers() {
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                this.classList.remove('theme-animation');
-                void this.offsetWidth;
-                this.classList.add('theme-animation');
-
-                document.body.classList.add('theme-transition');
-
                 const html = document.documentElement;
                 const currentTheme = html.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -1022,11 +855,6 @@
                 html.setAttribute('data-theme', newTheme);
                 this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
                 localStorage.setItem('theme', newTheme);
-
-                setTimeout(() => {
-                    this.classList.remove('theme-animation');
-                    document.body.classList.remove('theme-transition');
-                }, 700);
             });
         }
 
@@ -1034,119 +862,25 @@
         if (langToggle) {
             langToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                this.classList.remove('lang-animation');
-                void this.offsetWidth;
-                this.classList.add('lang-animation');
-
-                const elementsToAnimate = document.querySelectorAll('[data-en], [data-fr]');
-                elementsToAnimate.forEach(el => {
-                    el.classList.remove('lang-animation');
-                    void el.offsetWidth;
-                    el.classList.add('lang-animation');
-                });
-
                 const currentLang = this.textContent.toLowerCase();
                 const newLang = currentLang === 'fr' ? 'en' : 'fr';
 
                 this.textContent = newLang.toUpperCase();
                 changeLanguage(newLang);
                 localStorage.setItem('language', newLang);
-
-                setTimeout(() => {
-                    this.classList.remove('lang-animation');
-                    elementsToAnimate.forEach(el => {
-                        el.classList.remove('lang-animation');
-                    });
-                }, 500);
             });
         }
     }
 
-    // Changer la langue
     function changeLanguage(lang) {
         const html = document.documentElement;
         html.setAttribute('lang', lang);
 
         document.querySelectorAll(`[data-${lang}]`).forEach(element => {
             const newText = element.getAttribute(`data-${lang}`);
-
-            if (element.tagName === 'A' || element.tagName === 'BUTTON') {
-                const span = element.querySelector('span');
-                if (span) {
-                    span.textContent = newText;
-                } else {
-                    element.textContent = newText;
-                }
-            } else {
-                element.textContent = newText;
-            }
+            element.textContent = newText;
         });
     }
-
-    // Animations de fond
-    function setupBackgroundAnimations() {
-        const shapes = document.querySelectorAll('.shape');
-
-        document.addEventListener('mousemove', function(e) {
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.02;
-                const moveX = x * 30 * speed;
-                const moveY = y * 30 * speed;
-
-                shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
-        });
-
-        let ticking = false;
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    const nav = document.querySelector('.nav-container');
-
-                    if (scrollY > 50) {
-                        nav.classList.add('scrolled');
-                    } else {
-                        nav.classList.remove('scrolled');
-                    }
-
-                    shapes.forEach((shape, index) => {
-                        const speed = (index + 1) * 0.1;
-                        shape.style.transform += ` translateY(${scrollY * speed}px)`;
-                    });
-
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    }
-
-    // Intersection Observer pour les animations au scroll
-    function setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.timeline-item').forEach(el => {
-            observer.observe(el);
-        });
-    }
-
-    console.log("Page Réalisations - Initialisée avec succès !");
 </script>
 </body>
 </html>
