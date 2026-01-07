@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Paw-fice - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* QG Theme colors */
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+
+            /* Paw-themed gradients */
+            --paw-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            --paw-blue: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            --paw-purple: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            --paw-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+            --bg-dark: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.7;
+        }
+
+        .paw-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Paw-themed Background */
+        .paw-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.08;
+        }
+
+        .paw-pattern {
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.5;
+            animation: patternFloat 20s infinite ease-in-out;
+        }
+
+        .paw-pattern:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            color: #f97316;
+            animation-delay: 0s;
+        }
+
+        .paw-pattern:nth-child(2) {
+            top: 50%;
+            right: 10%;
+            color: #0ea5e9;
+            animation-delay: -7s;
+        }
+
+        .paw-pattern:nth-child(3) {
+            bottom: 15%;
+            left: 50%;
+            color: #a855f7;
+            animation-delay: -14s;
+        }
+
+        @keyframes patternFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(30px, -40px) rotate(15deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* Navigation - QG Style */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-logo:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+
+        /* Main Content Container */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            background: var(--paw-orange);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+        }
+
+        .project-badge span {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #f97316 0%, #0ea5e9 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-badge {
+            padding: 0.6rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: var(--paw-orange);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--paw-orange);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(249, 115, 22, 0.3);
+            border-color: #f97316;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #f97316 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--paw-orange);
+            border-radius: 2px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--paw-orange);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(249, 115, 22, 0.2);
+            border-color: #f97316;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--paw-orange);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* My Story Section */
+        .story-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .story-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .story-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: var(--paw-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Feature Showcase */
+        .feature-showcase {
+            margin-bottom: 5rem;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease both;
+        }
+
+        .feature-row:nth-child(even) .feature-content {
+            order: 2;
+        }
+
+        .feature-row:nth-child(even) .feature-image-wrapper {
+            order: 1;
+        }
+
+        .feature-image-wrapper {
+            position: relative;
+        }
+
+        .feature-image-placeholder {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-image-placeholder:hover {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        .feature-content {
+            padding: 2rem;
+        }
+
+        .feature-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--paw-orange);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-showcase .feature-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-showcase .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 1.2s both;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            border-color: #f97316;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.2);
+        }
+
+        .team-role {
+            font-size: 0.85rem;
+            color: #f97316;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .team-tasks {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--bg-secondary);
+            border-radius: 32px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 1.5s both;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #f97316 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: var(--paw-orange);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(249, 115, 22, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .feature-row {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-row:nth-child(even) .feature-content,
+            .feature-row:nth-child(even) .feature-image-wrapper {
+                order: initial;
+            }
+
+            .feature-image-placeholder {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .content-wrapper {
+                padding: 0 1rem 3rem;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .story-title {
+                font-size: 1.6rem;
+            }
+
+            .story-content {
+                font-size: 1rem;
+            }
+
+            .feature-content {
+                padding: 1rem 0;
+            }
+
+            .team-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .menu-item:focus,
+        .cta-button:focus {
+            outline: 3px solid #f97316;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="paw-page">
+    <!-- Animated Background -->
+    <div class="paw-background">
+        <div class="paw-pattern">🐾</div>
+        <div class="paw-pattern">🐾</div>
+        <div class="paw-pattern">🐾</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="nav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="project-badge">
+                <span data-fr="🐾 PROJET COLLABORATIF" data-en="🐾 COLLABORATIVE PROJECT">🐾 PROJET COLLABORATIF</span>
+            </div>
+
+            <h1 class="hero-title" data-fr="The Paw-fice" data-en="The Paw-fice">The Paw-fice</h1>
+
+            <p class="hero-subtitle" data-fr="Système innovant de gestion d'avatars pour animaux de compagnie développé en équipe. Inspiré de Gravatar, l'application offre un service complet d'upload, de gestion et d'accès sécurisé aux avatars d'animaux via API avec hash SHA-256." data-en="Innovative pet avatar management system developed as a team. Inspired by Gravatar, the application offers a complete service for uploading, managing and secure access to pet avatars via API with SHA-256 hash.">
+                Système innovant de gestion d'avatars pour animaux de compagnie développé en équipe. Inspiré de Gravatar, l'application offre un service complet d'upload, de gestion et d'accès sécurisé aux avatars d'animaux via API avec hash SHA-256.
+            </p>
+
+            <div class="tech-stack">
+                <span class="tech-badge">Symfony 6.4</span>
+                <span class="tech-badge">PHP 8.1</span>
+                <span class="tech-badge">MySQL</span>
+                <span class="tech-badge">Doctrine ORM</span>
+                <span class="tech-badge">Twig</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">AJAX</span>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">4</div>
+                <div class="stat-label" data-fr="Développeurs" data-en="Developers">Développeurs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔐</div>
+                <div class="stat-number">SHA-256</div>
+                <div class="stat-label" data-fr="Sécurité Hash" data-en="Hash Security">Sécurité Hash</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🐕</div>
+                <div class="stat-number">5</div>
+                <div class="stat-label" data-fr="Types d'Animaux" data-en="Animal Types">Types d'Animaux</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚙️</div>
+                <div class="stat-number">CLI</div>
+                <div class="stat-label" data-fr="Commandes" data-en="Commands">Commandes</div>
+            </div>
+        </section>
+
+        <!-- My Story Section -->
+        <section class="story-section">
+            <div class="story-icon">📖</div>
+            <h2 class="story-title" data-fr="Genèse du Projet" data-en="Project Genesis">Genèse du Projet</h2>
+            <div class="story-content">
+                <p data-fr="L'idée de <strong>The Paw-fice</strong> est née d'un constat simple : dans le monde numérique actuel, nos animaux de compagnie méritent eux aussi leur identité digitale. Notre équipe de 4 développeurs a relevé le défi de créer un <strong>service centralisé de gestion d'avatars</strong> spécialement conçu pour les animaux domestiques." data-en="The idea of <strong>The Paw-fice</strong> was born from a simple observation: in today's digital world, our pets also deserve their own digital identity. Our team of 4 developers took on the challenge of creating a <strong>centralized avatar management service</strong> specially designed for domestic animals.">
+                    L'idée de <strong>The Paw-fice</strong> est née d'un constat simple : dans le monde numérique actuel, nos animaux de compagnie méritent eux aussi leur identité digitale. Notre équipe de 4 développeurs a relevé le défi de créer un <strong>service centralisé de gestion d'avatars</strong> spécialement conçu pour les animaux domestiques.
+                </p>
+                <br>
+                <p data-fr="Inspirés par le concept de <strong>Gravatar</strong>, nous avons imaginé un système où chaque animal dispose d'un profil unique accessible via un <strong>hash SHA-256</strong> de son adresse email. Cette approche garantit la <strong>sécurité</strong>, la <strong>portabilité</strong> et l'<strong>universalité</strong> du système. Qu'il s'agisse d'un chat, d'un chien, d'un hamster ou d'un oiseau, chaque compagnon peut avoir son avatar professionnel !" data-en="Inspired by the <strong>Gravatar</strong> concept, we imagined a system where each animal has a unique profile accessible via an <strong>SHA-256 hash</strong> of their email address. This approach ensures system <strong>security</strong>, <strong>portability</strong> and <strong>universality</strong>. Whether it's a cat, dog, hamster or bird, every companion can have their professional avatar!">
+                    Inspirés par le concept de <strong>Gravatar</strong>, nous avons imaginé un système où chaque animal dispose d'un profil unique accessible via un <strong>hash SHA-256</strong> de son adresse email. Cette approche garantit la <strong>sécurité</strong>, la <strong>portabilité</strong> et l'<strong>universalité</strong> du système. Qu'il s'agisse d'un chat, d'un chien, d'un hamster ou d'un oiseau, chaque compagnon peut avoir son avatar professionnel !
+                </p>
+                <br>
+                <p data-fr="Le développement s'est organisé selon une <strong>méthodologie collaborative efficace</strong> : Backend Core pour l'authentification, Backend Features pour la logique métier des animaux et avatars, Administration & CLI pour la gestion système, et Frontend & UX pour l'interface utilisateur moderne. Chaque membre a apporté son expertise pour créer une application <strong>complète, sécurisée et scalable</strong>." data-en="Development was organized according to an <strong>efficient collaborative methodology</strong>: Backend Core for authentication, Backend Features for animals and avatars business logic, Administration & CLI for system management, and Frontend & UX for modern user interface. Each member brought their expertise to create a <strong>complete, secure and scalable</strong> application.">
+                    Le développement s'est organisé selon une <strong>méthodologie collaborative efficace</strong> : Backend Core pour l'authentification, Backend Features pour la logique métier des animaux et avatars, Administration & CLI pour la gestion système, et Frontend & UX pour l'interface utilisateur moderne. Chaque membre a apporté son expertise pour créer une application <strong>complète, sécurisée et scalable</strong>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Showcase -->
+        <section class="feature-showcase">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Fonctionnalités Principales" data-en="Main Features">Fonctionnalités Principales</span>
+            </h2>
+
+            <!-- Feature 1: Système d'authentification -->
+            <div class="feature-row">
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="🔐 Système d'authentification sécurisé" data-en="🔐 Secure authentication system">🔐 Système d'authentification sécurisé</span>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-number">1</div>
+                    <h3 class="feature-title" data-fr="Authentification & Sécurité" data-en="Authentication & Security">Authentification & Sécurité</h3>
+                    <p class="feature-description" data-fr="Système complet d'inscription et de connexion avec validation AJAX en temps réel. Vérification instantanée de la disponibilité du login et de l'email pendant la saisie grâce au debouncing. Architecture sécurisée avec hashage des mots de passe, protection CSRF et gestion des sessions Symfony. Système de rôles (USER/ADMIN) pour un contrôle d'accès granulaire." data-en="Complete registration and login system with real-time AJAX validation. Instant verification of login and email availability during input thanks to debouncing. Secure architecture with password hashing, CSRF protection and Symfony session management. Role system (USER/ADMIN) for granular access control.">
+                        Système complet d'inscription et de connexion avec validation AJAX en temps réel. Vérification instantanée de la disponibilité du login et de l'email pendant la saisie grâce au debouncing. Architecture sécurisée avec hashage des mots de passe, protection CSRF et gestion des sessions Symfony. Système de rôles (USER/ADMIN) pour un contrôle d'accès granulaire.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">AJAX Validation</span>
+                        <span class="feature-tag">Debouncing</span>
+                        <span class="feature-tag">CSRF Protection</span>
+                        <span class="feature-tag">Roles System</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Gestion des animaux -->
+            <div class="feature-row">
+                <div class="feature-content">
+                    <div class="feature-number">2</div>
+                    <h3 class="feature-title" data-fr="CRUD Complet d'Animaux" data-en="Complete Animal CRUD">CRUD Complet d'Animaux</h3>
+                    <p class="feature-description" data-fr="Gestion complète du cycle de vie des profils d'animaux : création, lecture, modification et suppression. Chaque animal possède son identité unique avec nom, description, email, type (chat, chien, hamster, oiseau...) et photo de profil. Upload sécurisé de fichiers avec validation et stockage hors répertoire public. Hash SHA-256 automatique de l'email pour générer l'identifiant unique d'accès à l'avatar." data-en="Complete management of animal profile lifecycle: create, read, update and delete. Each animal has its unique identity with name, description, email, type (cat, dog, hamster, bird...) and profile photo. Secure file upload with validation and storage outside public directory. Automatic SHA-256 hash of email to generate unique avatar access identifier.">
+                        Gestion complète du cycle de vie des profils d'animaux : création, lecture, modification et suppression. Chaque animal possède son identité unique avec nom, description, email, type (chat, chien, hamster, oiseau...) et photo de profil. Upload sécurisé de fichiers avec validation et stockage hors répertoire public. Hash SHA-256 automatique de l'email pour générer l'identifiant unique d'accès à l'avatar.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">File Upload</span>
+                        <span class="feature-tag">SHA-256 Hash</span>
+                        <span class="feature-tag">Image Storage</span>
+                        <span class="feature-tag">5 Types</span>
+                    </div>
+                </div>
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="🐾 Interface de gestion des animaux" data-en="🐾 Animal management interface">🐾 Interface de gestion des animaux</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: API Avatar -->
+            <div class="feature-row">
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="🔗 API d'accès aux avatars" data-en="🔗 Avatar access API">🔗 API d'accès aux avatars</span>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-number">3</div>
+                    <h3 class="feature-title" data-fr="API Avatar & Visibilité" data-en="Avatar API & Visibility">API Avatar & Visibilité</h3>
+                    <p class="feature-description" data-fr="Accès aux avatars via route publique /avatar/{hash} utilisant le hash SHA-256 de l'email. Système de visibilité public/privé gérable en un clic via AJAX sans rechargement. BinaryFileResponse pour servir les images sans exposition directe du stockage. Images par défaut personnalisées selon le type d'animal (chat, chien...) si aucune photo n'est uploadée. Contrôle d'accès respectant la confidentialité des profils privés." data-en="Avatar access via public route /avatar/{hash} using SHA-256 hash of email. Public/private visibility system manageable with one click via AJAX without reload. BinaryFileResponse to serve images without direct storage exposure. Customized default images by animal type (cat, dog...) if no photo uploaded. Access control respecting private profile confidentiality.">
+                        Accès aux avatars via route publique /avatar/{hash} utilisant le hash SHA-256 de l'email. Système de visibilité public/privé gérable en un clic via AJAX sans rechargement. BinaryFileResponse pour servir les images sans exposition directe du stockage. Images par défaut personnalisées selon le type d'animal (chat, chien...) si aucune photo n'est uploadée. Contrôle d'accès respectant la confidentialité des profils privés.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Public API</span>
+                        <span class="feature-tag">Privacy Control</span>
+                        <span class="feature-tag">Default Images</span>
+                        <span class="feature-tag">AJAX Toggle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: Panel Admin -->
+            <div class="feature-row">
+                <div class="feature-content">
+                    <div class="feature-number">4</div>
+                    <h3 class="feature-title" data-fr="Panel d'Administration" data-en="Administration Panel">Panel d'Administration</h3>
+                    <p class="feature-description" data-fr="Interface d'administration complète accessible aux utilisateurs avec rôle ADMIN. Vue d'ensemble de tous les utilisateurs avec statistiques : login, email, rôle, nombre d'animaux associés. Capacité de suppression des comptes utilisateurs (sauf administrateurs) avec confirmation. Suppression en cascade des animaux et photos associées. Gestion centralisée pour la maintenance et la modération de la plateforme." data-en="Complete administration interface accessible to users with ADMIN role. Overview of all users with statistics: login, email, role, number of associated animals. Ability to delete user accounts (except administrators) with confirmation. Cascade deletion of associated animals and photos. Centralized management for platform maintenance and moderation.">
+                        Interface d'administration complète accessible aux utilisateurs avec rôle ADMIN. Vue d'ensemble de tous les utilisateurs avec statistiques : login, email, rôle, nombre d'animaux associés. Capacité de suppression des comptes utilisateurs (sauf administrateurs) avec confirmation. Suppression en cascade des animaux et photos associées. Gestion centralisée pour la maintenance et la modération de la plateforme.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">User Management</span>
+                        <span class="feature-tag">Cascade Delete</span>
+                        <span class="feature-tag">Statistics</span>
+                        <span class="feature-tag">Role-Based</span>
+                    </div>
+                </div>
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="⚙️ Panel administrateur" data-en="⚙️ Administrator panel">⚙️ Panel administrateur</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 5: Mode Maintenance -->
+            <div class="feature-row">
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="🔧 Mode maintenance" data-en="🔧 Maintenance mode">🔧 Mode maintenance</span>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-number">5</div>
+                    <h3 class="feature-title" data-fr="Mode Maintenance & CLI" data-en="Maintenance Mode & CLI">Mode Maintenance & CLI</h3>
+                    <p class="feature-description" data-fr="Système de maintenance activable via variable d'environnement (MAINTENANCE_MODE). Redirection automatique vers page de maintenance pour toutes les routes sauf la page elle-même. Commandes CLI Symfony pour gestion système : création d'utilisateurs (normal/admin) en mode interactif ou avec arguments, suppression d'utilisateurs par login avec confirmation. Architecture professionnelle pour administration serveur sans interface graphique." data-en="Maintenance system activatable via environment variable (MAINTENANCE_MODE). Automatic redirection to maintenance page for all routes except the page itself. Symfony CLI commands for system management: user creation (normal/admin) in interactive mode or with arguments, user deletion by login with confirmation. Professional architecture for server administration without graphical interface.">
+                        Système de maintenance activable via variable d'environnement (MAINTENANCE_MODE). Redirection automatique vers page de maintenance pour toutes les routes sauf la page elle-même. Commandes CLI Symfony pour gestion système : création d'utilisateurs (normal/admin) en mode interactif ou avec arguments, suppression d'utilisateurs par login avec confirmation. Architecture professionnelle pour administration serveur sans interface graphique.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">Environment Config</span>
+                        <span class="feature-tag">CLI Commands</span>
+                        <span class="feature-tag">Event Subscriber</span>
+                        <span class="feature-tag">System Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 6: Interface Moderne -->
+            <div class="feature-row">
+                <div class="feature-content">
+                    <div class="feature-number">6</div>
+                    <h3 class="feature-title" data-fr="Interface Moderne & Responsive" data-en="Modern & Responsive Interface">Interface Moderne & Responsive</h3>
+                    <p class="feature-description" data-fr="18 templates Twig soigneusement conçus pour une expérience utilisateur fluide. Design responsive avec Tailwind CSS adapté aux mobiles, tablettes et desktops. JavaScript Vanilla pour les interactions AJAX (validation formulaires, toggle visibilité) sans dépendances lourdes. Architecture WCAG AA pour accessibilité optimale. Pages d'erreur personnalisées (403, 404, 500) avec illustrations thématiques d'animaux. Navigation intuitive et feedback visuel en temps réel." data-en="18 carefully designed Twig templates for smooth user experience. Responsive design with Tailwind CSS adapted for mobile, tablets and desktops. Vanilla JavaScript for AJAX interactions (form validation, visibility toggle) without heavy dependencies. WCAG AA architecture for optimal accessibility. Custom error pages (403, 404, 500) with themed animal illustrations. Intuitive navigation and real-time visual feedback.">
+                        18 templates Twig soigneusement conçus pour une expérience utilisateur fluide. Design responsive avec Tailwind CSS adapté aux mobiles, tablettes et desktops. JavaScript Vanilla pour les interactions AJAX (validation formulaires, toggle visibilité) sans dépendances lourdes. Architecture WCAG AA pour accessibilité optimale. Pages d'erreur personnalisées (403, 404, 500) avec illustrations thématiques d'animaux. Navigation intuitive et feedback visuel en temps réel.
+                    </p>
+                    <div class="feature-tags">
+                        <span class="feature-tag">18 Templates</span>
+                        <span class="feature-tag">Tailwind CSS</span>
+                        <span class="feature-tag">Vanilla JS</span>
+                        <span class="feature-tag">WCAG AA</span>
+                    </div>
+                </div>
+                <div class="feature-image-wrapper">
+                    <div class="feature-image-placeholder">
+                        <span data-fr="🎨 Interface utilisateur moderne" data-en="🎨 Modern user interface">🎨 Interface utilisateur moderne</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="L'Équipe de Développement" data-en="Development Team">L'Équipe de Développement</span>
+            </h2>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-role" data-fr="Backend Core" data-en="Backend Core">Backend Core</div>
+                    <div class="team-name">Membre 1</div>
+                    <div class="team-tasks" data-fr="Authentification & Sécurité - Entité User, Migrations Doctrine, Security.yaml, Controllers (Security, Registration), Tests authentification" data-en="Authentication & Security - User Entity, Doctrine Migrations, Security.yaml, Controllers (Security, Registration), Authentication tests">
+                        Authentification & Sécurité - Entité User, Migrations Doctrine, Security.yaml, Controllers (Security, Registration), Tests authentification
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-role" data-fr="Backend Features" data-en="Backend Features">Backend Features</div>
+                    <div class="team-name">Membre 2</div>
+                    <div class="team-tasks" data-fr="CRUD Animaux & Avatar API - Entité Animal avec hash SHA-256, Controllers (Animal, Avatar, Profile), Upload fichiers, BinaryFileResponse, Tests" data-en="Animal CRUD & Avatar API - Animal Entity with SHA-256 hash, Controllers (Animal, Avatar, Profile), File upload, BinaryFileResponse, Tests">
+                        CRUD Animaux & Avatar API - Entité Animal avec hash SHA-256, Controllers (Animal, Avatar, Profile), Upload fichiers, BinaryFileResponse, Tests
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-role" data-fr="Administration & CLI" data-en="Administration & CLI">Administration & CLI</div>
+                    <div class="team-name">Membre 3</div>
+                    <div class="team-tasks" data-fr="Backend Admin - AdminController, Commands CLI (CreateUser, DeleteUser), MaintenanceController + Subscriber, Tests administration" data-en="Backend Admin - AdminController, CLI Commands (CreateUser, DeleteUser), MaintenanceController + Subscriber, Administration tests">
+                        Backend Admin - AdminController, Commands CLI (CreateUser, DeleteUser), MaintenanceController + Subscriber, Tests administration
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-role" data-fr="Frontend & UX" data-en="Frontend & UX">Frontend & UX</div>
+                    <div class="team-name">Membre 4</div>
+                    <div class="team-tasks" data-fr="UI/UX - 18 templates Twig, JavaScript AJAX avec debouncing, ApiController, ErrorController, Design Tailwind CSS responsive et accessible" data-en="UI/UX - 18 Twig templates, AJAX JavaScript with debouncing, ApiController, ErrorController, Responsive and accessible Tailwind CSS design">
+                        UI/UX - 18 templates Twig, JavaScript AJAX avec debouncing, ApiController, ErrorController, Design Tailwind CSS responsive et accessible
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title" data-fr="Projet Collaboratif Complet" data-en="Complete Collaborative Project">Projet Collaboratif Complet</h2>
+            <p class="cta-description" data-fr="The Paw-fice démontre notre capacité à travailler en équipe sur une application web complète avec Symfony. Architecture MVC robuste, sécurité renforcée, et expérience utilisateur soignée pour un résultat professionnel." data-en="The Paw-fice demonstrates our ability to work as a team on a complete web application with Symfony. Robust MVC architecture, enhanced security, and polished user experience for a professional result.">
+                The Paw-fice démontre notre capacité à travailler en équipe sur une application web complète avec Symfony. Architecture MVC robuste, sécurité renforcée, et expérience utilisateur soignée pour un résultat professionnel.
+            </p>
+            <a href="realisations.html" class="cta-button">
+                <span data-fr="← Retour aux Réalisations" data-en="← Back to Projects">← Retour aux Réalisations</span>
+            </a>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupScrollEffects();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr') {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                document.body.classList.add('theme-transition');
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+    }
+
+    function setupScrollEffects() {
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            lastScroll = currentScroll;
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = newText;
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Page loaded animation
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+    });
+</script>
+</body>
+</html>
