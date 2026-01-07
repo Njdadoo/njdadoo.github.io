@@ -1075,11 +1075,151 @@
             </div>
 
             <div class="competence-content">
-                <!-- Le contenu détaillé de la Compétence 3 irait ici avec AC31, AC32, AC33 -->
-                <!-- Format identique à la Compétence 2, avec les mêmes niveaux de détails -->
-                <p style="padding: 2rem; color: var(--text-secondary); font-style: italic;">
-                    [Cette section contiendrait AC31, AC32, AC33 avec le même niveau de détail que la Compétence 2, incluant des liens vers The Paw-fice pour les aspects administration système et sécurisation d'infrastructure]
-                </p>
+                <div class="ac-cards">
+                    <!-- AC31 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC31</div>
+                            <h3 class="ac-title" data-fr="Installer et configurer un système d'exploitation réseau" data-en="Install and configure a network operating system">Installer et configurer un système d'exploitation réseau</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Dans un contexte d'infrastructures hybrides (on-premise, cloud, edge computing), la maîtrise de l'installation et de la configuration de systèmes d'exploitation réseau constitue le socle de toute architecture informatique moderne. Mon apprentissage a porté sur les distributions Linux serveur (Ubuntu Server, Debian, CentOS), la virtualisation (VirtualBox, VMware, Docker), la conteneurisation, et l'automatisation des déploiements avec des outils d'Infrastructure as Code (IaC)." data-en="In a context of hybrid infrastructures (on-premise, cloud, edge computing), mastering network operating system installation and configuration forms the foundation of any modern IT architecture. My learning focused on Linux server distributions (Ubuntu Server, Debian, CentOS), virtualization (VirtualBox, VMware, Docker), containerization, and deployment automation with Infrastructure as Code (IaC) tools.">
+                                Dans un contexte d'infrastructures hybrides (on-premise, cloud, edge computing), la maîtrise de l'installation et de la configuration de systèmes d'exploitation réseau constitue le socle de toute architecture informatique moderne. Mon apprentissage a porté sur les distributions Linux serveur (Ubuntu Server, Debian, CentOS), la virtualisation (VirtualBox, VMware, Docker), la conteneurisation, et l'automatisation des déploiements avec des outils d'Infrastructure as Code (IaC).
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="Environnement Docker multi-conteneurs : Configuration d'une stack complète avec Docker Compose pour The Paw-fice : conteneur PHP 8.1-FPM avec extensions (pdo_mysql, intl, opcache), conteneur MySQL 8.0 avec volumes persistants, conteneur Nginx avec reverse proxy et certificats SSL auto-signés. Optimisation de l'image Docker (multi-stage build) réduisant la taille de 850MB à 320MB." data-en="Multi-container Docker environment: Complete stack configuration with Docker Compose for The Paw-fice: PHP 8.1-FPM container with extensions (pdo_mysql, intl, opcache), MySQL 8.0 container with persistent volumes, Nginx container with reverse proxy and self-signed SSL certificates. Docker image optimization (multi-stage build) reducing size from 850MB to 320MB.">
+                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Environnement Docker multi-conteneurs</a></strong> : Configuration d'une stack complète avec Docker Compose pour The Paw-fice : conteneur PHP 8.1-FPM avec extensions (pdo_mysql, intl, opcache), conteneur MySQL 8.0 avec volumes persistants, conteneur Nginx avec reverse proxy et certificats SSL auto-signés. Optimisation de l'image Docker (multi-stage build) réduisant la taille de <span class="metric-highlight">850MB à 320MB</span>.
+                                </li>
+                                <li data-fr="Infrastructure virtualisée : Mise en place d'un laboratoire de test avec VirtualBox : 3 VM Ubuntu Server 22.04 LTS configurées en réseau privé (192.168.56.0/24), avec NAT pour accès Internet, configuration SSH avec authentification par clés RSA 4096 bits, et partage NFS pour stockage centralisé. Automatisation de la configuration post-installation avec scripts Bash (utilisateurs, firewall UFW, fail2ban, mise à jour automatique)." data-en="Virtualized infrastructure: Test lab setup with VirtualBox: 3 Ubuntu Server 22.04 LTS VMs configured in private network (192.168.56.0/24), with NAT for Internet access, SSH configuration with RSA 4096-bit key authentication, and NFS share for centralized storage. Post-installation configuration automation with Bash scripts (users, UFW firewall, fail2ban, automatic updates).">
+                                    <strong>Infrastructure virtualisée</strong> : Mise en place d'un laboratoire de test avec VirtualBox : 3 VM Ubuntu Server 22.04 LTS configurées en réseau privé (192.168.56.0/24), avec NAT pour accès Internet, configuration SSH avec authentification par clés RSA 4096 bits, et partage NFS pour stockage centralisé. Automatisation de la configuration post-installation avec scripts Bash (utilisateurs, firewall UFW, fail2ban, mise à jour automatique).
+                                </li>
+                                <li data-fr="Serveur LAMP optimisé : Installation et configuration manuelle d'une stack LAMP (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) sur Debian 11 pour héberger des applications web. Configuration d'Apache avec Virtual Hosts, mod_rewrite, mod_security (WAF), et optimisation des performances (KeepAlive, MPM prefork tuning). Mise en place de certificats Let's Encrypt avec renouvellement automatique via Certbot." data-en="Optimized LAMP server: Manual installation and configuration of LAMP stack (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) on Debian 11 to host web applications. Apache configuration with Virtual Hosts, mod_rewrite, mod_security (WAF), and performance optimization (KeepAlive, MPM prefork tuning). Let's Encrypt certificates setup with automatic renewal via Certbot.">
+                                    <strong>Serveur LAMP optimisé</strong> : Installation et configuration manuelle d'une stack LAMP (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) sur Debian 11 pour héberger des applications web. Configuration d'Apache avec Virtual Hosts, mod_rewrite, mod_security (WAF), et optimisation des performances (KeepAlive, MPM prefork tuning). Mise en place de certificats Let's Encrypt avec renouvellement automatique via Certbot.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Docker Compose</span>
+                            <span class="tech-tag">Ubuntu Server</span>
+                            <span class="tech-tag">Nginx</span>
+                            <span class="tech-tag">Apache</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">SSH</span>
+                            <span class="tech-tag">UFW</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Ces compétences en administration système seront essentielles pour gérer des infrastructures cloud (AWS EC2, Azure VMs, Google Compute Engine), automatiser les déploiements avec Terraform et Ansible, orchestrer des conteneurs avec Kubernetes, et mettre en œuvre des architectures microservices hautement scalables. La maîtrise de GitOps et des pipelines CI/CD sera également approfondie." data-en="These system administration skills will be essential for managing cloud infrastructures (AWS EC2, Azure VMs, Google Compute Engine), automating deployments with Terraform and Ansible, orchestrating containers with Kubernetes, and implementing highly scalable microservice architectures. Mastery of GitOps and CI/CD pipelines will also be deepened.">
+                                Ces compétences en administration système seront essentielles pour gérer des infrastructures cloud (AWS EC2, Azure VMs, Google Compute Engine), automatiser les déploiements avec Terraform et Ansible, orchestrer des conteneurs avec Kubernetes, et mettre en œuvre des architectures microservices hautement scalables. La maîtrise de GitOps et des pipelines CI/CD sera également approfondie.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AC32 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC32</div>
+                            <h3 class="ac-title" data-fr="Déployer des services dans une architecture réseau" data-en="Deploy services in a network architecture">Déployer des services dans une architecture réseau</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Le déploiement de services dans une architecture réseau moderne nécessite une compréhension approfondie des protocoles réseau, de la sécurité périmétrique, de la haute disponibilité, et de la scalabilité. Mon apprentissage a couvert les services essentiels (DNS, DHCP, web, mail, FTP), la configuration de load balancers, la mise en place de reverse proxies, et l'orchestration de services conteneurisés en environnement distribué." data-en="Deploying services in a modern network architecture requires deep understanding of network protocols, perimeter security, high availability, and scalability. My learning covered essential services (DNS, DHCP, web, mail, FTP), load balancer configuration, reverse proxy setup, and containerized service orchestration in distributed environments.">
+                                Le déploiement de services dans une architecture réseau moderne nécessite une compréhension approfondie des protocoles réseau, de la sécurité périmétrique, de la haute disponibilité, et de la scalabilité. Mon apprentissage a couvert les services essentiels (DNS, DHCP, web, mail, FTP), la configuration de load balancers, la mise en place de reverse proxies, et l'orchestration de services conteneurisés en environnement distribué.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="Architecture microservices The Paw-fice : Déploiement d'une architecture Symfony avec séparation des responsabilités : service web (Nginx), service applicatif (PHP-FPM), service base de données (MySQL), service cache (Redis). Configuration de Nginx en reverse proxy avec load balancing round-robin, compression gzip, mise en cache des assets statiques (expires 1 year), et rate limiting (100 req/s par IP). Temps de réponse moyen réduit de 450ms à 85ms." data-en="The Paw-fice microservices architecture: Deployment of Symfony architecture with separation of concerns: web service (Nginx), application service (PHP-FPM), database service (MySQL), cache service (Redis). Nginx reverse proxy configuration with round-robin load balancing, gzip compression, static asset caching (expires 1 year), and rate limiting (100 req/s per IP). Average response time reduced from 450ms to 85ms.">
+                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Architecture microservices</a></strong> : Déploiement d'une architecture Symfony avec séparation des responsabilités : service web (Nginx), service applicatif (PHP-FPM), service base de données (MySQL), service cache (Redis). Configuration de Nginx en reverse proxy avec load balancing round-robin, compression gzip, mise en cache des assets statiques (expires 1 year), et rate limiting (100 req/s par IP). Temps de réponse moyen réduit de <span class="metric-highlight">450ms à 85ms</span>.
+                                </li>
+                                <li data-fr="Infrastructure DNS et DHCP : Mise en place d'un serveur DNS Bind9 avec zones primaires et secondaires, enregistrements A, AAAA, CNAME, MX, et DNSSEC pour sécuriser les résolutions. Configuration d'un serveur DHCP ISC avec réservations d'adresses, options de routage, et failover pour haute disponibilité. Temps de résolution DNS moyen : 12ms (objectif <50ms atteint)." data-en="DNS and DHCP infrastructure: Bind9 DNS server setup with primary and secondary zones, A, AAAA, CNAME, MX records, and DNSSEC to secure resolutions. ISC DHCP server configuration with address reservations, routing options, and failover for high availability. Average DNS resolution time: 12ms (target <50ms achieved).">
+                                    <strong>Infrastructure DNS et DHCP</strong> : Mise en place d'un serveur DNS Bind9 avec zones primaires et secondaires, enregistrements A, AAAA, CNAME, MX, et DNSSEC pour sécuriser les résolutions. Configuration d'un serveur DHCP ISC avec réservations d'adresses, options de routage, et failover pour haute disponibilité. Temps de résolution DNS moyen : <span class="metric-highlight">12ms</span> (objectif &lt;50ms atteint).
+                                </li>
+                                <li data-fr="Déploiement CI/CD avec GitLab : Configuration d'un pipeline GitLab CI/CD automatisant les étapes : build (Composer install, npm build), tests (PHPUnit, PHPStan niveau 8), analyse de sécurité (Snyk), déploiement staging/production avec stratégie blue-green. Temps de déploiement réduit de 25 minutes (manuel) à 8 minutes (automatisé), avec rollback automatique en cas d'échec des tests." data-en="CI/CD deployment with GitLab: GitLab CI/CD pipeline configuration automating stages: build (Composer install, npm build), tests (PHPUnit, PHPStan level 8), security analysis (Snyk), staging/production deployment with blue-green strategy. Deployment time reduced from 25 minutes (manual) to 8 minutes (automated), with automatic rollback on test failure.">
+                                    <strong>Déploiement CI/CD avec GitLab</strong> : Configuration d'un pipeline GitLab CI/CD automatisant les étapes : build (Composer install, npm build), tests (PHPUnit, PHPStan niveau 8), analyse de sécurité (Snyk), déploiement staging/production avec stratégie blue-green. Temps de déploiement réduit de <span class="metric-highlight">25 minutes (manuel) à 8 minutes (automatisé)</span>, avec rollback automatique en cas d'échec des tests.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Nginx</span>
+                            <span class="tech-tag">Reverse Proxy</span>
+                            <span class="tech-tag">Load Balancing</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">Bind9 DNS</span>
+                            <span class="tech-tag">DHCP</span>
+                            <span class="tech-tag">GitLab CI/CD</span>
+                            <span class="tech-tag">Blue-Green Deploy</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette expertise en déploiement de services sera fondamentale pour concevoir des architectures cloud-native (AWS ECS, Azure Container Instances, Google Cloud Run), implémenter des service meshes (Istio, Linkerd), orchestrer des déploiements Kubernetes avec Helm, et mettre en œuvre des stratégies de déploiement avancées (canary releases, feature flags). L'observabilité avec Prometheus, Grafana et ELK stack sera également approfondie." data-en="This service deployment expertise will be fundamental for designing cloud-native architectures (AWS ECS, Azure Container Instances, Google Cloud Run), implementing service meshes (Istio, Linkerd), orchestrating Kubernetes deployments with Helm, and implementing advanced deployment strategies (canary releases, feature flags). Observability with Prometheus, Grafana and ELK stack will also be deepened.">
+                                Cette expertise en déploiement de services sera fondamentale pour concevoir des architectures cloud-native (AWS ECS, Azure Container Instances, Google Cloud Run), implémenter des service meshes (Istio, Linkerd), orchestrer des déploiements Kubernetes avec Helm, et mettre en œuvre des stratégies de déploiement avancées (canary releases, feature flags). L'observabilité avec Prometheus, Grafana et ELK stack sera également approfondie.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AC33 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC33</div>
+                            <h3 class="ac-title" data-fr="Sécuriser les services et données d'un système" data-en="Secure system services and data">Sécuriser les services et données d'un système</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Dans un contexte de cybermenaces croissantes (ransomwares, APT, zero-day exploits), la sécurisation des services et des données constitue un impératif stratégique. Mon apprentissage a intégré la configuration de firewalls (iptables, UFW, firewalld), la mise en œuvre de systèmes de détection d'intrusion (IDS/IPS), la sécurisation des communications (VPN, TLS/SSL), le durcissement système (hardening), et la mise en place de politiques de sauvegarde et de récupération après sinistre (Backup & Disaster Recovery)." data-en="In a context of growing cyber threats (ransomware, APT, zero-day exploits), securing services and data is a strategic imperative. My learning integrated firewall configuration (iptables, UFW, firewalld), intrusion detection system implementation (IDS/IPS), communication security (VPN, TLS/SSL), system hardening, and backup and disaster recovery policy implementation.">
+                                Dans un contexte de cybermenaces croissantes (ransomwares, APT, zero-day exploits), la sécurisation des services et des données constitue un impératif stratégique. Mon apprentissage a intégré la configuration de firewalls (iptables, UFW, firewalld), la mise en œuvre de systèmes de détection d'intrusion (IDS/IPS), la sécurisation des communications (VPN, TLS/SSL), le durcissement système (hardening), et la mise en place de politiques de sauvegarde et de récupération après sinistre (Backup & Disaster Recovery).
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="Hardening système complet : Application du guide CIS Benchmarks (Center for Internet Security) sur serveurs Ubuntu : désactivation des services inutiles, configuration du firewall UFW (deny all incoming, allow specific ports 80/443/22), mise en place de fail2ban contre les attaques brute-force SSH (ban après 5 tentatives, 10 min), configuration de SELinux/AppArmor pour isolation des processus, et rotation automatique des logs avec logrotate. Score Lynis security audit : passage de 64/100 à 89/100." data-en="Complete system hardening: Application of CIS Benchmarks (Center for Internet Security) guide on Ubuntu servers: disabling unnecessary services, UFW firewall configuration (deny all incoming, allow specific ports 80/443/22), fail2ban setup against SSH brute-force attacks (ban after 5 attempts, 10 min), SELinux/AppArmor configuration for process isolation, and automatic log rotation with logrotate. Lynis security audit score: improved from 64/100 to 89/100.">
+                                    <strong>Hardening système complet</strong> : Application du guide CIS Benchmarks (Center for Internet Security) sur serveurs Ubuntu : désactivation des services inutiles, configuration du firewall UFW (deny all incoming, allow specific ports 80/443/22), mise en place de fail2ban contre les attaques brute-force SSH (ban après 5 tentatives, 10 min), configuration de SELinux/AppArmor pour isolation des processus, et rotation automatique des logs avec logrotate. Score Lynis security audit : passage de <span class="metric-highlight">64/100 à 89/100</span>.
+                                </li>
+                                <li data-fr="Chiffrement et sécurisation des données : Mise en œuvre de chiffrement complet des données au repos (encryption at rest) avec LUKS pour les volumes sensibles, configuration de certificats TLS/SSL wildcard avec Let's Encrypt pour HTTPS obligatoire (HSTS activé), et sécurisation des sauvegardes avec chiffrement GPG asymétrique (clés RSA 4096 bits). Aucune donnée sensible stockée en clair." data-en="Encryption and data security: Implementation of full data encryption at rest with LUKS for sensitive volumes, wildcard TLS/SSL certificate configuration with Let's Encrypt for mandatory HTTPS (HSTS enabled), and backup security with GPG asymmetric encryption (RSA 4096-bit keys). No sensitive data stored in plaintext.">
+                                    <strong>Chiffrement et sécurisation des données</strong> : Mise en œuvre de chiffrement complet des données au repos (encryption at rest) avec LUKS pour les volumes sensibles, configuration de certificats TLS/SSL wildcard avec Let's Encrypt pour HTTPS obligatoire (HSTS activé), et sécurisation des sauvegardes avec chiffrement GPG asymétrique (clés RSA 4096 bits). <span class="metric-highlight">Aucune donnée sensible stockée en clair</span>.
+                                </li>
+                                <li data-fr="Stratégie de sauvegarde 3-2-1 : Mise en place d'une stratégie de sauvegarde robuste : 3 copies des données (production + 2 backups), sur 2 supports différents (local SSD + NAS réseau), dont 1 copie hors site (cloud S3 AWS). Sauvegardes automatisées quotidiennes avec Rsync et BorgBackup (déduplication, compression, chiffrement), rétention sur 30 jours, et tests de restauration mensuels. RTO (Recovery Time Objective) : 2h, RPO (Recovery Point Objective) : 24h." data-en="3-2-1 backup strategy: Implementation of robust backup strategy: 3 data copies (production + 2 backups), on 2 different media (local SSD + network NAS), with 1 off-site copy (AWS S3 cloud). Daily automated backups with Rsync and BorgBackup (deduplication, compression, encryption), 30-day retention, and monthly restore tests. RTO (Recovery Time Objective): 2h, RPO (Recovery Point Objective): 24h.">
+                                    <strong>Stratégie de sauvegarde 3-2-1</strong> : Mise en place d'une stratégie de sauvegarde robuste : <span class="metric-highlight">3 copies des données</span> (production + 2 backups), sur <span class="metric-highlight">2 supports différents</span> (local SSD + NAS réseau), dont <span class="metric-highlight">1 copie hors site</span> (cloud S3 AWS). Sauvegardes automatisées quotidiennes avec Rsync et BorgBackup (déduplication, compression, chiffrement), rétention sur 30 jours, et tests de restauration mensuels. RTO (Recovery Time Objective) : <span class="metric-highlight">2h</span>, RPO (Recovery Point Objective) : <span class="metric-highlight">24h</span>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">UFW Firewall</span>
+                            <span class="tech-tag">fail2ban</span>
+                            <span class="tech-tag">TLS/SSL</span>
+                            <span class="tech-tag">Let's Encrypt</span>
+                            <span class="tech-tag">LUKS</span>
+                            <span class="tech-tag">GPG</span>
+                            <span class="tech-tag">BorgBackup</span>
+                            <span class="tech-tag">CIS Benchmarks</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette expertise en sécurité système sera cruciale pour concevoir des architectures Zero Trust, implémenter des solutions SIEM (Splunk, ELK), réaliser des audits de sécurité et tests d'intrusion (pentesting), mettre en œuvre des politiques de conformité (ISO 27001, SOC 2, RGPD), et gérer des incidents de sécurité selon le cadre NIST Cybersecurity Framework. La certification CompTIA Security+ ou CEH sera envisagée." data-en="This system security expertise will be crucial for designing Zero Trust architectures, implementing SIEM solutions (Splunk, ELK), performing security audits and penetration testing, implementing compliance policies (ISO 27001, SOC 2, GDPR), and managing security incidents according to NIST Cybersecurity Framework. CompTIA Security+ or CEH certification will be considered.">
+                                Cette expertise en sécurité système sera cruciale pour concevoir des architectures Zero Trust, implémenter des solutions SIEM (Splunk, ELK), réaliser des audits de sécurité et tests d'intrusion (pentesting), mettre en œuvre des politiques de conformité (ISO 27001, SOC 2, RGPD), et gérer des incidents de sécurité selon le cadre NIST Cybersecurity Framework. La certification CompTIA Security+ ou CEH sera envisagée.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1095,10 +1235,199 @@
             </div>
 
             <div class="competence-content">
-                <!-- Le contenu détaillé de la Compétence 4 irait ici avec AC41, AC42, AC43, AC44 -->
-                <p style="padding: 2rem; color: var(--text-secondary); font-style: italic;">
-                    [Cette section contiendrait AC41, AC42, AC43, AC44 avec le même niveau de détail, incluant des liens vers Manga Tracker pour la gestion de données avec Supabase et vers The Paw-fice pour la modélisation BDD et sécurisation RGPD]
-                </p>
+                <div class="ac-cards">
+                    <!-- AC41 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC41</div>
+                            <h3 class="ac-title" data-fr="Optimiser les modèles de données de l'entreprise" data-en="Optimize enterprise data models">Optimiser les modèles de données de l'entreprise</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Dans un contexte d'explosion des volumes de données (Big Data) et d'exigences accrues de performance, l'optimisation des modèles de données devient un enjeu stratégique. Mon apprentissage a porté sur la modélisation conceptuelle (MCD/UML), la normalisation jusqu'à la 3FN (et dénormalisation raisonnée), l'indexation avancée (B-tree, hash, GiST), le partitionnement de tables, et l'optimisation des requêtes SQL complexes. Les principes de conception de schémas pour bases de données relationnelles (PostgreSQL, MySQL) et NoSQL (MongoDB, Redis) ont été approfondis." data-en="In a context of exploding data volumes (Big Data) and increased performance requirements, data model optimization becomes a strategic challenge. My learning focused on conceptual modeling (MCD/UML), normalization up to 3NF (and reasoned denormalization), advanced indexing (B-tree, hash, GiST), table partitioning, and complex SQL query optimization. Schema design principles for relational databases (PostgreSQL, MySQL) and NoSQL (MongoDB, Redis) were deepened.">
+                                Dans un contexte d'explosion des volumes de données (Big Data) et d'exigences accrues de performance, l'optimisation des modèles de données devient un enjeu stratégique. Mon apprentissage a porté sur la modélisation conceptuelle (MCD/UML), la normalisation jusqu'à la 3FN (et dénormalisation raisonnée), l'indexation avancée (B-tree, hash, GiST), le partitionnement de tables, et l'optimisation des requêtes SQL complexes.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="The Paw-fice - Modélisation BDD relationnelle : Conception d'un modèle de données normalisé 3FN avec Doctrine ORM : entités User, Pet, Avatar avec relations bidirectionnelles (OneToMany, ManyToOne), contraintes d'intégrité référentielle en cascade, index composites sur (user_id, created_at) pour optimiser les requêtes de listing. Utilisation de migrations Doctrine pour versioning du schéma. Temps de requête moyen sur 10 000 pets : réduit de 350ms à 45ms grâce à l'indexation." data-en="The Paw-fice - Relational DB modeling: Design of 3NF normalized data model with Doctrine ORM: User, Pet, Avatar entities with bidirectional relationships (OneToMany, ManyToOne), cascading referential integrity constraints, composite indexes on (user_id, created_at) to optimize listing queries. Use of Doctrine migrations for schema versioning. Average query time on 10,000 pets: reduced from 350ms to 45ms thanks to indexing.">
+                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Modélisation BDD relationnelle</a></strong> : Conception d'un modèle de données normalisé 3FN avec Doctrine ORM : entités User, Pet, Avatar avec relations bidirectionnelles (OneToMany, ManyToOne), contraintes d'intégrité référentielle en cascade, index composites sur (user_id, created_at) pour optimiser les requêtes de listing. Utilisation de migrations Doctrine pour versioning du schéma. Temps de requête moyen sur 10 000 pets : réduit de <span class="metric-highlight">350ms à 45ms</span> grâce à l'indexation.
+                                </li>
+                                <li data-fr="Manga Tracker - Architecture hybride SQL/NoSQL : Modélisation avec Supabase (PostgreSQL) pour les données relationnelles (users, manga_entries, reading_lists) et utilisation de champs JSONB pour métadonnées flexibles (tags, custom_fields). Création d'index GiST sur colonnes JSONB pour requêtes performantes. Implémentation de vues matérialisées pour statistiques agrégées (top mangas, reading trends), rafraîchies toutes les heures. Gain de performance sur requêtes analytiques : réduction de 12s à 0.8s." data-en="Manga Tracker - Hybrid SQL/NoSQL architecture: Modeling with Supabase (PostgreSQL) for relational data (users, manga_entries, reading_lists) and use of JSONB fields for flexible metadata (tags, custom_fields). GiST index creation on JSONB columns for performant queries. Implementation of materialized views for aggregated statistics (top manga, reading trends), refreshed hourly. Performance gain on analytical queries: reduction from 12s to 0.8s.">
+                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Architecture hybride SQL/NoSQL</a></strong> : Modélisation avec Supabase (PostgreSQL) pour les données relationnelles (users, manga_entries, reading_lists) et utilisation de champs JSONB pour métadonnées flexibles (tags, custom_fields). Création d'index GiST sur colonnes JSONB pour requêtes performantes. Implémentation de vues matérialisées pour statistiques agrégées (top mangas, reading trends), rafraîchies toutes les heures. Gain de performance sur requêtes analytiques : réduction de <span class="metric-highlight">12s à 0.8s</span>.
+                                </li>
+                                <li data-fr="Optimisation de requêtes complexes : Analyse et optimisation de requêtes SQL avec EXPLAIN ANALYZE : identification de full table scans, réécriture de sous-requêtes corrélées en JOIN, utilisation de CTE (Common Table Expressions) pour lisibilité et performance. Passage d'une requête de reporting de 8 secondes à 0.4 seconde en ajoutant 3 index stratégiques et en refactorant 5 sous-requêtes N+1." data-en="Complex query optimization: SQL query analysis and optimization with EXPLAIN ANALYZE: full table scan identification, correlated subquery rewriting as JOINs, use of CTE (Common Table Expressions) for readability and performance. Reporting query improved from 8 seconds to 0.4 seconds by adding 3 strategic indexes and refactoring 5 N+1 subqueries.">
+                                    <strong>Optimisation de requêtes complexes</strong> : Analyse et optimisation de requêtes SQL avec EXPLAIN ANALYZE : identification de full table scans, réécriture de sous-requêtes corrélées en JOIN, utilisation de CTE (Common Table Expressions) pour lisibilité et performance. Passage d'une requête de reporting de <span class="metric-highlight">8 secondes à 0.4 seconde</span> en ajoutant 3 index stratégiques et en refactorant 5 sous-requêtes N+1.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Doctrine ORM</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">JSONB</span>
+                            <span class="tech-tag">Indexation</span>
+                            <span class="tech-tag">SQL Optimization</span>
+                            <span class="tech-tag">Materialized Views</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette expertise en modélisation de données sera essentielle pour concevoir des data warehouses (Snowflake, BigQuery), implémenter des architectures Data Lake avec schémas évolutifs, optimiser des bases de données distribuées (Cassandra, CockroachDB), et modéliser des graphes de données complexes avec Neo4j. Les techniques de sharding, replication, et consistency models (CAP theorem) seront approfondies." data-en="This data modeling expertise will be essential for designing data warehouses (Snowflake, BigQuery), implementing Data Lake architectures with evolving schemas, optimizing distributed databases (Cassandra, CockroachDB), and modeling complex data graphs with Neo4j. Sharding, replication, and consistency model techniques (CAP theorem) will be deepened.">
+                                Cette expertise en modélisation de données sera essentielle pour concevoir des data warehouses (Snowflake, BigQuery), implémenter des architectures Data Lake avec schémas évolutifs, optimiser des bases de données distribuées (Cassandra, CockroachDB), et modéliser des graphes de données complexes avec Neo4j. Les techniques de sharding, replication, et consistency models (CAP theorem) seront approfondies.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AC42 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC42</div>
+                            <h3 class="ac-title" data-fr="Assurer la sécurité des données" data-en="Ensure data security">Assurer la sécurité des données</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Avec le RGPD et les réglementations sur la protection des données (CCPA, HIPAA), la sécurité des données est devenue une obligation légale autant qu'une nécessité technique. Mon apprentissage a couvert le chiffrement des données au repos et en transit, la gestion des accès (RBAC, ABAC), l'anonymisation et pseudonymisation, les audits de sécurité, la conformité RGPD (droit à l'oubli, portabilité), et les stratégies de sauvegarde sécurisée. Les principes de Privacy by Design et Security by Default ont été intégrés systématiquement." data-en="With GDPR and data protection regulations (CCPA, HIPAA), data security has become a legal obligation as much as a technical necessity. My learning covered data encryption at rest and in transit, access management (RBAC, ABAC), anonymization and pseudonymization, security audits, GDPR compliance (right to erasure, portability), and secure backup strategies. Privacy by Design and Security by Default principles were systematically integrated.">
+                                Avec le RGPD et les réglementations sur la protection des données (CCPA, HIPAA), la sécurité des données est devenue une obligation légale autant qu'une nécessité technique. Mon apprentissage a couvert le chiffrement des données au repos et en transit, la gestion des accès (RBAC, ABAC), l'anonymisation et pseudonymisation, les audits de sécurité, la conformité RGPD (droit à l'oubli, portabilité), et les stratégies de sauvegarde sécurisée.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="The Paw-fice - Conformité RGPD complète : Implémentation du droit à l'oubli avec soft delete (deleted_at timestamp) et hard delete après 30 jours via commande Symfony. Exports de données personnelles au format JSON pour portabilité. Journalisation des accès aux données sensibles (audit trail) avec table dédiée. Anonymisation des adresses email dans les logs (hashing SHA-256). Politique de rétention : 2 ans pour comptes inactifs, suppression automatique via CRON." data-en="The Paw-fice - Complete GDPR compliance: Implementation of right to erasure with soft delete (deleted_at timestamp) and hard delete after 30 days via Symfony command. Personal data exports in JSON format for portability. Sensitive data access logging (audit trail) with dedicated table. Email address anonymization in logs (SHA-256 hashing). Retention policy: 2 years for inactive accounts, automatic deletion via CRON.">
+                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Conformité RGPD complète</a></strong> : Implémentation du droit à l'oubli avec soft delete (deleted_at timestamp) et hard delete après 30 jours via commande Symfony. Exports de données personnelles au format JSON pour portabilité. Journalisation des accès aux données sensibles (audit trail) avec table dédiée. Anonymisation des adresses email dans les logs (hashing SHA-256). Politique de rétention : <span class="metric-highlight">2 ans pour comptes inactifs</span>, suppression automatique via CRON.
+                                </li>
+                                <li data-fr="Gestion des accès granulaire (RBAC) : Implémentation d'un système de rôles et permissions dans Symfony avec Security Voters : rôles ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN avec hiérarchie. Contrôle d'accès au niveau des entités (un utilisateur ne peut modifier que ses propres pets). Protection des routes sensibles avec annotations @IsGranted. Tests de sécurité automatisés vérifiant 25 scénarios d'accès non autorisé (tous bloqués avec code 403)." data-en="Granular access management (RBAC): Implementation of role and permission system in Symfony with Security Voters: ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN roles with hierarchy. Entity-level access control (user can only modify their own pets). Sensitive route protection with @IsGranted annotations. Automated security tests verifying 25 unauthorized access scenarios (all blocked with 403 code).">
+                                    <strong>Gestion des accès granulaire (RBAC)</strong> : Implémentation d'un système de rôles et permissions dans Symfony avec Security Voters : rôles ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN avec hiérarchie. Contrôle d'accès au niveau des entités (un utilisateur ne peut modifier que ses propres pets). Protection des routes sensibles avec annotations @IsGranted. Tests de sécurité automatisés vérifiant <span class="metric-highlight">25 scénarios d'accès non autorisé</span> (tous bloqués avec code 403).
+                                </li>
+                                <li data-fr="Chiffrement de bout en bout : Configuration de chiffrement TLS 1.3 pour toutes les communications (HTTP → HTTPS forcé avec HSTS). Chiffrement des mots de passe avec bcrypt (cost 12, ~250ms de hashing). Stockage sécurisé des secrets avec Symfony Secrets (clés symétriques chiffrées). Chiffrement des sauvegardes de base de données avec GPG avant envoi vers stockage cloud. Zero donnée sensible stockée en clair." data-en="End-to-end encryption: TLS 1.3 encryption configuration for all communications (HTTP → HTTPS forced with HSTS). Password encryption with bcrypt (cost 12, ~250ms hashing). Secure secret storage with Symfony Secrets (encrypted symmetric keys). Database backup encryption with GPG before cloud storage upload. Zero sensitive data stored in plaintext.">
+                                    <strong>Chiffrement de bout en bout</strong> : Configuration de chiffrement TLS 1.3 pour toutes les communications (HTTP → HTTPS forcé avec HSTS). Chiffrement des mots de passe avec bcrypt (cost 12, ~250ms de hashing). Stockage sécurisé des secrets avec Symfony Secrets (clés symétriques chiffrées). Chiffrement des sauvegardes de base de données avec GPG avant envoi vers stockage cloud. <span class="metric-highlight">Zero donnée sensible stockée en clair</span>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">RGPD</span>
+                            <span class="tech-tag">RBAC</span>
+                            <span class="tech-tag">bcrypt</span>
+                            <span class="tech-tag">TLS 1.3</span>
+                            <span class="tech-tag">Symfony Security</span>
+                            <span class="tech-tag">Audit Trail</span>
+                            <span class="tech-tag">Data Anonymization</span>
+                            <span class="tech-tag">GPG Encryption</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette maîtrise de la sécurité des données sera fondamentale pour implémenter des solutions de Data Loss Prevention (DLP), gérer des infrastructures à clés publiques (PKI), mettre en œuvre le chiffrement homomorphe pour calculs sur données chiffrées, et assurer la conformité multi-réglementaire (RGPD + CCPA + HIPAA). Les audits de conformité ISO 27001 et la certification CISM (Certified Information Security Manager) seront explorés." data-en="This data security mastery will be fundamental for implementing Data Loss Prevention (DLP) solutions, managing Public Key Infrastructure (PKI), implementing homomorphic encryption for computation on encrypted data, and ensuring multi-regulatory compliance (GDPR + CCPA + HIPAA). ISO 27001 compliance audits and CISM (Certified Information Security Manager) certification will be explored.">
+                                Cette maîtrise de la sécurité des données sera fondamentale pour implémenter des solutions de Data Loss Prevention (DLP), gérer des infrastructures à clés publiques (PKI), mettre en œuvre le chiffrement homomorphe pour calculs sur données chiffrées, et assurer la conformité multi-réglementaire (RGPD + CCPA + HIPAA). Les audits de conformité ISO 27001 et la certification CISM (Certified Information Security Manager) seront explorés.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AC43 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC43</div>
+                            <h3 class="ac-title" data-fr="Organiser la restitution de données à destination de tiers" data-en="Organize data delivery to third parties">Organiser la restitution de données à destination de tiers</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Dans un écosystème d'applications interconnectées, la restitution de données via APIs est devenue essentielle. Mon apprentissage a porté sur la conception d'APIs RESTful respectant les standards (OpenAPI/Swagger), la sécurisation des endpoints (OAuth 2.0, API keys), la pagination et le filtrage des résultats, la documentation interactive, le versioning d'API, et la mise en place de rate limiting pour prévenir les abus. Les principes HATEOAS et les formats de données standards (JSON, XML, CSV) ont été approfondis." data-en="In an interconnected application ecosystem, data delivery via APIs has become essential. My learning focused on RESTful API design following standards (OpenAPI/Swagger), endpoint security (OAuth 2.0, API keys), pagination and result filtering, interactive documentation, API versioning, and rate limiting implementation to prevent abuse. HATEOAS principles and standard data formats (JSON, XML, CSV) were deepened.">
+                                Dans un écosystème d'applications interconnectées, la restitution de données via APIs est devenue essentielle. Mon apprentissage a porté sur la conception d'APIs RESTful respectant les standards (OpenAPI/Swagger), la sécurisation des endpoints (OAuth 2.0, API keys), la pagination et le filtrage des résultats, la documentation interactive, le versioning d'API, et la mise en place de rate limiting pour prévenir les abus.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="API RESTful complète The Paw-fice : Développement d'une API REST avec 12 endpoints (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) respectant les standards HTTP (codes 200, 201, 204, 400, 401, 403, 404, 500). Sérialisation JSON avec Symfony Serializer et groupes de sérialisation (public, owner, admin) pour contrôle fin des données exposées. Documentation automatique avec API Platform et NelmioApiDocBundle (Swagger UI). Temps de réponse moyen : 65ms." data-en="Complete RESTful API The Paw-fice: Development of REST API with 12 endpoints (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) following HTTP standards (codes 200, 201, 204, 400, 401, 403, 404, 500). JSON serialization with Symfony Serializer and serialization groups (public, owner, admin) for fine-grained control of exposed data. Automatic documentation with API Platform and NelmioApiDocBundle (Swagger UI). Average response time: 65ms.">
+                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">API RESTful complète</a></strong> : Développement d'une API REST avec <span class="metric-highlight">12 endpoints</span> (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) respectant les standards HTTP (codes 200, 201, 204, 400, 401, 403, 404, 500). Sérialisation JSON avec Symfony Serializer et groupes de sérialisation (public, owner, admin) pour contrôle fin des données exposées. Documentation automatique avec API Platform et NelmioApiDocBundle (Swagger UI). Temps de réponse moyen : <span class="metric-highlight">65ms</span>.
+                                </li>
+                                <li data-fr="Pagination et filtrage avancés : Implémentation de pagination cursor-based pour performances optimales (évite les problèmes de OFFSET sur grands datasets). Filtrage multi-critères avec query parameters (?species=dog&age_min=2&sort=-created_at). Réponses incluant métadonnées de pagination (total, page, per_page, next_cursor, prev_cursor). Support de recherche full-text sur champs name et description. Limite de 100 résultats par page pour prévenir les abus." data-en="Advanced pagination and filtering: Cursor-based pagination implementation for optimal performance (avoids OFFSET issues on large datasets). Multi-criteria filtering with query parameters (?species=dog&age_min=2&sort=-created_at). Responses including pagination metadata (total, page, per_page, next_cursor, prev_cursor). Full-text search support on name and description fields. 100 results per page limit to prevent abuse.">
+                                    <strong>Pagination et filtrage avancés</strong> : Implémentation de pagination cursor-based pour performances optimales (évite les problèmes de OFFSET sur grands datasets). Filtrage multi-critères avec query parameters (?species=dog&age_min=2&sort=-created_at). Réponses incluant métadonnées de pagination (total, page, per_page, next_cursor, prev_cursor). Support de recherche full-text sur champs name et description. Limite de <span class="metric-highlight">100 résultats par page</span> pour prévenir les abus.
+                                </li>
+                                <li data-fr="Exports de données multiformats : Système d'export flexible supportant JSON, CSV, et XML via content negotiation (Accept header). Génération de rapports PDF avec TCPDF pour fiches d'animaux. Webhooks pour notifications temps réel des changements de données (création, modification, suppression de pets). Tests d'intégration API avec PHPUnit et Postman collections couvrant 45 scénarios de requêtes." data-en="Multi-format data exports: Flexible export system supporting JSON, CSV, and XML via content negotiation (Accept header). PDF report generation with TCPDF for animal profiles. Webhooks for real-time notifications of data changes (pet creation, modification, deletion). API integration tests with PHPUnit and Postman collections covering 45 request scenarios.">
+                                    <strong>Exports de données multiformats</strong> : Système d'export flexible supportant JSON, CSV, et XML via content negotiation (Accept header). Génération de rapports PDF avec TCPDF pour fiches d'animaux. Webhooks pour notifications temps réel des changements de données (création, modification, suppression de pets). Tests d'intégration API avec PHPUnit et Postman collections couvrant <span class="metric-highlight">45 scénarios de requêtes</span>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">Symfony API Platform</span>
+                            <span class="tech-tag">Swagger/OpenAPI</span>
+                            <span class="tech-tag">JSON Serialization</span>
+                            <span class="tech-tag">Pagination</span>
+                            <span class="tech-tag">Webhooks</span>
+                            <span class="tech-tag">CSV/XML Export</span>
+                            <span class="tech-tag">Postman</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette expertise en APIs sera essentielle pour concevoir des architectures API Gateway (Kong, Apigee), implémenter GraphQL pour requêtes flexibles, mettre en œuvre des APIs asynchrones avec WebSockets et Server-Sent Events, et gérer des APIs à grande échelle avec API Management platforms. Les patterns de microservices communication (event-driven, message queues avec RabbitMQ/Kafka) seront approfondis." data-en="This API expertise will be essential for designing API Gateway architectures (Kong, Apigee), implementing GraphQL for flexible queries, deploying asynchronous APIs with WebSockets and Server-Sent Events, and managing large-scale APIs with API Management platforms. Microservices communication patterns (event-driven, message queues with RabbitMQ/Kafka) will be deepened.">
+                                Cette expertise en APIs sera essentielle pour concevoir des architectures API Gateway (Kong, Apigee), implémenter GraphQL pour requêtes flexibles, mettre en œuvre des APIs asynchrones avec WebSockets et Server-Sent Events, et gérer des APIs à grande échelle avec API Management platforms. Les patterns de microservices communication (event-driven, message queues avec RabbitMQ/Kafka) seront approfondis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AC44 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC44</div>
+                            <h3 class="ac-title" data-fr="Manipuler des données hétérogènes" data-en="Manipulate heterogeneous data">Manipuler des données hétérogènes</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
+                            <p data-fr="Dans un monde de données hétérogènes (relationnelles, NoSQL, fichiers, APIs tierces, temps réel), la capacité à intégrer et transformer des données de sources multiples est cruciale. Mon apprentissage a couvert les processus ETL (Extract, Transform, Load), l'intégration d'APIs externes (REST, GraphQL, SOAP), la manipulation de formats de données variés (JSON, XML, CSV, Parquet), le nettoyage et validation de données, et l'utilisation d'outils d'intégration (Apache NiFi, Talend). Les patterns de synchronisation de données et de gestion de cohérence ont été explorés." data-en="In a world of heterogeneous data (relational, NoSQL, files, third-party APIs, real-time), the ability to integrate and transform data from multiple sources is crucial. My learning covered ETL (Extract, Transform, Load) processes, external API integration (REST, GraphQL, SOAP), manipulation of various data formats (JSON, XML, CSV, Parquet), data cleaning and validation, and use of integration tools (Apache NiFi, Talend). Data synchronization patterns and consistency management were explored.">
+                                Dans un monde de données hétérogènes (relationnelles, NoSQL, fichiers, APIs tierces, temps réel), la capacité à intégrer et transformer des données de sources multiples est cruciale. Mon apprentissage a couvert les processus ETL (Extract, Transform, Load), l'intégration d'APIs externes (REST, GraphQL, SOAP), la manipulation de formats de données variés (JSON, XML, CSV, Parquet), le nettoyage et validation de données, et l'utilisation d'outils d'intégration.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
+                            <ul>
+                                <li data-fr="Manga Tracker - Intégration API MangaDex : Développement d'un système d'intégration avec l'API MangaDex (REST) pour récupérer métadonnées de 10 000+ titres. Parsing et transformation JSON → modèle relationnel Supabase avec mapping de champs (title, author, genres[], cover_url, status). Gestion de la pagination API (limit/offset), rate limiting (5 req/s), et retry logic avec backoff exponentiel. Synchronisation incrémentale quotidienne (delta updates) pour maintenir données à jour. Taux de succès de synchronisation : 99.7%." data-en="Manga Tracker - MangaDex API integration: Development of integration system with MangaDex API (REST) to fetch metadata for 10,000+ titles. JSON parsing and transformation → Supabase relational model with field mapping (title, author, genres[], cover_url, status). API pagination handling (limit/offset), rate limiting (5 req/s), and retry logic with exponential backoff. Daily incremental synchronization (delta updates) to keep data current. Synchronization success rate: 99.7%.">
+                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Intégration API MangaDex</a></strong> : Développement d'un système d'intégration avec l'API MangaDex (REST) pour récupérer métadonnées de <span class="metric-highlight">10 000+ titres</span>. Parsing et transformation JSON → modèle relationnel Supabase avec mapping de champs (title, author, genres[], cover_url, status). Gestion de la pagination API (limit/offset), rate limiting (5 req/s), et retry logic avec backoff exponentiel. Synchronisation incrémentale quotidienne (delta updates) pour maintenir données à jour. Taux de succès de synchronisation : <span class="metric-highlight">99.7%</span>.
+                                </li>
+                                <li data-fr="Pipeline ETL pour données utilisateurs : Développement d'un pipeline ETL automatisé pour migration de données d'ancien système vers The Paw-fice. Extract : lecture de fichiers CSV (5 000 lignes). Transform : nettoyage (suppression doublons, validation email regex, normalisation téléphones), enrichissement (géolocalisation via API), hashing de mots de passe. Load : insertion batch en base avec transactions. Traitement de 5 000 utilisateurs en 8 minutes avec 0 perte de données." data-en="ETL pipeline for user data: Development of automated ETL pipeline for data migration from legacy system to The Paw-fice. Extract: CSV file reading (5,000 rows). Transform: cleaning (duplicate removal, email regex validation, phone normalization), enrichment (geolocation via API), password hashing. Load: batch insertion in database with transactions. Processing of 5,000 users in 8 minutes with 0 data loss.">
+                                    <strong>Pipeline ETL pour données utilisateurs</strong> : Développement d'un pipeline ETL automatisé pour migration de données d'ancien système vers The Paw-fice. Extract : lecture de fichiers CSV (5 000 lignes). Transform : nettoyage (suppression doublons, validation email regex, normalisation téléphones), enrichissement (géolocalisation via API), hashing de mots de passe. Load : insertion batch en base avec transactions. Traitement de <span class="metric-highlight">5 000 utilisateurs en 8 minutes</span> avec <span class="metric-highlight">0 perte de données</span>.
+                                </li>
+                                <li data-fr="Agrégation et transformation de données : Développement de scripts Python pour agrégation de données multi-sources (MySQL, CSV, API REST) vers data warehouse. Utilisation de Pandas pour manipulation de DataFrames : merge, join, groupby, pivot. Transformation de données dénormalisées → schéma en étoile (star schema) pour analyses OLAP. Génération de rapports Excel avec openpyxl incluant graphiques et tableaux croisés dynamiques. Automatisation via Airflow DAG avec exécution quotidienne à 2h du matin." data-en="Data aggregation and transformation: Development of Python scripts for multi-source data aggregation (MySQL, CSV, REST API) to data warehouse. Use of Pandas for DataFrame manipulation: merge, join, groupby, pivot. Transformation of denormalized data → star schema for OLAP analysis. Excel report generation with openpyxl including charts and pivot tables. Automation via Airflow DAG with daily execution at 2 AM.">
+                                    <strong>Agrégation et transformation de données</strong> : Développement de scripts Python pour agrégation de données multi-sources (MySQL, CSV, API REST) vers data warehouse. Utilisation de Pandas pour manipulation de DataFrames : merge, join, groupby, pivot. Transformation de données dénormalisées → schéma en étoile (star schema) pour analyses OLAP. Génération de rapports Excel avec openpyxl incluant graphiques et tableaux croisés dynamiques. Automatisation via Airflow DAG avec exécution quotidienne à 2h du matin.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">ETL</span>
+                            <span class="tech-tag">Python Pandas</span>
+                            <span class="tech-tag">API Integration</span>
+                            <span class="tech-tag">JSON/CSV Parsing</span>
+                            <span class="tech-tag">Data Cleaning</span>
+                            <span class="tech-tag">Apache Airflow</span>
+                            <span class="tech-tag">Data Migration</span>
+                            <span class="tech-tag">Star Schema</span>
+                        </div>
+
+                        <div class="future-section">
+                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
+                            <p data-fr="Cette capacité à manipuler des données hétérogènes sera fondamentale pour implémenter des architectures de données modernes (Data Mesh, Data Fabric), intégrer des flux temps réel avec Apache Kafka et Spark Streaming, mettre en œuvre du Change Data Capture (CDC) avec Debezium, et développer des pipelines de Machine Learning avec MLflow. Les techniques de data quality management et master data management (MDM) seront également approfondies." data-en="This ability to manipulate heterogeneous data will be fundamental for implementing modern data architectures (Data Mesh, Data Fabric), integrating real-time streams with Apache Kafka and Spark Streaming, implementing Change Data Capture (CDC) with Debezium, and developing Machine Learning pipelines with MLflow. Data quality management and master data management (MDM) techniques will also be deepened.">
+                                Cette capacité à manipuler des données hétérogènes sera fondamentale pour implémenter des architectures de données modernes (Data Mesh, Data Fabric), intégrer des flux temps réel avec Apache Kafka et Spark Streaming, mettre en œuvre du Change Data Capture (CDC) avec Debezium, et développer des pipelines de Machine Learning avec MLflow. Les techniques de data quality management et master data management (MDM) seront également approfondies.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
