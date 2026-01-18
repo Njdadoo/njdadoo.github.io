@@ -781,6 +781,90 @@
             outline: 3px solid #f97316;
             outline-offset: 3px;
         }
+
+        /* Screenshots Gallery Section */
+        .gallery-section {
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border-radius: 24px;
+            margin: 3rem auto;
+            max-width: 1200px;
+            border: 1px solid var(--border-color);
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-family: 'Orbitron', monospace;
+        }
+
+        .gallery-title::before {
+            content: '📸 ';
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            padding: 1rem;
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+
+        .gallery-caption h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .gallery-caption p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-section {
+                padding: 2rem 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -814,7 +898,7 @@
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="project-badge">
-                <span data-fr="🐾 PROJET COLLABORATIF" data-en="🐾 COLLABORATIVE PROJECT">🐾 PROJET COLLABORATIF</span>
+                <span data-fr="🐾 PROJET SCOLAIRE" data-en="🐾 SCHOOL PROJECT">🐾 PROJET SCOLAIRE</span>
             </div>
 
             <h1 class="hero-title" data-fr="The Paw-fice" data-en="The Paw-fice">The Paw-fice</h1>
@@ -845,7 +929,7 @@
                 </p>
                 <br>
                 <p data-fr="Inspirés par le concept de <strong>Gravatar</strong>, nous avons imaginé un système où chaque animal dispose d'un profil unique. Qu'il s'agisse d'un chat, d'un chien, d'un hamster ou d'un oiseau, chaque compagnon peut avoir son avatar !" data-en="Inspired by the <strong>Gravatar</strong> concept, we imagined a system where each animal has a unique profile. Whether it's a cat, dog, hamster or bird, every companion can have their avatar!">
-                    Inspirés par le concept de <strong>Gravatar</strong>, nous avons imaginé un système où chaque animal dispose d'un profil unique. Qu'il s'agisse d'un chat, d'un chien, d'un hamster ou d'un oiseau, chaque compagnon peut avoir son avatar professionnel !
+                    Inspirés par le concept de <strong>Gravatar</strong>, nous avons imaginé un système où chaque animal dispose d'un profil unique. lQu'il s'agisse d'un chat, d'un chien, d'un hamster ou d'un oiseau, chaque compagnon peut avoir son avatar professionnel !
                 </p>
                 <br>
                 <p data-fr="Le développement s'est organisé selon une <strong>méthodologie collaborative efficace</strong> : Backend Core pour l'authentification, Backend Features pour la logique métier des animaux et avatars, Administration & CLI pour la gestion système, et Frontend & UX pour l'interface utilisateur moderne. Chaque membre a apporté son expertise pour créer une application <strong>complète, sécurisée et scalable</strong>." data-en="Development was organized according to an <strong>efficient collaborative methodology</strong>: Backend Core for authentication, Backend Features for animals and avatars business logic, Administration & CLI for system management, and Frontend & UX for modern user interface. Each member brought their expertise to create a <strong>complete, secure and scalable</strong> application.">
@@ -1029,6 +1113,41 @@
                     <div class="team-name">Membre 4</div>
                     <div class="team-tasks" data-fr="UI/UX - 18 templates Twig, JavaScript AJAX avec debouncing, ApiController, ErrorController, Design Tailwind CSS responsive et accessible" data-en="UI/UX - 18 Twig templates, AJAX JavaScript with debouncing, ApiController, ErrorController, Responsive and accessible Tailwind CSS design">
                         UI/UX - 18 templates Twig, JavaScript AJAX avec debouncing, ApiController, ErrorController, Design Tailwind CSS responsive et accessible
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots Gallery Section -->
+        <section class="gallery-section">
+            <h2 class="gallery-title" data-fr="Captures d'écran" data-en="Screenshots">Captures d'écran</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/pawfice-login.png" alt="Page de connexion The Paw-fice" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4 data-fr="Connexion" data-en="Login">Connexion</h4>
+                        <p data-fr="Page de connexion sécurisée" data-en="Secure login page">Page de connexion sécurisée</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/pawfice-profile.png" alt="Modification de profil" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4 data-fr="Profil Utilisateur" data-en="User Profile">Profil Utilisateur</h4>
+                        <p data-fr="Modification des informations personnelles" data-en="Edit personal information">Modification des informations personnelles</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/pawfice-animals-list.png" alt="Liste des animaux" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4 data-fr="Mes Animaux" data-en="My Pets">Mes Animaux</h4>
+                        <p data-fr="Liste des animaux enregistrés" data-en="List of registered pets">Liste des animaux enregistrés</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/pawfice-animal-detail.png" alt="Détail d'un animal" loading="lazy">
+                    <div class="gallery-caption">
+                        <h4 data-fr="Fiche Animal" data-en="Pet Profile">Fiche Animal</h4>
+                        <p data-fr="Détails et avatar de l'animal" data-en="Pet details and avatar">Détails et avatar de l'animal</p>
                     </div>
                 </div>
             </div>
