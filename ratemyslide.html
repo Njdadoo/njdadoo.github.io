@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RateMySlide - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* QG Theme colors */
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+
+            /* Slide-themed gradients */
+            --slide-blue: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            --slide-cyan: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            --slide-purple: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --slide-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+            --bg-dark: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.7;
+        }
+
+        .slide-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Slide-themed Background */
+        .slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.08;
+        }
+
+        .slide-pattern {
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.5;
+            animation: patternFloat 20s infinite ease-in-out;
+        }
+
+        .slide-pattern:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            color: #0ea5e9;
+            animation-delay: 0s;
+        }
+
+        .slide-pattern:nth-child(2) {
+            top: 50%;
+            right: 10%;
+            color: #06b6d4;
+            animation-delay: -7s;
+        }
+
+        .slide-pattern:nth-child(3) {
+            bottom: 15%;
+            left: 50%;
+            color: #8b5cf6;
+            animation-delay: -14s;
+        }
+
+        @keyframes patternFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(30px, -40px) rotate(15deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* Navigation - QG Style */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-logo:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+
+        /* Main Content Container */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            background: var(--slide-blue);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+        }
+
+        .project-badge span {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-badge {
+            padding: 0.6rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: var(--slide-blue);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .tech-badge.frontend {
+            border-color: #0ea5e9;
+        }
+
+        .tech-badge.backend {
+            border-color: #8b5cf6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--slide-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(14, 165, 233, 0.3);
+            border-color: #0ea5e9;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--slide-blue);
+            border-radius: 2px;
+        }
+
+        /* Architecture Section */
+        .architecture-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .arch-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .arch-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .arch-block.frontend {
+            border-top: 4px solid #0ea5e9;
+        }
+
+        .arch-block.backend {
+            border-top: 4px solid #8b5cf6;
+        }
+
+        .arch-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .arch-icon {
+            font-size: 2rem;
+        }
+
+        .arch-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .arch-tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .arch-tech {
+            padding: 0.3rem 0.8rem;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .arch-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* My Story Section */
+        .story-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .story-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .story-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: var(--slide-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--slide-blue);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(14, 165, 233, 0.2);
+            border-color: #0ea5e9;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--slide-blue);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* API Endpoints Section */
+        .api-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .api-table th,
+        .api-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .api-table th {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .api-table td {
+            color: var(--text-secondary);
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .method-get { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .method-post { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .method-patch { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .method-delete { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        .route-code {
+            font-family: monospace;
+            background: var(--bg-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            border-color: #0ea5e9;
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
+        }
+
+        .team-member.highlight {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .team-role {
+            font-size: 0.85rem;
+            color: #0ea5e9;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member.highlight .team-role {
+            color: var(--accent-color);
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .team-tasks {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--bg-secondary);
+            border-radius: 32px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 1.2s both;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: var(--slide-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .api-table {
+                font-size: 0.85rem;
+            }
+
+            .api-table th,
+            .api-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .content-wrapper {
+                padding: 0 1rem 3rem;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-section,
+            .architecture-section,
+            .api-section,
+            .team-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .story-title {
+                font-size: 1.6rem;
+            }
+
+            .story-content {
+                font-size: 1rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .menu-item:focus,
+        .cta-button:focus {
+            outline: 3px solid #0ea5e9;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="slide-page">
+    <!-- Animated Background -->
+    <div class="slide-background">
+        <div class="slide-pattern">🎢</div>
+        <div class="slide-pattern">🎢</div>
+        <div class="slide-pattern">🎢</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="nav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="project-badge">
+                <span data-fr="🎢 PROJET EN COURS" data-en="🎢 ONGOING PROJECT">🎢 PROJET EN COURS</span>
+            </div>
+
+            <h1 class="hero-title" data-fr="RateMySlide" data-en="RateMySlide">RateMySlide</h1>
+
+            <p class="hero-subtitle" data-fr="Application web collaborative permettant aux utilisateurs de découvrir, noter et critiquer des toboggans. Architecture moderne avec frontend Vue.js et backend Symfony exposant une API REST complète via API Platform." data-en="Collaborative web application allowing users to discover, rate and review slides. Modern architecture with Vue.js frontend and Symfony backend exposing a complete REST API via API Platform.">
+                Application web collaborative permettant aux utilisateurs de découvrir, noter et critiquer des toboggans. Architecture moderne avec frontend Vue.js et backend Symfony exposant une API REST complète via API Platform.
+            </p>
+
+            <div class="tech-stack">
+                <span class="tech-badge frontend">Vue.js 3</span>
+                <span class="tech-badge frontend">TypeScript</span>
+                <span class="tech-badge frontend">Vite</span>
+                <span class="tech-badge backend">Symfony 6.4</span>
+                <span class="tech-badge backend">API Platform 4</span>
+                <span class="tech-badge backend">MariaDB</span>
+                <span class="tech-badge backend">JWT</span>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">4</div>
+                <div class="stat-label" data-fr="Développeurs" data-en="Developers">Développeurs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔌</div>
+                <div class="stat-number">15+</div>
+                <div class="stat-label" data-fr="Endpoints API" data-en="API Endpoints">Endpoints API</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🛡️</div>
+                <div class="stat-number">JWT</div>
+                <div class="stat-label" data-fr="Authentification" data-en="Authentication">Authentification</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label" data-fr="API Documentée" data-en="API Documented">API Documentée</div>
+            </div>
+        </div>
+
+        <!-- Architecture Section -->
+        <section class="architecture-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Architecture du Projet" data-en="Project Architecture">Architecture du Projet</span>
+            </h2>
+
+            <div class="architecture-grid">
+                <div class="arch-block frontend">
+                    <div class="arch-header">
+                        <span class="arch-icon">🎨</span>
+                        <h3 class="arch-title" data-fr="Frontend" data-en="Frontend">Frontend</h3>
+                    </div>
+                    <div class="arch-tech-list">
+                        <span class="arch-tech">Vue.js 3</span>
+                        <span class="arch-tech">TypeScript</span>
+                        <span class="arch-tech">Vite</span>
+                        <span class="arch-tech">Composition API</span>
+                    </div>
+                    <p class="arch-description" data-fr="Interface utilisateur moderne et réactive construite avec Vue.js 3 et TypeScript. Utilisation de la Composition API pour une meilleure organisation du code. Build optimisé avec Vite pour des performances maximales." data-en="Modern and reactive user interface built with Vue.js 3 and TypeScript. Using Composition API for better code organization. Optimized build with Vite for maximum performance.">
+                        Interface utilisateur moderne et réactive construite avec Vue.js 3 et TypeScript. Utilisation de la Composition API pour une meilleure organisation du code. Build optimisé avec Vite pour des performances maximales.
+                    </p>
+                </div>
+
+                <div class="arch-block backend">
+                    <div class="arch-header">
+                        <span class="arch-icon">⚙️</span>
+                        <h3 class="arch-title" data-fr="Backend" data-en="Backend">Backend</h3>
+                    </div>
+                    <div class="arch-tech-list">
+                        <span class="arch-tech">Symfony 6.4</span>
+                        <span class="arch-tech">API Platform 4</span>
+                        <span class="arch-tech">Doctrine ORM</span>
+                        <span class="arch-tech">MariaDB</span>
+                    </div>
+                    <p class="arch-description" data-fr="API REST robuste développée avec Symfony et API Platform. Documentation OpenAPI automatique, système de voters pour les autorisations, et architecture propre avec State Processors. Mon rôle principal dans le projet." data-en="Robust REST API developed with Symfony and API Platform. Automatic OpenAPI documentation, voters system for authorization, and clean architecture with State Processors. My main role in the project.">
+                        API REST robuste développée avec Symfony et API Platform. Documentation OpenAPI automatique, système de voters pour les autorisations, et architecture propre avec State Processors. Mon rôle principal dans le projet.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Story Section -->
+        <section class="story-section">
+            <div class="story-icon">💻</div>
+            <h2 class="story-title" data-fr="Mon Rôle : Backend Developer" data-en="My Role: Backend Developer">Mon Rôle : Backend Developer</h2>
+            <div class="story-content">
+                <p data-fr="Dans ce projet collaboratif, je fais partie de l'<strong>équipe Backend</strong> avec un autre développeur. Notre mission : concevoir et implémenter une <strong>API REST complète</strong> permettant de gérer les toboggans, les critiques, les utilisateurs et leurs favoris." data-en="In this collaborative project, I am part of the <strong>Backend team</strong> with another developer. Our mission: design and implement a <strong>complete REST API</strong> to manage slides, reviews, users and their favorites.">
+                    Dans ce projet collaboratif, je fais partie de l'<strong>équipe Backend</strong> avec un autre développeur. Notre mission : concevoir et implémenter une <strong>API REST complète</strong> permettant de gérer les toboggans, les critiques, les utilisateurs et leurs favoris.
+                </p>
+                <br>
+                <p data-fr="Nous utilisons <strong>API Platform 4</strong> sur Symfony 6.4 pour exposer nos ressources de manière standardisée avec documentation OpenAPI automatique. L'authentification repose sur <strong>JWT avec refresh tokens</strong> pour une sécurité optimale. Un système de <strong>rate limiting</strong> protège l'endpoint d'authentification contre les attaques par force brute." data-en="We use <strong>API Platform 4</strong> on Symfony 6.4 to expose our resources in a standardized way with automatic OpenAPI documentation. Authentication relies on <strong>JWT with refresh tokens</strong> for optimal security. A <strong>rate limiting</strong> system protects the authentication endpoint against brute force attacks.">
+                    Nous utilisons <strong>API Platform 4</strong> sur Symfony 6.4 pour exposer nos ressources de manière standardisée avec documentation OpenAPI automatique. L'authentification repose sur <strong>JWT avec refresh tokens</strong> pour une sécurité optimale. Un système de <strong>rate limiting</strong> protège l'endpoint d'authentification contre les attaques par force brute.
+                </p>
+                <br>
+                <p data-fr="L'architecture inclut des <strong>Voters Symfony</strong> pour le contrôle d'accès granulaire, des <strong>State Processors</strong> API Platform pour la logique métier, et des <strong>Extensions Doctrine</strong> pour le filtrage automatique de visibilité. Le tout est testé avec PHPUnit et analysé avec PHPStan niveau 6." data-en="The architecture includes <strong>Symfony Voters</strong> for granular access control, API Platform <strong>State Processors</strong> for business logic, and <strong>Doctrine Extensions</strong> for automatic visibility filtering. Everything is tested with PHPUnit and analyzed with PHPStan level 6.">
+                    L'architecture inclut des <strong>Voters Symfony</strong> pour le contrôle d'accès granulaire, des <strong>State Processors</strong> API Platform pour la logique métier, et des <strong>Extensions Doctrine</strong> pour le filtrage automatique de visibilité. Le tout est testé avec PHPUnit et analysé avec PHPStan niveau 6.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section>
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Fonctionnalités Clés" data-en="Key Features">Fonctionnalités Clés</span>
+            </h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title" data-fr="Authentification JWT" data-en="JWT Authentication">Authentification JWT</h3>
+                    <p class="feature-description" data-fr="Système d'authentification sécurisé avec tokens JWT et refresh tokens. Rate limiting anti-bruteforce (5 tentatives/minute). Validation de la force des mots de passe et protection CSRF." data-en="Secure authentication system with JWT tokens and refresh tokens. Anti-bruteforce rate limiting (5 attempts/minute). Password strength validation and CSRF protection.">
+                        Système d'authentification sécurisé avec tokens JWT et refresh tokens. Rate limiting anti-bruteforce (5 tentatives/minute). Validation de la force des mots de passe et protection CSRF.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎢</div>
+                    <h3 class="feature-title" data-fr="Gestion des Toboggans" data-en="Slides Management">Gestion des Toboggans</h3>
+                    <p class="feature-description" data-fr="CRUD complet pour les toboggans avec système de publication (brouillon/publié). Types de glisse multiples (tube, ouvert, bouée...). Filtres avancés par lieu, hauteur, longueur et type." data-en="Complete CRUD for slides with publication system (draft/published). Multiple slide types (tube, open, buoy...). Advanced filters by location, height, length and type.">
+                        CRUD complet pour les toboggans avec système de publication (brouillon/publié). Types de glisse multiples (tube, ouvert, bouée...). Filtres avancés par lieu, hauteur, longueur et type.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title" data-fr="Système de Critiques" data-en="Reviews System">Système de Critiques</h3>
+                    <p class="feature-description" data-fr="Les utilisateurs peuvent noter et commenter les toboggans. Chaque critique est liée à son auteur avec contrôle d'accès via Voters. Historique complet des critiques par utilisateur." data-en="Users can rate and comment on slides. Each review is linked to its author with access control via Voters. Complete review history by user.">
+                        Les utilisateurs peuvent noter et commenter les toboggans. Chaque critique est liée à son auteur avec contrôle d'accès via Voters. Historique complet des critiques par utilisateur.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">❤️</div>
+                    <h3 class="feature-title" data-fr="Gestion des Favoris" data-en="Favorites Management">Gestion des Favoris</h3>
+                    <p class="feature-description" data-fr="Système de favoris personnalisé permettant aux utilisateurs de sauvegarder leurs toboggans préférés. API dédiée pour ajouter, lister et supprimer des favoris." data-en="Custom favorites system allowing users to save their preferred slides. Dedicated API to add, list and remove favorites.">
+                        Système de favoris personnalisé permettant aux utilisateurs de sauvegarder leurs toboggans préférés. API dédiée pour ajouter, lister et supprimer des favoris.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title" data-fr="Filtres & Recherche" data-en="Filters & Search">Filtres & Recherche</h3>
+                    <p class="feature-description" data-fr="Recherche avancée avec filtres multiples : lieu, type aquatique, type de glisse, nom. Filtres de plage pour hauteur et longueur. Tri personnalisable sur tous les champs." data-en="Advanced search with multiple filters: location, aquatic type, slide type, name. Range filters for height and length. Customizable sorting on all fields.">
+                        Recherche avancée avec filtres multiples : lieu, type aquatique, type de glisse, nom. Filtres de plage pour hauteur et longueur. Tri personnalisable sur tous les champs.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title" data-fr="Documentation OpenAPI" data-en="OpenAPI Documentation">Documentation OpenAPI</h3>
+                    <p class="feature-description" data-fr="Documentation API automatique générée par API Platform. Interface Swagger UI interactive accessible sur /api/docs. Spécification OpenAPI complète pour l'intégration frontend." data-en="Automatic API documentation generated by API Platform. Interactive Swagger UI interface accessible at /api/docs. Complete OpenAPI specification for frontend integration.">
+                        Documentation API automatique générée par API Platform. Interface Swagger UI interactive accessible sur /api/docs. Spécification OpenAPI complète pour l'intégration frontend.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Endpoints Section -->
+        <section class="api-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Endpoints API Principaux" data-en="Main API Endpoints">Endpoints API Principaux</span>
+            </h2>
+
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th data-fr="Méthode" data-en="Method">Méthode</th>
+                        <th data-fr="Route" data-en="Route">Route</th>
+                        <th data-fr="Description" data-en="Description">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method-badge method-post">POST</span></td>
+                        <td><code class="route-code">/api/auth</code></td>
+                        <td data-fr="Connexion (login + password)" data-en="Login (login + password)">Connexion (login + password)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code class="route-code">/api/toboggans</code></td>
+                        <td data-fr="Liste des toboggans publiés" data-en="List of published slides">Liste des toboggans publiés</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-post">POST</span></td>
+                        <td><code class="route-code">/api/toboggans</code></td>
+                        <td data-fr="Créer un toboggan (auth)" data-en="Create a slide (auth)">Créer un toboggan (auth)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code class="route-code">/api/critiques</code></td>
+                        <td data-fr="Liste des critiques" data-en="List of reviews">Liste des critiques</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-post">POST</span></td>
+                        <td><code class="route-code">/api/critiques</code></td>
+                        <td data-fr="Créer une critique (auth)" data-en="Create a review (auth)">Créer une critique (auth)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-get">GET</span></td>
+                        <td><code class="route-code">/api/utilisateurs/{id}/favoris</code></td>
+                        <td data-fr="Liste des favoris" data-en="List of favorites">Liste des favoris</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-badge method-post">POST</span></td>
+                        <td><code class="route-code">/api/utilisateurs/{id}/favoris/{tobogganId}</code></td>
+                        <td data-fr="Ajouter un favori" data-en="Add a favorite">Ajouter un favori</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="L'Équipe de Développement" data-en="Development Team">L'Équipe de Développement</span>
+            </h2>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-role" data-fr="Frontend" data-en="Frontend">Frontend</div>
+                    <div class="team-name">@blancn</div>
+                    <div class="team-tasks" data-fr="Interface utilisateur Vue.js, composants réactifs, intégration API" data-en="Vue.js user interface, reactive components, API integration">
+                        Interface utilisateur Vue.js, composants réactifs, intégration API
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-role" data-fr="Frontend" data-en="Frontend">Frontend</div>
+                    <div class="team-name">@arquea</div>
+                    <div class="team-tasks" data-fr="Interface utilisateur Vue.js, composants réactifs, intégration API" data-en="Vue.js user interface, reactive components, API integration">
+                        Interface utilisateur Vue.js, composants réactifs, intégration API
+                    </div>
+                </div>
+
+                <div class="team-member highlight">
+                    <div class="team-role" data-fr="Backend" data-en="Backend">Backend</div>
+                    <div class="team-name">@grelierq (Moi)</div>
+                    <div class="team-tasks" data-fr="API REST Symfony, API Platform, authentification JWT, Voters, tests PHPUnit" data-en="Symfony REST API, API Platform, JWT authentication, Voters, PHPUnit tests">
+                        API REST Symfony, API Platform, authentification JWT, Voters, tests PHPUnit
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-role" data-fr="Backend" data-en="Backend">Backend</div>
+                    <div class="team-name">@fievetl</div>
+                    <div class="team-tasks" data-fr="API REST Symfony, API Platform, authentification JWT, Voters, tests PHPUnit" data-en="Symfony REST API, API Platform, JWT authentication, Voters, PHPUnit tests">
+                        API REST Symfony, API Platform, authentification JWT, Voters, tests PHPUnit
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title" data-fr="Projet en Développement" data-en="Project in Development">Projet en Développement</h2>
+            <p class="cta-description" data-fr="RateMySlide est actuellement en cours de développement. Ce projet démontre mes compétences en développement backend avec Symfony, API Platform, et les bonnes pratiques de sécurité et d'architecture." data-en="RateMySlide is currently under development. This project demonstrates my backend development skills with Symfony, API Platform, and security and architecture best practices.">
+                RateMySlide est actuellement en cours de développement. Ce projet démontre mes compétences en développement backend avec Symfony, API Platform, et les bonnes pratiques de sécurité et d'architecture.
+            </p>
+            <a href="realisations.html" class="cta-button">
+                <span data-fr="← Retour aux Réalisations" data-en="← Back to Projects">← Retour aux Réalisations</span>
+            </a>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupScrollEffects();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr') {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                document.body.classList.add('theme-transition');
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+    }
+
+    function setupScrollEffects() {
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            lastScroll = currentScroll;
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = newText;
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Page loaded animation
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternance Ivalua - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* QG Theme colors */
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+
+            /* Ivalua-inspired corporate gradients */
+            --ivalua-primary: linear-gradient(135deg, #059669 0%, #047857 100%);
+            --ivalua-secondary: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+            --ivalua-accent: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --ivalua-dark: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+
+            --bg-dark: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.7;
+        }
+
+        .ivalua-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Corporate Background */
+        .corporate-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.08;
+        }
+
+        .corporate-pattern {
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.5;
+            animation: patternFloat 20s infinite ease-in-out;
+        }
+
+        .corporate-pattern:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            color: #059669;
+            animation-delay: 0s;
+        }
+
+        .corporate-pattern:nth-child(2) {
+            top: 50%;
+            right: 10%;
+            color: #0d9488;
+            animation-delay: -7s;
+        }
+
+        .corporate-pattern:nth-child(3) {
+            bottom: 15%;
+            left: 50%;
+            color: #10b981;
+            animation-delay: -14s;
+        }
+
+        @keyframes patternFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(30px, -40px) rotate(15deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* Navigation - QG Style */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-logo:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+
+        /* Main Content Container */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            background: var(--ivalua-primary);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+        }
+
+        .project-badge span {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-badge {
+            padding: 0.6rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: var(--ivalua-primary);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--ivalua-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(5, 150, 105, 0.3);
+            border-color: #059669;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--ivalua-primary);
+            border-radius: 2px;
+        }
+
+        /* Company Section */
+        .company-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .company-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--ivalua-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+        }
+
+        .company-info h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .company-info .tagline {
+            font-size: 1.1rem;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .company-description {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+        }
+
+        .company-description strong {
+            color: var(--text-primary);
+        }
+
+        .company-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .company-stat {
+            text-align: center;
+        }
+
+        .company-stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #059669;
+        }
+
+        .company-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Role Section */
+        .role-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .role-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: var(--ivalua-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .role-content {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .role-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Support Levels */
+        .support-levels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .support-level {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .support-level.active {
+            opacity: 1;
+            border-color: #059669;
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.3);
+        }
+
+        .support-level .level-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #059669;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-level .level-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .support-level .level-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--ivalua-primary);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(5, 150, 105, 0.2);
+            border-color: #059669;
+        }
+
+        .skill-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--ivalua-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .skill-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Themes Section */
+        .themes-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .themes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .theme-tag {
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-tag:hover {
+            background: var(--ivalua-primary);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            animation: fadeInUp 1s ease 1.2s both;
+        }
+
+        .team-description {
+            text-align: center;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .team-highlight {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .team-item {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .team-item:hover {
+            border-color: #059669;
+            transform: translateY(-5px);
+        }
+
+        .team-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-item-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .team-item-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--bg-secondary);
+            border-radius: 32px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 1.4s both;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
+            background: var(--ivalua-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(5, 150, 105, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(5, 150, 105, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .company-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .support-levels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .content-wrapper {
+                padding: 0 1rem 3rem;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .company-section,
+            .role-section,
+            .themes-section,
+            .team-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .company-logo {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .menu-item:focus,
+        .cta-button:focus {
+            outline: 3px solid #059669;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="ivalua-page">
+    <!-- Animated Background -->
+    <div class="corporate-background">
+        <div class="corporate-pattern">💼</div>
+        <div class="corporate-pattern">💼</div>
+        <div class="corporate-pattern">💼</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="nav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage</a>
+                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="project-badge">
+                <span data-fr="💼 ALTERNANCE EN COURS" data-en="💼 ONGOING APPRENTICESHIP">💼 ALTERNANCE EN COURS</span>
+            </div>
+
+            <h1 class="hero-title" data-fr="Ivalua" data-en="Ivalua">Ivalua</h1>
+
+            <p class="hero-subtitle" data-fr="Alternance au sein du département RUN (Support Niveau 3) chez Ivalua, leader mondial des solutions de gestion des achats et des dépenses. Une expérience professionnelle enrichissante au cœur d'une plateforme Source-to-Pay utilisée par plus de 300 entreprises mondiales." data-en="Apprenticeship in the RUN department (Level 3 Support) at Ivalua, global leader in procurement and spend management solutions. An enriching professional experience at the heart of a Source-to-Pay platform used by over 300 global companies.">
+                Alternance au sein du département RUN (Support Niveau 3) chez Ivalua, leader mondial des solutions de gestion des achats et des dépenses. Une expérience professionnelle enrichissante au cœur d'une plateforme Source-to-Pay utilisée par plus de 300 entreprises mondiales.
+            </p>
+
+            <div class="tech-stack">
+                <span class="tech-badge">Support N3</span>
+                <span class="tech-badge">Source-to-Pay</span>
+                <span class="tech-badge">Procurement</span>
+                <span class="tech-badge">Spend Management</span>
+                <span class="tech-badge">SaaS</span>
+                <span class="tech-badge">Ticketing</span>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-number">300+</div>
+                <div class="stat-label" data-fr="Clients Mondiaux" data-en="Global Clients">Clients Mondiaux</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number">$500B+</div>
+                <div class="stat-label" data-fr="Dépenses Gérées" data-en="Spend Managed">Dépenses Gérées</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-number">Leader</div>
+                <div class="stat-label" data-fr="Gartner & Forrester" data-en="Gartner & Forrester">Gartner & Forrester</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-number">98%</div>
+                <div class="stat-label" data-fr="Taux de Rétention" data-en="Retention Rate">Taux de Rétention</div>
+            </div>
+        </div>
+
+        <!-- Company Section -->
+        <section class="company-section">
+            <div class="company-header">
+                <div class="company-logo">I</div>
+                <div class="company-info">
+                    <h3>Ivalua</h3>
+                    <div class="tagline" data-fr="Leader mondial en Procurement & Spend Management" data-en="Global Leader in Procurement & Spend Management">Leader mondial en Procurement & Spend Management</div>
+                </div>
+            </div>
+            <div class="company-description">
+                <p data-fr="<strong>Ivalua</strong> est un éditeur de logiciels français, leader mondial des solutions de <strong>gestion des achats (Procurement)</strong> et de <strong>gestion des dépenses (Spend Management)</strong>. La plateforme <strong>Source-to-Pay</strong> unifiée et cloud-native permet aux entreprises de gérer l'ensemble du cycle d'achat : sourcing, gestion des fournisseurs, contrats, commandes, factures et dépenses." data-en="<strong>Ivalua</strong> is a French software company, global leader in <strong>Procurement</strong> and <strong>Spend Management</strong> solutions. The unified, cloud-native <strong>Source-to-Pay</strong> platform enables companies to manage the entire purchasing cycle: sourcing, supplier management, contracts, orders, invoices and expenses.">
+                    <strong>Ivalua</strong> est un éditeur de logiciels français, leader mondial des solutions de <strong>gestion des achats (Procurement)</strong> et de <strong>gestion des dépenses (Spend Management)</strong>. La plateforme <strong>Source-to-Pay</strong> unifiée et cloud-native permet aux entreprises de gérer l'ensemble du cycle d'achat : sourcing, gestion des fournisseurs, contrats, commandes, factures et dépenses.
+                </p>
+                <br>
+                <p data-fr="Reconnue comme <strong>Leader par Gartner et Forrester</strong>, Ivalua se distingue par sa plateforme flexible et personnalisable (low-code/no-code), permettant aux organisations d'adapter rapidement leurs processus d'achat. Avec un taux de rétention client de 98%, Ivalua démontre la valeur ajoutée de sa solution auprès des plus grandes entreprises mondiales." data-en="Recognized as a <strong>Leader by Gartner and Forrester</strong>, Ivalua stands out with its flexible and customizable platform (low-code/no-code), enabling organizations to quickly adapt their purchasing processes. With a 98% customer retention rate, Ivalua demonstrates the added value of its solution to the world's largest companies.">
+                    Reconnue comme <strong>Leader par Gartner et Forrester</strong>, Ivalua se distingue par sa plateforme flexible et personnalisable (low-code/no-code), permettant aux organisations d'adapter rapidement leurs processus d'achat. Avec un taux de rétention client de 98%, Ivalua démontre la valeur ajoutée de sa solution auprès des plus grandes entreprises mondiales.
+                </p>
+            </div>
+            <div class="company-stats">
+                <div class="company-stat">
+                    <div class="company-stat-value" data-fr="Mondial" data-en="Global">Mondial</div>
+                    <div class="company-stat-label" data-fr="Présence" data-en="Presence">Présence</div>
+                </div>
+                <div class="company-stat">
+                    <div class="company-stat-value">SaaS</div>
+                    <div class="company-stat-label" data-fr="Modèle" data-en="Model">Modèle</div>
+                </div>
+                <div class="company-stat">
+                    <div class="company-stat-value" data-fr="IA" data-en="AI">IA</div>
+                    <div class="company-stat-label" data-fr="Powered" data-en="Powered">Powered</div>
+                </div>
+                <div class="company-stat">
+                    <div class="company-stat-value">Low-Code</div>
+                    <div class="company-stat-label" data-fr="Plateforme" data-en="Platform">Plateforme</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Role Section -->
+        <section class="role-section">
+            <div class="role-icon">🎯</div>
+            <h2 class="role-title" data-fr="Mon Rôle : Support Niveau 3" data-en="My Role: Level 3 Support">Mon Rôle : Support Niveau 3</h2>
+
+            <div class="support-levels">
+                <div class="support-level">
+                    <div class="level-number">N1</div>
+                    <div class="level-title" data-fr="Support Basique" data-en="Basic Support">Support Basique</div>
+                    <div class="level-desc" data-fr="Premier contact, incidents simples" data-en="First contact, simple incidents">Premier contact, incidents simples</div>
+                </div>
+                <div class="support-level">
+                    <div class="level-number">N2</div>
+                    <div class="level-title" data-fr="Support Technique" data-en="Technical Support">Support Technique</div>
+                    <div class="level-desc" data-fr="Incidents complexes, configuration" data-en="Complex incidents, configuration">Incidents complexes, configuration</div>
+                </div>
+                <div class="support-level active">
+                    <div class="level-number">N3</div>
+                    <div class="level-title" data-fr="Support Expert (RUN)" data-en="Expert Support (RUN)">Support Expert (RUN)</div>
+                    <div class="level-desc" data-fr="Analyse approfondie, résolution avancée" data-en="Deep analysis, advanced resolution">Analyse approfondie, résolution avancée</div>
+                </div>
+            </div>
+
+            <div class="role-content">
+                <p data-fr="Au sein du <strong>département RUN</strong>, je fais partie de l'équipe de support de <strong>Niveau 3</strong>, le dernier niveau d'escalade pour les incidents clients. Mon rôle consiste à analyser et résoudre les tickets les plus complexes qui n'ont pas pu être traités par les niveaux inférieurs." data-en="Within the <strong>RUN department</strong>, I am part of the <strong>Level 3</strong> support team, the last escalation level for customer incidents. My role is to analyze and resolve the most complex tickets that could not be handled by lower levels.">
+                    Au sein du <strong>département RUN</strong>, je fais partie de l'équipe de support de <strong>Niveau 3</strong>, le dernier niveau d'escalade pour les incidents clients. Mon rôle consiste à analyser et résoudre les tickets les plus complexes qui n'ont pas pu être traités par les niveaux inférieurs.
+                </p>
+                <br>
+                <p data-fr="Je travaille sur une <strong>variété de thématiques</strong> de la plateforme Source-to-Pay : sourcing, gestion des contrats, commandes, factures, gestion des fournisseurs, et bien plus. Cette diversité me permet d'acquérir une <strong>vision globale</strong> du produit et de développer une expertise technique approfondie." data-en="I work on a <strong>variety of topics</strong> of the Source-to-Pay platform: sourcing, contract management, orders, invoices, supplier management, and more. This diversity allows me to gain a <strong>global vision</strong> of the product and develop deep technical expertise.">
+                    Je travaille sur une <strong>variété de thématiques</strong> de la plateforme Source-to-Pay : sourcing, gestion des contrats, commandes, factures, gestion des fournisseurs, et bien plus. Cette diversité me permet d'acquérir une <strong>vision globale</strong> du produit et de développer une expertise technique approfondie.
+                </p>
+                <br>
+                <p data-fr="Bien que je n'aie pas encore de projet dédié, cette expérience me permet de <strong>collaborer avec mon équipe</strong> sur des problématiques variées et d'apprendre au contact de professionnels expérimentés dans le domaine du Procurement." data-en="Although I don't have a dedicated project yet, this experience allows me to <strong>collaborate with my team</strong> on various issues and learn from experienced professionals in the Procurement field.">
+                    Bien que je n'aie pas encore de projet dédié, cette expérience me permet de <strong>collaborer avec mon équipe</strong> sur des problématiques variées et d'apprendre au contact de professionnels expérimentés dans le domaine du Procurement.
+                </p>
+            </div>
+        </section>
+
+        <!-- Skills Grid -->
+        <section>
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Compétences Développées" data-en="Skills Developed">Compétences Développées</span>
+            </h2>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🔍</div>
+                    <h3 class="skill-title" data-fr="Analyse & Diagnostic" data-en="Analysis & Diagnosis">Analyse & Diagnostic</h3>
+                    <p class="skill-description" data-fr="Capacité à analyser des incidents complexes, identifier les causes racines et proposer des solutions adaptées. Développement d'une méthodologie de résolution structurée." data-en="Ability to analyze complex incidents, identify root causes and propose suitable solutions. Development of a structured resolution methodology.">
+                        Capacité à analyser des incidents complexes, identifier les causes racines et proposer des solutions adaptées. Développement d'une méthodologie de résolution structurée.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">💬</div>
+                    <h3 class="skill-title" data-fr="Communication Client" data-en="Client Communication">Communication Client</h3>
+                    <p class="skill-description" data-fr="Interaction avec des clients grands comptes internationaux. Rédaction de réponses claires et professionnelles, vulgarisation technique et gestion des attentes." data-en="Interaction with international key account clients. Writing clear and professional responses, technical vulgarization and expectation management.">
+                        Interaction avec des clients grands comptes internationaux. Rédaction de réponses claires et professionnelles, vulgarisation technique et gestion des attentes.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">📚</div>
+                    <h3 class="skill-title" data-fr="Expertise Produit" data-en="Product Expertise">Expertise Produit</h3>
+                    <p class="skill-description" data-fr="Connaissance approfondie de la plateforme Ivalua et de ses modules : Sourcing, Contracts, Procurement, Invoicing, Supplier Management. Compréhension des processus métier Procurement." data-en="Deep knowledge of the Ivalua platform and its modules: Sourcing, Contracts, Procurement, Invoicing, Supplier Management. Understanding of Procurement business processes.">
+                        Connaissance approfondie de la plateforme Ivalua et de ses modules : Sourcing, Contracts, Procurement, Invoicing, Supplier Management. Compréhension des processus métier Procurement.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🤝</div>
+                    <h3 class="skill-title" data-fr="Travail en Équipe" data-en="Teamwork">Travail en Équipe</h3>
+                    <p class="skill-description" data-fr="Collaboration quotidienne avec les membres de l'équipe RUN. Partage de connaissances, entraide sur les tickets complexes et participation aux réunions d'équipe." data-en="Daily collaboration with RUN team members. Knowledge sharing, mutual help on complex tickets and participation in team meetings.">
+                        Collaboration quotidienne avec les membres de l'équipe RUN. Partage de connaissances, entraide sur les tickets complexes et participation aux réunions d'équipe.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3 class="skill-title" data-fr="Réactivité & Priorisation" data-en="Responsiveness & Prioritization">Réactivité & Priorisation</h3>
+                    <p class="skill-description" data-fr="Gestion de multiples tickets simultanément avec des niveaux de priorité différents. Capacité à évaluer l'urgence et l'impact business des incidents." data-en="Managing multiple tickets simultaneously with different priority levels. Ability to assess urgency and business impact of incidents.">
+                        Gestion de multiples tickets simultanément avec des niveaux de priorité différents. Capacité à évaluer l'urgence et l'impact business des incidents.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🌍</div>
+                    <h3 class="skill-title" data-fr="Contexte International" data-en="International Context">Contexte International</h3>
+                    <p class="skill-description" data-fr="Travail dans un environnement multiculturel avec des clients et collègues du monde entier. Communication en anglais technique et adaptation aux différentes cultures d'entreprise." data-en="Working in a multicultural environment with clients and colleagues from around the world. Technical English communication and adaptation to different corporate cultures.">
+                        Travail dans un environnement multiculturel avec des clients et collègues du monde entier. Communication en anglais technique et adaptation aux différentes cultures d'entreprise.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Themes Section -->
+        <section class="themes-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Thématiques Abordées" data-en="Topics Covered">Thématiques Abordées</span>
+            </h2>
+
+            <div class="themes-grid">
+                <span class="theme-tag" data-fr="Sourcing" data-en="Sourcing">Sourcing</span>
+                <span class="theme-tag" data-fr="Gestion des Contrats" data-en="Contract Management">Gestion des Contrats</span>
+                <span class="theme-tag" data-fr="Commandes" data-en="Orders">Commandes</span>
+                <span class="theme-tag" data-fr="Facturation" data-en="Invoicing">Facturation</span>
+                <span class="theme-tag" data-fr="Gestion Fournisseurs" data-en="Supplier Management">Gestion Fournisseurs</span>
+                <span class="theme-tag" data-fr="Workflows" data-en="Workflows">Workflows</span>
+                <span class="theme-tag" data-fr="Intégrations" data-en="Integrations">Intégrations</span>
+                <span class="theme-tag" data-fr="Rapports & Analytics" data-en="Reports & Analytics">Rapports & Analytics</span>
+                <span class="theme-tag" data-fr="Configuration" data-en="Configuration">Configuration</span>
+                <span class="theme-tag" data-fr="Spend Analysis" data-en="Spend Analysis">Spend Analysis</span>
+                <span class="theme-tag" data-fr="Catalogue" data-en="Catalog">Catalogue</span>
+                <span class="theme-tag" data-fr="Approbations" data-en="Approvals">Approbations</span>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2 class="section-title">
+                <span class="section-title-text" data-fr="Mon Environnement" data-en="My Environment">Mon Environnement</span>
+            </h2>
+
+            <div class="team-description">
+                <p data-fr="Intégré au sein d'une équipe RUN expérimentée, je bénéficie d'un accompagnement de qualité et d'opportunités d'apprentissage quotidiennes. La collaboration avec mes collègues me permet de progresser rapidement sur les différents modules de la plateforme." data-en="Integrated within an experienced RUN team, I benefit from quality support and daily learning opportunities. Collaboration with my colleagues allows me to progress quickly on the different modules of the platform.">
+                    Intégré au sein d'une équipe RUN expérimentée, je bénéficie d'un accompagnement de qualité et d'opportunités d'apprentissage quotidiennes. La collaboration avec mes collègues me permet de progresser rapidement sur les différents modules de la plateforme.
+                </p>
+            </div>
+
+            <div class="team-highlight">
+                <div class="team-item">
+                    <div class="team-item-icon">👥</div>
+                    <div class="team-item-value" data-fr="Équipe RUN" data-en="RUN Team">Équipe RUN</div>
+                    <div class="team-item-label" data-fr="Département" data-en="Department">Département</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-item-icon">🎓</div>
+                    <div class="team-item-value" data-fr="Alternance" data-en="Apprenticeship">Alternance</div>
+                    <div class="team-item-label" data-fr="Contrat" data-en="Contract">Contrat</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-item-icon">📅</div>
+                    <div class="team-item-value">2024-2025</div>
+                    <div class="team-item-label" data-fr="Période" data-en="Period">Période</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title" data-fr="Expérience en Cours" data-en="Ongoing Experience">Expérience en Cours</h2>
+            <p class="cta-description" data-fr="Cette alternance chez Ivalua me permet de développer des compétences techniques et professionnelles dans un environnement SaaS international. Une expérience enrichissante qui prépare ma future carrière de Chef de Projet IT." data-en="This apprenticeship at Ivalua allows me to develop technical and professional skills in an international SaaS environment. An enriching experience that prepares my future career as IT Project Manager.">
+                Cette alternance chez Ivalua me permet de développer des compétences techniques et professionnelles dans un environnement SaaS international. Une expérience enrichissante qui prépare ma future carrière de Chef de Projet IT.
+            </p>
+            <a href="realisations.html" class="cta-button">
+                <span data-fr="← Retour aux Réalisations" data-en="← Back to Projects">← Retour aux Réalisations</span>
+            </a>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedPreferences();
+        setupEventHandlers();
+        setupScrollEffects();
+    });
+
+    function loadSavedPreferences() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr') {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+            changeLanguage(savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                document.body.classList.add('theme-transition');
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+
+                this.textContent = newLang.toUpperCase();
+                changeLanguage(newLang);
+                localStorage.setItem('language', newLang);
+            });
+        }
+    }
+
+    function setupScrollEffects() {
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            lastScroll = currentScroll;
+        });
+    }
+
+    function changeLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+
+        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
+            const newText = element.getAttribute(`data-${lang}`);
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = newText;
+            } else if (element.innerHTML.includes('<strong>') || element.innerHTML.includes('<br>')) {
+                element.innerHTML = newText;
+            } else {
+                element.textContent = newText;
+            }
+        });
+    }
+
+    // Page loaded animation
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+    });
+</script>
+</body>
+</html>
