@@ -624,6 +624,21 @@
             background: rgba(214, 158, 46, 0.05);
         }
 
+        .feature-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-image:hover {
+            border-color: #E53E3E;
+            box-shadow: 0 8px 30px rgba(229, 62, 62, 0.3);
+            transform: scale(1.02);
+        }
+
         .feature-content {
             padding: 2rem;
         }
@@ -990,9 +1005,7 @@
             <!-- Feature Row 1: Bibliothèque + Dashboard -->
             <div class="feature-row">
                 <div class="feature-image-wrapper">
-                    <div class="feature-image-placeholder">
-                        <span data-fr="📸 Image à ajouter : dashboard.png" data-en="📸 Image to add: dashboard.png">📸 Image à ajouter : dashboard.png</span>
-                    </div>
+                    <img src="images/manga-tracker-main.png" alt="Dashboard Manga Tracker" class="feature-image" loading="lazy">
                 </div>
                 <div class="feature-content">
                     <div class="feature-number">1</div>
@@ -1024,18 +1037,14 @@
                     </div>
                 </div>
                 <div class="feature-image-wrapper">
-                    <div class="feature-image-placeholder">
-                        <span data-fr="📸 Image à ajouter : search.png" data-en="📸 Image to add: search.png">📸 Image à ajouter : search.png</span>
-                    </div>
+                    <img src="images/manga-tracker-search.png" alt="Recherche MangaDex" class="feature-image" loading="lazy">
                 </div>
             </div>
 
             <!-- Feature Row 3: Gestion Tags + Settings -->
             <div class="feature-row">
                 <div class="feature-image-wrapper">
-                    <div class="feature-image-placeholder">
-                        <span data-fr="📸 Image à ajouter : settings.png" data-en="📸 Image to add: settings.png">📸 Image à ajouter : settings.png</span>
-                    </div>
+                    <img src="images/manga-tracker-settings.png" alt="Paramètres et tags" class="feature-image" loading="lazy">
                 </div>
                 <div class="feature-content">
                     <div class="feature-number">3</div>
@@ -1067,58 +1076,7 @@
                     </div>
                 </div>
                 <div class="feature-image-wrapper">
-                    <div class="feature-image-placeholder">
-                        <span data-fr="📸 Image à ajouter : manga-detail.png" data-en="📸 Image to add: manga-detail.png">📸 Image à ajouter : manga-detail.png</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Screenshots Gallery Section -->
-        <section class="gallery-section">
-            <h2 class="gallery-title" data-fr="Captures d'écran" data-en="Screenshots">Captures d'écran</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-main.png" alt="Page principale Manga Tracker" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Page Principale" data-en="Main Page">Page Principale</h4>
-                        <p data-fr="Grille des mangas avec filtres" data-en="Manga grid with filters">Grille des mangas avec filtres</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-add.png" alt="Ajout de manga" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Ajout Manuel" data-en="Manual Add">Ajout Manuel</h4>
-                        <p data-fr="Formulaire d'ajout de manga" data-en="Add manga form">Formulaire d'ajout de manga</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-search.png" alt="Recherche MangaDex" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Catalogue MangaDex" data-en="MangaDex Catalog">Catalogue MangaDex</h4>
-                        <p data-fr="Recherche et import depuis l'API" data-en="Search and import from API">Recherche et import depuis l'API</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-detail.png" alt="Détail d'un manga" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Fiche Détaillée" data-en="Detailed View">Fiche Détaillée</h4>
-                        <p data-fr="Informations et progression" data-en="Information and progress">Informations et progression</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-settings.png" alt="Paramètres" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Paramètres" data-en="Settings">Paramètres</h4>
-                        <p data-fr="Configuration de l'application" data-en="Application settings">Configuration de l'application</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/manga-tracker-tags.png" alt="Gestion des tags" loading="lazy">
-                    <div class="gallery-caption">
-                        <h4 data-fr="Gestion des Tags" data-en="Tags Management">Gestion des Tags</h4>
-                        <p data-fr="Organisation par catégories" data-en="Category organization">Organisation par catégories</p>
-                    </div>
+                    <img src="images/manga-tracker-detail.png" alt="Détail d'un manga" class="feature-image" loading="lazy">
                 </div>
             </div>
         </section>
