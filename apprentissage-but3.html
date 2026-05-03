@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio d'Apprentissage BUT 3 - Quentin Grelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent-color: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.6);
+            --accent-light: #ecc94b;
+            --accent-gradient: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+            --bg-dark: #0a0f1a;
+            --bg-secondary: #0f172a;
+            --bg-section: #1a365d;
+            --bg-card: rgba(26, 54, 93, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(214, 158, 46, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-secondary: #e2e8f0;
+            --bg-section: rgba(26, 54, 93, 0.05);
+            --bg-card: rgba(26, 54, 93, 0.1);
+            --text-primary: #1a365d;
+            --text-secondary: #475569;
+            --border-color: rgba(26, 54, 93, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.7;
+        }
+
+        .learning-page {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.03;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo-wrapper {
+            position: relative;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-logo:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: none;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-width: 260px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .nav-logo-wrapper:hover .menu-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .menu-item.active {
+            background: rgba(214, 158, 46, 0.15);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .year-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-gradient);
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .year-badge span {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--bg-dark);
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .intro-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .intro-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .intro-title::before {
+            content: '📗';
+            font-size: 2rem;
+        }
+
+        .intro-text {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text strong {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .program-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: rgba(214, 158, 46, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .competence-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .competence-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .competence-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .competence-header:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .competence-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .competence-info {
+            flex: 1;
+        }
+
+        .competence-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-family: 'Orbitron', monospace;
+        }
+
+        .competence-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.03em;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+
+        .competence-section.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .competence-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .competence-section.expanded .competence-content {
+            max-height: 20000px;
+        }
+
+        .ac-group-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 1rem 0 0.5rem;
+            margin: 1rem 0 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .ac-cards {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .ac-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ac-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-gradient);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .ac-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .ac-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .ac-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ac-number {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--bg-dark);
+            font-size: 0.85rem;
+            font-family: 'Orbitron', monospace;
+            box-shadow: 0 4px 16px var(--accent-glow);
+            flex-shrink: 0;
+        }
+
+        .ac-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .ac-context {
+            background: rgba(214, 158, 46, 0.05);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .ac-context h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .ac-context p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .achievements-list {
+            margin: 1.5rem 0;
+        }
+
+        .achievements-list h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .achievements-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .achievements-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .metric-highlight {
+            display: inline-block;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background: rgba(214, 158, 46, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+
+        .project-link:hover {
+            background: var(--accent-gradient);
+            color: var(--bg-dark);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .project-link::before {
+            content: '→';
+            font-weight: bold;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-tag {
+            background: rgba(214, 158, 46, 0.1);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tech-tag:hover {
+            background: var(--accent-gradient);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+            border-color: transparent;
+        }
+
+        .synthesis-section {
+            margin-top: 5rem;
+            padding: 4rem 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .synthesis-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .synthesis-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .synthesis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .synthesis-card {
+            background: rgba(214, 158, 46, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .synthesis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .synthesis-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .synthesis-card h3::before {
+            content: '◆';
+            color: var(--accent-color);
+        }
+
+        .synthesis-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: '←';
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 968px) {
+            .competence-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .expand-icon {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+            }
+
+            .program-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { padding: 1.5rem 1rem; }
+            .main-container { padding: 0 1rem 3rem; }
+            .header-section { padding: 3rem 1rem; }
+            .intro-section { padding: 2rem 1.5rem; }
+            .ac-card { padding: 1.5rem; }
+            .synthesis-section { padding: 2rem 1.5rem; }
+            .synthesis-grid { grid-template-columns: 1fr; }
+        }
+
+        .nav-logo:focus,
+        .theme-toggle:focus,
+        .lang-toggle:focus,
+        .menu-item:focus,
+        .competence-header:focus {
+            outline: 3px solid var(--accent-color);
+            outline-offset: 3px;
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+<div class="learning-page">
+    <div class="background-pattern">
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="nav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
+            <div class="menu-dropdown">
+                <a href="index.html" class="menu-item">Accueil</a>
+                <a href="about.html" class="menu-item">À propos</a>
+                <a href="contact.html" class="menu-item">Contact</a>
+                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage BUT 2</a>
+                <a href="apprentissage-but3.html" class="menu-item active">Portfolio d'apprentissage BUT 3</a>
+                <a href="realisations.html" class="menu-item">Réalisations &amp; Événements</a>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Header Section -->
+        <section class="header-section">
+            <div class="year-badge">
+                <span>BUT 3 IAMSI</span>
+            </div>
+            <h1 class="main-title">Portfolio d'Apprentissage BUT 3</h1>
+            <p class="subtitle">Analyse réflexive des compétences de 3ème année</p>
+        </section>
+
+        <!-- Back link -->
+        <a href="apprentissage-critique.html" class="back-link">Voir le portfolio BUT 2</a>
+
+        <!-- Introduction Section -->
+        <section class="intro-section">
+            <h2 class="intro-title">Contexte et démarche</h2>
+
+            <p class="intro-text">
+                Ce portfolio d'apprentissage documente ma progression au cours de ma <strong>3ème année de BUT Informatique</strong>, parcours <strong>Intégration d'Applications et Management des Systèmes d'Information (IAMSI)</strong>. Contrairement au portfolio de 2ème année centré sur l'optimisation, l'administration système et la gestion des données, cette troisième année marque un tournant vers la maîtrise professionnelle complète : architectures applicatives avancées, évolution de systèmes en production réelle, et conduite stratégique de projets informatiques.
+            </p>
+            <p class="intro-text">
+                Les compétences présentées ici s'appuient sur une <strong>double expérience complémentaire</strong> : celle de projets académiques rigoureux menés en équipe, et celle d'une <strong>alternance chez Ivalua</strong>, éditeur SaaS de rang mondial spécialisé dans la gestion des achats. Cette immersion professionnelle a considérablement enrichi ma compréhension des enjeux réels du développement logiciel, de la maintenance de systèmes complexes, et de l'intégration dans des environnements clients exigeants. Elle s'articule avec un stage chez <strong>CornerHub</strong> et plusieurs projets personnels significatifs comme <strong>Komuko</strong>.
+            </p>
+            <p class="intro-text">
+                Chaque apprentissage critique présenté est illustré par des réalisations concrètes et contextualisées, démontrant une progression mesurable d'une posture étudiante vers une <strong>posture professionnelle confirmée</strong>.
+            </p>
+
+            <div class="program-info">
+                <div class="info-card">
+                    <div class="info-label">Diplôme</div>
+                    <div class="info-value">BUT Informatique</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Spécialité</div>
+                    <div class="info-value">IAMSI</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Niveau</div>
+                    <div class="info-value">3ème année</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Alternance</div>
+                    <div class="info-value">Ivalua (SaaS Achats)</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Compétences</div>
+                    <div class="info-value">C1, C5</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================
+             COMPÉTENCE 1 : RÉALISER
+             ============================ -->
+        <div class="competence-section comp-1" data-competence="1">
+            <div class="competence-header" onclick="toggleCompetence(1)">
+                <div class="competence-icon">💻</div>
+                <div class="competence-info">
+                    <h2 class="competence-title">Compétence 1 : Réaliser</h2>
+                    <p class="competence-subtitle">Développer, faire évoluer et intégrer des applications dans des environnements professionnels réels</p>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+
+            <div class="competence-content">
+                <div class="ac-cards">
+
+                    <!-- AC11 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC11</div>
+                            <h3 class="ac-title">Choisir et implémenter les architectures adaptées</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Tout au long de ma formation, j'ai été amené à concevoir et structurer des applications en choisissant les ressources techniques appropriées selon les contraintes et les besoins de chaque projet. Cette compétence repose sur une démarche systématique : analyser le besoin fonctionnel avant de sélectionner toute technologie, afin que chaque choix architectural soit justifié par ce qu'il apporte concrètement au projet.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong><a href="the-paw-fice.html" class="project-link">The Paw-fice</a> — Architecture MVC avec Symfony 6.4 LTS</strong> :
+                                    L'application devait couvrir gestion d'utilisateurs, upload de fichiers, profils publics/privés et un panel d'administration dans un délai contraint. Ces exigences nous ont orientés naturellement vers <span class="metric-highlight">Symfony 6.4 LTS</span> et son architecture MVC, couplé à Doctrine ORM pour la persistance et Twig pour le rendu. J'ai pris en charge la partie Backend Features : conception de l'entité <code>Animal</code> avec génération automatique d'un hash SHA-256 à partir de l'email, implémentation des controllers <code>AnimalController</code>, <code>AvatarController</code> et <code>ProfileController</code>, et gestion de l'upload de fichiers avec <code>BinaryFileResponse</code> incluant une image par défaut selon le type d'animal. Chaque décision reposait sur une analyse précise du besoin fonctionnel avant toute ligne de code.
+                                </li>
+                                <li>
+                                    <strong><a href="ratemyslide.html" class="project-link">RateMySlide</a> — Architecture API REST avec API Platform 4.2</strong> :
+                                    À deux sur le back-end, nous avons construit une API REST de critiques de toboggans avec <span class="metric-highlight">Symfony 6.4 et API Platform 4.2</span>. La décision structurante a été de choisir une architecture orientée API REST plutôt qu'une application monolithique classique, permettant un découplage total entre front-end et back-end. Pour l'authentification, nous avons intégré un système JWT via Lexik et Gesdinet Refresh Token, adapté aux API sans état. La conteneurisation via <span class="metric-highlight">Docker</span> garantit la portabilité de l'environnement. L'architecture interne est organisée en couches strictement séparées : entités, repositories, State Processors pour la logique métier, Voters pour les autorisations par ressource, et un EventSubscriber pour le rate limiting anti-bruteforce. La documentation OpenAPI générée automatiquement via API Platform rendait l'API immédiatement exploitable par le front-end sans effort de documentation manuelle.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Symfony 6.4 LTS</span>
+                            <span class="tech-tag">API Platform 4.2</span>
+                            <span class="tech-tag">Doctrine ORM</span>
+                            <span class="tech-tag">Twig</span>
+                            <span class="tech-tag">JWT / Lexik</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">OpenAPI</span>
+                            <span class="tech-tag">Architecture MVC</span>
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">SHA-256</span>
+                        </div>
+                    </div>
+
+                    <!-- AC12 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC12</div>
+                            <h3 class="ac-title">Faire évoluer une application existante</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Faire évoluer une application existante implique une posture radicalement différente de la création from scratch : il faut lire, comprendre et intervenir sur du code que l'on n'a pas écrit, sans tout remettre à plat. Cette compétence, amorcée sur des projets académiques, a trouvé son expression la plus significative dans mon alternance chez Ivalua, où chaque intervention porte sur un système de grande envergure en production.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>Les Aventuriers du Rail — Reprise de code existant</strong> :
+                                    Ce projet académique nous a demandé de reprendre le code existant d'un jeu de plateau pour le corriger, le compléter et le faire évoluer sans en être les auteurs originaux. Ce premier exercice de reprise de code m'a appris à lire une base existante, à en identifier les conventions et invariants, puis à m'y intégrer de manière cohérente — sans réécrire ce qui fonctionnait.
+                                </li>
+                                <li>
+                                    <strong><a href="alternance-ivalua.html" class="project-link">Alternance Ivalua</a> — Maintenance corrective sur C#/.NET</strong> :
+                                    La plateforme Ivalua est une application de grande envergure dont chaque client dispose de son propre projet. Mon rôle lorsqu'un ticket arrive est d'abord d'analyser le comportement anormal : je récupère la branche du projet concerné, je reproduis le problème, puis j'inspecte le code <span class="metric-highlight">C#/.NET</span> pour en identifier la cause. Une fois celle-ci identifiée, la démarche diverge selon la nature du code en cause. Si l'erreur provient du code spécifique au client, j'apporte directement la correction. Si le problème est localisé dans le code produit standard, je propose un <span class="metric-highlight">patch correctif</span> propre au projet du client — une correction ciblée, clairement documentée — et je crée en parallèle un ticket à destination de la team R&D avec mon analyse et le patch comme base de travail. Ce processus m'a appris à intervenir avec méthode et précaution sur du code existant, en veillant à la qualité et à la documentation de chaque intervention.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">C# / .NET</span>
+                            <span class="tech-tag">Debugging</span>
+                            <span class="tech-tag">Code Review</span>
+                            <span class="tech-tag">Patch correctif</span>
+                            <span class="tech-tag">Documentation technique</span>
+                            <span class="tech-tag">Ticketing</span>
+                            <span class="tech-tag">Analyse d'impact</span>
+                        </div>
+                    </div>
+
+                    <!-- AC13 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC13</div>
+                            <h3 class="ac-title">Intégrer des solutions dans un environnement de production</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                L'intégration en production ne se résume pas à déployer du code : c'est un acte technique réfléchi qui exige de comprendre l'écosystème dans lequel s'insère la solution, de maîtriser les risques, et d'assurer la continuité de service. Cette dimension, je l'ai travaillée à travers des contextes très différents — du projet académique à l'environnement professionnel grand compte.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>Stage CornerHub — Intégration dans un SI existant</strong> :
+                                    Ma mission ne consistait pas à construire une application isolée, mais à analyser l'architecture déjà en place, comprendre les outils utilisés par les équipes, puis développer des applications complémentaires s'y intégrant naturellement. J'ai notamment développé une <span class="metric-highlight">solution d'import et de partage de documents</span> à destination de l'équipe de communication, déployée sur la même plateforme que les autres applications existantes. Cette expérience m'a sensibilisé à la contrainte réelle de l'intégration : une solution doit s'insérer dans un écosystème existant sans le perturber.
+                                </li>
+                                <li>
+                                    <strong><a href="alternance-ivalua.html" class="project-link">Ivalua</a> — Déploiement en production client grand compte</strong> :
+                                    Lorsqu'une correction est validée, c'est moi qui gère son déploiement dans l'environnement du client. Intervenir directement en production sur la plateforme d'un client grand compte implique une rigueur particulière : chaque déploiement doit être <span class="metric-highlight">maîtrisé, testé et documenté</span>, car la moindre erreur a un impact immédiat sur l'activité du client. Cette responsabilité m'a appris à aborder l'intégration en production comme un acte technique réfléchi, et non comme une étape automatique.
+                                </li>
+                                <li>
+                                    <strong>Komuko — Intégration avec un backend-as-a-service</strong> :
+                                    Sur mon projet personnel Komuko, le choix de <span class="metric-highlight">Supabase</span> comme BaaS m'a permis de disposer d'un environnement de production directement accessible — PostgreSQL, authentification, stockage — sans configurer d'infrastructure serveur. Ce choix m'a appris à distinguer ce que l'on gère soi-même de ce que l'on délègue à un service managé, une réflexion centrale en intégration moderne.
+                                </li>
+                                <li>
+                                    <strong>Pipeline GitLab CI / SonarQube — Intégration continue</strong> :
+                                    Dans le cadre académique, j'ai travaillé sur la mise en place d'un pipeline <span class="metric-highlight">GitLab CI couplé à SonarQube</span> pour automatiser l'analyse de qualité du code à chaque push. Cette expérience m'a initié aux principes de l'intégration continue : automatiser les vérifications pour qu'aucun code défaillant ne soit intégré sans avoir été contrôlé, une pratique indispensable dans tout environnement de production sérieux.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">GitLab CI</span>
+                            <span class="tech-tag">SonarQube</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Déploiement</span>
+                            <span class="tech-tag">CI/CD</span>
+                            <span class="tech-tag">Intégration continue</span>
+                            <span class="tech-tag">Backend as a Service</span>
+                        </div>
+                    </div>
+
+                </div><!-- .ac-cards -->
+            </div><!-- .competence-content -->
+        </div><!-- .competence-section -->
+
+
+        <!-- ============================
+             COMPÉTENCE 5 : CONDUIRE
+             ============================ -->
+        <div class="competence-section comp-5" data-competence="5">
+            <div class="competence-header" onclick="toggleCompetence(5)">
+                <div class="competence-icon">🎯</div>
+                <div class="competence-info">
+                    <h2 class="competence-title">Compétence 5 : Conduire</h2>
+                    <p class="competence-subtitle">Piloter des projets informatiques, gérer les systèmes d'information et accompagner l'innovation numérique</p>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+
+            <div class="competence-content">
+                <div class="ac-cards">
+
+                    <p class="ac-group-title">— Piloter un projet dans son contexte économique et organisationnel —</p>
+
+                    <!-- AC51 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC51</div>
+                            <h3 class="ac-title">Mesurer les impacts économiques, sociétaux et technologiques d'un projet informatique</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Mesurer les impacts d'un projet informatique est une dimension que j'estime fondamentale dans toute démarche de conception sérieuse. Un projet ne se résume pas à sa faisabilité technique : il s'inscrit dans un contexte économique, organisationnel et sociétal qui doit être analysé avec une démarche proactive, créative et critique.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>HealthSip — Startup fictive, bouteille connectée</strong> :
+                                    Ce projet académique m'a amené à produire une analyse complète allant bien au-delà de la dimension technique : <span class="metric-highlight">analyse de marché</span>, matrice SWOT, étude concurrentielle et projections financières sur trois ans. Cet exercice m'a obligé à raisonner sur la viabilité économique d'une solution numérique, à identifier ses forces et ses risques, et à communiquer ces résultats de manière structurée aux différents acteurs du projet. C'est en travaillant sur ces projections que j'ai compris qu'un projet informatique génère des impacts qui dépassent largement son périmètre technique : coûts de développement, modèle de revenus, positionnement concurrentiel, et valeur perçue par les utilisateurs finaux.
+                                </li>
+                                <li>
+                                    <strong>Démarche transversale en entreprise et en projets</strong> :
+                                    De manière plus générale, je considère que cette capacité d'analyse doit être appliquée à tout projet avec un niveau d'investissement proportionnel à ses enjeux. Sur des projets moins structurés, cela se traduit par une réflexion minimale mais systématique sur le coût, l'utilité et l'impact de ce que l'on construit — une habitude que j'essaie de cultiver aussi bien en contexte académique qu'en entreprise.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Analyse de marché</span>
+                            <span class="tech-tag">SWOT</span>
+                            <span class="tech-tag">Business Plan</span>
+                            <span class="tech-tag">Projections financières</span>
+                            <span class="tech-tag">IoT</span>
+                            <span class="tech-tag">Analyse concurrentielle</span>
+                        </div>
+                    </div>
+
+                    <!-- AC52 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC52</div>
+                            <h3 class="ac-title">Savoir intégrer un projet informatique dans le système d'information d'une organisation</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Comprendre comment un projet informatique s'insère dans un système d'information existant implique de saisir la logique modulaire d'un SI, ses conventions, et la manière dont une nouvelle solution peut y être greffée sans remettre en cause l'existant. Cette compétence s'est construite progressivement, d'abord en cours puis en situation professionnelle réelle.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>Dolibarr — Prise en main d'un ERP open source</strong> :
+                                    En cours, j'ai eu l'occasion de manipuler <span class="metric-highlight">Dolibarr</span>, ERP open source, ce qui m'a permis de comprendre concrètement ce qu'est un système d'information d'entreprise : un ensemble d'outils interconnectés couvrant des besoins métiers variés (contacts, facturation, suivi de projets). Travailler sur cet outil m'a sensibilisé à la logique modulaire d'un SI et à la manière dont on peut y greffer de nouvelles fonctionnalités en respectant les normes et conventions en vigueur.
+                                </li>
+                                <li>
+                                    <strong>Stage CornerHub — Intégration dans un SI professionnel réel</strong> :
+                                    J'ai mis cette logique en pratique concrète. J'ai analysé l'architecture applicative déjà en place avant de développer de nouvelles solutions, notamment une <span class="metric-highlight">application d'import et de partage de documents</span>, intégrée directement sur la plateforme existante aux côtés des outils déjà utilisés par les équipes. Cette expérience m'a appris qu'intégrer un projet dans un SI ne signifie pas seulement que le code fonctionne, mais que la solution s'inscrit de manière cohérente dans les usages et les flux de l'organisation.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Dolibarr</span>
+                            <span class="tech-tag">ERP</span>
+                            <span class="tech-tag">Système d'information</span>
+                            <span class="tech-tag">Architecture SI</span>
+                            <span class="tech-tag">Intégration applicative</span>
+                            <span class="tech-tag">Analyse de l'existant</span>
+                        </div>
+                    </div>
+
+                    <!-- AC53 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC53</div>
+                            <h3 class="ac-title">Savoir adapter un système d'information</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Adapter un système d'information, c'est être capable de faire évoluer les outils et les processus d'une organisation pour répondre à de nouveaux besoins, tout en maintenant la cohérence et la continuité du SI existant. C'est la dimension de ma mission chez Ivalua qui illustre le mieux cet apprentissage.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong><a href="alternance-ivalua.html" class="project-link">Alternance Ivalua</a> — Adaptation de la plateforme SaaS aux besoins clients</strong> :
+                                    La plateforme Ivalua est déployée chez des clients aux besoins très différents, et une grande partie de mon travail consiste à comprendre le contexte spécifique de chaque client pour adapter la solution à ses contraintes. Lorsqu'un client remonte un problème ou exprime un besoin d'évolution, j'analyse son environnement, je propose une solution adaptée, et je la déploie dans son système en veillant à ce qu'elle s'intègre sans perturber les processus existants. Cette approche m'a appris à adopter une démarche <span class="metric-highlight">proactive et critique</span> : il ne s'agit pas d'appliquer mécaniquement une correction, mais de comprendre pourquoi le système se comporte d'une certaine façon et comment l'adapter de manière pérenne.
+                                </li>
+                                <li>
+                                    <strong>Socle théorique — Architectures SI et bases de données</strong> :
+                                    Les cours sur les systèmes d'information, les bases de données et les architectures SI m'ont fourni le socle nécessaire pour raisonner sur l'adaptation d'un SI : comprendre les dépendances entre composants, anticiper les effets de bord d'une modification, et respecter les règles et normes en vigueur dans chaque intervention.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">C# / .NET</span>
+                            <span class="tech-tag">SaaS</span>
+                            <span class="tech-tag">Ivalua</span>
+                            <span class="tech-tag">Adaptation SI</span>
+                            <span class="tech-tag">Analyse d'impact</span>
+                            <span class="tech-tag">Client grand compte</span>
+                            <span class="tech-tag">Architecture SI</span>
+                        </div>
+                    </div>
+
+                    <p class="ac-group-title">— Manager l'innovation et accompagner le changement —</p>
+
+                    <!-- AC54 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC54</div>
+                            <h3 class="ac-title">Organiser et partager une veille numérique</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                La veille numérique est une compétence que j'ai travaillée de manière structurée dans le cadre d'un projet académique dont l'objectif était de mettre en place un système de veille informationnelle automatisé et qualitatif. L'enjeu n'était pas simplement de collecter des informations, mais de les organiser et de les diffuser de manière efficace, en inscrivant cette démarche au sein d'une équipe avec des outils partagés.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>Système de veille automatisé — Discord & IA</strong> :
+                                    Nous avons mis en place une chaîne automatisée reposant sur <span class="metric-highlight">Discord</span> comme plateforme centrale, avec des bots configurés pour surveiller nos sources thématiques et envoyer des notifications à chaque nouvelle publication. Le contenu collecté était ensuite traité via <span class="metric-highlight">intelligence artificielle</span> pour générer automatiquement un pré-texte synthétisant les informations, avant d'être publié sur notre forum. Cette approche nous a permis d'obtenir un flux de veille qualitatif sans y consacrer un temps excessif, en développant une communication efficace et collaborative autour des informations partagées.
+                                </li>
+                                <li>
+                                    <strong>Veille personnelle continue</strong> :
+                                    Au-delà de ce projet, je maintiens personnellement un niveau de veille minimum sur les technologies que j'utilise, que ce soit pour mon alternance ou mes projets personnels, en m'assurant d'être toujours à jour sur les évolutions qui me concernent directement.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Discord</span>
+                            <span class="tech-tag">Bots automatisés</span>
+                            <span class="tech-tag">Intelligence artificielle</span>
+                            <span class="tech-tag">Veille technologique</span>
+                            <span class="tech-tag">Curation de contenu</span>
+                            <span class="tech-tag">Travail collaboratif</span>
+                        </div>
+                    </div>
+
+                    <!-- AC55 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC55</div>
+                            <h3 class="ac-title">Identifier les enjeux de l'économie de l'innovation numérique</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                L'économie de l'innovation numérique est un domaine que j'ai exploré à travers plusieurs cours et projets académiques. Comprendre ces enjeux, c'est saisir que l'innovation numérique ne se limite pas à une idée technologique : elle doit répondre à un marché, se différencier de la concurrence et générer de la valeur économique mesurable.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>HealthSip — Analyse économique d'un produit numérique</strong> :
+                                    Le projet HealthSip m'a permis de travailler concrètement sur les enjeux économiques et concurrentiels d'un produit numérique : analyse de marché, étude concurrentielle, <span class="metric-highlight">modèle de revenus</span> et projections financières sur trois ans. Cet exercice m'a fait comprendre que l'innovation numérique doit répondre à un marché, se différencier de la concurrence et générer de la valeur économique mesurable.
+                                </li>
+                                <li>
+                                    <strong>Komuko — Blue Ocean Strategy et positionnement différenciant</strong> :
+                                    Pour le dossier d'innovation de Komuko, mon application de suivi de manga et manhwa, j'ai appliqué la <span class="metric-highlight">Blue Ocean Strategy</span> et une analyse SWOT pour identifier un positionnement différenciant sur un marché pourtant déjà occupé. Cet exercice m'a appris à chercher des espaces de marché inexploités plutôt que de concurrencer frontalement des acteurs établis.
+                                </li>
+                                <li>
+                                    <strong>Règlement européen sur l'IA et RGPD</strong> :
+                                    Les cours sur ces réglementations m'ont sensibilisé à la dimension juridique et éthique de l'innovation numérique, en veillant au respect des contraintes juridiques qui encadrent le développement et le déploiement de solutions numériques aujourd'hui.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Blue Ocean Strategy</span>
+                            <span class="tech-tag">SWOT</span>
+                            <span class="tech-tag">Modèle de revenus</span>
+                            <span class="tech-tag">RGPD</span>
+                            <span class="tech-tag">AI Act</span>
+                            <span class="tech-tag">Innovation numérique</span>
+                            <span class="tech-tag">Analyse concurrentielle</span>
+                        </div>
+                    </div>
+
+                    <!-- AC56 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC56</div>
+                            <h3 class="ac-title">Guider la conduite du changement informatique au sein d'une organisation</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                La conduite du changement est une réalité centrale du déploiement de solutions informatiques : un outil, aussi bon soit-il techniquement, n'est adopté que si l'on accompagne les utilisateurs dans la mise en œuvre des évolutions avec des ressources pédagogiques adaptées et une communication claire.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong>Projet Obsidian — Dispositif d'onboarding utilisateur</strong> :
+                                    Ce projet académique centré sur <span class="metric-highlight">Obsidian</span> comme outil de gestion de connaissances avait pour objectif de concevoir un dispositif d'onboarding permettant à de nouveaux utilisateurs de s'approprier l'outil progressivement, avec un <span class="metric-highlight">prototype Figma</span> et une base de connaissances intégrée. Ce projet m'a confronté à une réalité centrale de la conduite du changement : les ressources pédagogiques et la communication sont aussi importantes que la qualité technique de la solution.
+                                </li>
+                                <li>
+                                    <strong><a href="alternance-ivalua.html" class="project-link">Ivalua</a> — Chaîne de communication lors des déploiements</strong> :
+                                    Lorsqu'une correction ou une évolution est déployée sur l'environnement d'un client, les utilisateurs finaux doivent comprendre ce qui change et pourquoi. C'est souvent à travers les échanges avec les <span class="metric-highlight">Technical Account Managers</span> que cette information est transmise et vulgarisée. Cette chaîne de communication m'a appris que guider le changement informatique implique autant de rigueur dans la transmission de l'information que dans la réalisation technique elle-même.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">Obsidian</span>
+                            <span class="tech-tag">Conduite du changement</span>
+                            <span class="tech-tag">Onboarding</span>
+                            <span class="tech-tag">Communication technique</span>
+                            <span class="tech-tag">Documentation utilisateur</span>
+                        </div>
+                    </div>
+
+                    <!-- AC57 -->
+                    <div class="ac-card">
+                        <div class="ac-header">
+                            <div class="ac-number">AC57</div>
+                            <h3 class="ac-title">Accompagner le management de projet informatique</h3>
+                        </div>
+
+                        <div class="ac-context">
+                            <h4>Contexte d'apprentissage</h4>
+                            <p>
+                                Le management de projet informatique est une compétence que j'ai développée progressivement à travers mes expériences en équipe. Sur des projets académiques, j'ai appris à organiser le travail collectif, à répartir les responsabilités et à maintenir une cohérence entre les différentes parties d'un projet, en inscrivant ma démarche au sein d'une équipe pluridisciplinaire. En alternance, cette dimension prend une forme plus professionnelle avec des processus structurés et des clients à satisfaire dans des délais contraints.
+                            </p>
+                        </div>
+
+                        <div class="achievements-list">
+                            <h4>Réalisations concrètes</h4>
+                            <ul>
+                                <li>
+                                    <strong><a href="ratemyslide.html" class="project-link">RateMySlide</a> et <a href="the-paw-fice.html" class="project-link">The Paw-fice</a> — Organisation en équipe académique</strong> :
+                                    Sur ces projets, j'ai appris à organiser le travail collectif, à répartir les responsabilités et à maintenir une cohérence entre les différentes parties du projet. Chaque membre apportait des compétences complémentaires, ce qui m'a appris à coordonner les contributions sans créer de dépendances bloquantes — un fondement du management de projet agile.
+                                </li>
+                                <li>
+                                    <strong><a href="alternance-ivalua.html" class="project-link">Alternance Ivalua</a> — Management opérationnel en équipe RUN</strong> :
+                                    Mon travail s'inscrit dans une équipe RUN structurée, avec des processus de suivi de tickets, des priorités à gérer et des clients à satisfaire dans des délais contraints. J'ai appris à <span class="metric-highlight">estimer la complexité d'une tâche</span>, à communiquer sur son avancement et à escalader les problèmes au bon niveau — vers les TAMs ou vers la team R&D. Développer une communication efficace et collaborative avec tous ces interlocuteurs est devenu un réflexe quotidien, aussi bien à l'écrit dans les <span class="metric-highlight">tickets en anglais</span> qu'à l'oral dans les échanges internes.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Gestion de projet</span>
+                            <span class="tech-tag">Ticketing</span>
+                            <span class="tech-tag">Priorisation</span>
+                            <span class="tech-tag">Communication équipe</span>
+                            <span class="tech-tag">Escalade</span>
+                            <span class="tech-tag">Méthode Agile</span>
+                            <span class="tech-tag">Anglais professionnel</span>
+                        </div>
+                    </div>
+
+                </div><!-- .ac-cards -->
+            </div><!-- .competence-content -->
+        </div><!-- .competence-section -->
+
+
+        <!-- Synthesis Section -->
+        <section class="synthesis-section">
+            <h2 class="synthesis-title">Synthèse BUT 3</h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto 2rem;">
+                Cette troisième année marque le passage d'une posture d'apprenant à une posture de praticien confirmé. Les compétences acquises s'articulent autour d'une conviction : la maîtrise technique est indissociable de la capacité à l'inscrire dans un contexte humain, organisationnel et économique.
+            </p>
+            <div class="synthesis-grid">
+                <div class="synthesis-card">
+                    <h3>Architectures et production</h3>
+                    <p>De la conception d'une API REST avec API Platform à la maintenance corrective en production chez Ivalua, j'ai acquis une vision complète du cycle de vie d'une application — du choix architectural initial jusqu'au déploiement en environnement client réel.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>Systèmes d'information</h3>
+                    <p>À travers l'intégration dans des SI existants (CornerHub, Ivalua, Dolibarr), j'ai appris qu'une solution informatique ne vit pas en isolation : elle s'insère dans un écosystème d'outils, de processus et d'acteurs qu'il faut comprendre avant d'intervenir.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>Conduite et innovation</h3>
+                    <p>Des projections financières de HealthSip à la Blue Ocean Strategy de Komuko, j'ai développé une capacité à penser un produit numérique au-delà de sa dimension technique, en intégrant les enjeux économiques, concurrentiels et réglementaires.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>Communication et management</h3>
+                    <p>L'alternance chez Ivalua m'a forgé une communication professionnelle quotidienne — tickets en anglais, échanges avec les TAMs, escalades vers la R&D — et une capacité à travailler dans des contraintes de délai et de qualité réelles.</p>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- .main-container -->
+</div><!-- .learning-page -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeSettings();
+        setupEventHandlers();
+        setupScrollEffects();
+        setupIntersectionObserver();
+    });
+
+    function initializeSettings() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        const savedLang = localStorage.getItem('language') || 'fr';
+        const langToggle = document.getElementById('lang-toggle');
+
+        if (savedLang !== 'fr') {
+            langToggle.textContent = savedLang.toUpperCase();
+            html.setAttribute('lang', savedLang);
+        }
+    }
+
+    function setupEventHandlers() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                document.body.classList.add('theme-transition');
+                html.setAttribute('data-theme', newTheme);
+                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', newTheme);
+
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 700);
+            });
+        }
+
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const currentLang = this.textContent.toLowerCase();
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+                this.textContent = newLang.toUpperCase();
+                localStorage.setItem('language', newLang);
+            });
+        }
+    }
+
+    function setupScrollEffects() {
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    }
+
+    function toggleCompetence(competenceNumber) {
+        const section = document.querySelector(`[data-competence="${competenceNumber}"]`);
+        if (section) {
+            section.classList.toggle('expanded');
+        }
+    }
+
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.competence-section, .synthesis-section').forEach(el => {
+            observer.observe(el);
+        });
+    }
+</script>
+</body>
+</html>
