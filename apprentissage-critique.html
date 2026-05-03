@@ -3,1578 +3,775 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio d'Apprentissage Critique - Quentin Grelier</title>
+    <title>Portfolio d'Apprentissage BUT 2 - Quentin Grelier</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            /* QG Theme colors - Navy & Gold */
-            --accent-color: #d69e2e;
-            --accent-glow: rgba(214, 158, 46, 0.6);
-            --accent-light: #ecc94b;
-            --accent-gradient: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
-
-            --bg-dark: #0a0f1a;
-            --bg-secondary: #0f172a;
-            --bg-section: #1a365d;
-            --bg-card: rgba(26, 54, 93, 0.3);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: rgba(214, 158, 46, 0.3);
+            --accent: #d69e2e;
+            --accent-glow: rgba(214, 158, 46, 0.45);
+            --accent-grad: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+            --bg: #0a0f1a;
+            --bg2: #0f172a;
+            --card: rgba(26, 54, 93, 0.22);
+            --card-hover: rgba(26, 54, 93, 0.48);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: rgba(214, 158, 46, 0.22);
+            --border-open: rgba(214, 158, 46, 0.65);
         }
-
         [data-theme="light"] {
-            --bg-dark: #f1f5f9;
-            --bg-secondary: #e2e8f0;
-            --bg-section: rgba(26, 54, 93, 0.05);
-            --bg-card: rgba(26, 54, 93, 0.1);
-            --text-primary: #1a365d;
-            --text-secondary: #475569;
-            --border-color: rgba(26, 54, 93, 0.3);
+            --bg: #f1f5f9;
+            --bg2: #e2e8f0;
+            --card: rgba(26, 54, 93, 0.05);
+            --card-hover: rgba(26, 54, 93, 0.11);
+            --text: #1a365d;
+            --muted: #475569;
+            --border: rgba(26, 54, 93, 0.18);
+            --border-open: rgba(26, 54, 93, 0.55);
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            line-height: 1.7;
-        }
-
-        .learning-page {
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            position: relative;
+            line-height: 1.75;
+            transition: background 0.4s, color 0.4s;
         }
 
-        /* Background Pattern - QG Style */
-        .background-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            opacity: 0.03;
-        }
-
-        .grid-pattern {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        /* ── Background grid ── */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1; opacity: 0.022;
             background-image:
-                linear-gradient(var(--border-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
             background-size: 50px 50px;
-            animation: gridMove 30s linear infinite;
+            animation: gridDrift 40s linear infinite;
         }
+        @keyframes gridDrift { to { background-position: 50px 50px; } }
 
-        @keyframes gridMove {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(50px, 50px);
-            }
+        /* ── Navigation ── */
+        .nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.3rem 2.5rem;
+            position: sticky; top: 0; z-index: 100;
+            transition: background 0.3s, backdrop-filter 0.3s;
         }
-
-        /* Navigation - QG Style */
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container.scrolled {
-            background: rgba(10, 15, 26, 0.85);
+        .nav.scrolled {
+            background: rgba(10, 15, 26, 0.9);
             backdrop-filter: blur(20px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 0 var(--border);
         }
-
-        .nav-logo-wrapper {
-            position: relative;
-        }
-
+        .nav-logo-wrap { position: relative; }
         .nav-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: transparent;
-            border: 2px solid var(--accent-color);
-            border-radius: 8px;
-            text-decoration: none;
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px var(--accent-glow);
+            display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px;
+            border: 2px solid var(--accent); border-radius: 8px;
+            font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700;
+            color: var(--accent); text-decoration: none;
+            transition: all 0.3s; text-shadow: 0 0 12px var(--accent-glow);
         }
-
         .nav-logo:hover {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px var(--accent-glow);
-            text-shadow: none;
+            background: var(--accent); color: var(--bg);
+            box-shadow: 0 0 30px var(--accent-glow); text-shadow: none;
         }
-
-        .menu-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 220px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            margin-top: 0.5rem;
+        .nav-dropdown {
+            position: absolute; top: calc(100% + 0.5rem); left: 0;
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 0.4rem; min-width: 270px;
+            opacity: 0; visibility: hidden; transform: translateY(-8px);
+            transition: all 0.25s; z-index: 200;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         }
-
-        .nav-logo-wrapper:hover .menu-dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .nav-logo-wrap:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-link {
+            display: block; padding: 0.7rem 1rem;
+            color: var(--text); text-decoration: none; border-radius: 6px;
+            font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+            letter-spacing: 0.02em;
         }
-
-        .menu-item {
-            display: block;
-            padding: 0.75rem 1rem;
-            color: var(--text-primary);
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
+        .nav-link:hover { background: var(--accent); color: var(--bg); }
+        .nav-link.current {
+            color: var(--accent); border-left: 3px solid var(--accent);
+            padding-left: 0.75rem; background: rgba(214,158,46,0.06);
         }
-
-        .menu-item:hover {
-            background: var(--accent-color);
-            color: var(--bg-dark);
+        .nav-controls { display: flex; gap: 0.6rem; }
+        .nav-btn {
+            padding: 0.55rem 0.9rem; background: transparent;
+            border: 1px solid var(--border); border-radius: 6px;
+            color: var(--text); cursor: pointer;
+            font-family: 'Rajdhani', sans-serif; font-weight: 600;
+            font-size: 0.82rem; letter-spacing: 0.08em; transition: all 0.25s;
         }
+        .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        .nav-controls {
-            display: flex;
-            gap: 0.75rem;
+        /* ── Page header ── */
+        .page-header {
+            text-align: center; padding: 4rem 2rem 3rem;
+            animation: fadeUp 0.8s ease both;
         }
-
-        .theme-toggle,
-        .lang-toggle {
-            padding: 0.6rem 1rem;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
+        .badge {
+            display: inline-block; padding: 0.35rem 1.3rem;
+            background: var(--accent-grad); border-radius: 50px;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+            color: var(--bg); text-transform: uppercase;
+            margin-bottom: 1.3rem; box-shadow: 0 4px 18px var(--accent-glow);
         }
-
-        .theme-toggle:hover,
-        .lang-toggle:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
-        }
-
-        /* Main Content */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-        }
-
-        /* Header Section */
-        .header-section {
-            text-align: center;
-            padding: 4rem 2rem;
-            margin-bottom: 4rem;
-            animation: fadeInUp 1s ease;
-        }
-
-        .year-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1.5rem;
-            background: var(--accent-gradient);
-            border-radius: 50px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 16px var(--accent-glow);
-        }
-
-        .year-badge span {
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            color: var(--bg-dark);
-            text-transform: uppercase;
-        }
-
-        .main-title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            line-height: 1.1;
+        .page-title {
             font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1;
+            background: var(--accent-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 0.8rem;
+        }
+        .page-sub {
+            color: var(--muted); font-family: 'Rajdhani', sans-serif;
+            font-size: 1.15rem; font-weight: 500; letter-spacing: 0.04em;
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+        /* ── Explorer ── */
+        .explorer {
+            max-width: 880px; margin: 0 auto; padding: 0 1.5rem 6rem;
+            animation: fadeUp 0.8s ease 0.15s both;
         }
 
-        .intro-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 4rem;
-            animation: fadeInUp 1s ease 0.3s both;
-        }
+        /* ── Folder ── */
+        .folder { margin-bottom: 2rem; }
 
-        .intro-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .intro-title::before {
-            content: '📘';
-            font-size: 2rem;
-        }
-
-        .intro-text {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            line-height: 1.9;
-            margin-bottom: 1rem;
-        }
-
-        .intro-text strong {
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-
-        .program-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .info-card {
-            background: rgba(214, 158, 46, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-            box-shadow: 0 8px 24px var(--accent-glow);
-        }
-
-        .info-label {
-            font-size: 0.85rem;
-            color: var(--accent-color);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-value {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        /* Competence Sections */
-        .competence-section {
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .competence-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .competence-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            cursor: pointer;
-            padding: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .competence-header:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px var(--accent-glow);
-            border-color: var(--accent-color);
-        }
-
-        .competence-icon {
-            width: 70px;
-            height: 70px;
+        .folder-header {
+            display: flex; align-items: center; gap: 1.4rem;
+            padding: 1.6rem 2rem;
+            background: var(--card);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            flex-shrink: 0;
-            box-shadow: 0 8px 24px var(--accent-glow);
-        }
-
-        .competence-info {
-            flex: 1;
-        }
-
-        .competence-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-family: 'Orbitron', monospace;
-        }
-
-        .competence-subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 0.03em;
-        }
-
-        .expand-icon {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            transition: transform 0.3s ease;
-        }
-
-        .competence-section.expanded .expand-icon {
-            transform: rotate(180deg);
-        }
-
-        .competence-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-        }
-
-        .competence-section.expanded .competence-content {
-            max-height: 10000px;
-        }
-
-        /* AC Cards */
-        .ac-cards {
-            display: grid;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .ac-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.28s;
+            user-select: none;
             position: relative;
             overflow: hidden;
         }
-
-        .ac-card::before {
+        /* subtle shimmer bar on the left */
+        .folder-header::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--accent-gradient);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.3s ease;
+            position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--accent-grad);
+            opacity: 0;
+            transition: opacity 0.25s;
+            border-radius: 4px 0 0 4px;
+        }
+        .folder-header:hover::before,
+        .folder.open .folder-header::before { opacity: 1; }
+
+        .folder-header:hover {
+            background: var(--card-hover);
+            border-color: var(--accent);
+            box-shadow: 0 8px 32px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        .folder.open .folder-header {
+            border-color: var(--border-open);
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+            background: var(--card-hover);
+            box-shadow: 0 4px 24px var(--accent-glow);
         }
 
-        .ac-card:hover::before {
-            transform: scaleY(1);
+        .folder-icon {
+            font-size: 1.9rem;
+            width: 58px; height: 58px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--accent-grad); border-radius: 14px;
+            box-shadow: 0 6px 20px var(--accent-glow);
         }
+        .folder-meta { flex: 1; min-width: 0; }
+        .folder-eyebrow {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.68rem; font-weight: 700;
+            color: var(--accent); letter-spacing: 0.16em;
+            text-transform: uppercase; margin-bottom: 0.2rem;
+        }
+        .folder-name {
+            font-size: 1.4rem; font-weight: 700; color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .folder-badge {
+            display: inline-flex; align-items: center;
+            margin-top: 0.4rem; padding: 0.2rem 0.75rem;
+            background: rgba(214,158,46,0.1); border: 1px solid var(--border);
+            border-radius: 50px; font-size: 0.75rem; color: var(--muted);
+            font-weight: 600; letter-spacing: 0.05em;
+        }
+        .folder-chevron {
+            font-size: 1.3rem; color: var(--accent);
+            transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+            flex-shrink: 0; margin-left: auto;
+        }
+        .folder.open .folder-chevron { transform: rotate(90deg); }
 
-        .ac-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px var(--accent-glow);
-            border-color: var(--accent-color);
+        /* ── AC list ── */
+        .ac-list {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-open); border-top: none;
+            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+            background: linear-gradient(180deg, var(--card-hover) 0%, var(--card) 100%);
         }
+        .folder.open .ac-list { max-height: 12000px; }
+
+        /* ── AC row ── */
+        .ac-row { border-bottom: 1px solid rgba(214,158,46,0.12); }
+        .ac-row:last-child { border-bottom: none; }
 
         .ac-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1.1rem 2rem;
+            cursor: pointer; transition: background 0.2s;
+            user-select: none;
         }
+        .ac-header:hover { background: rgba(214,158,46,0.06); }
+        .ac-row.open .ac-header { background: rgba(214,158,46,0.09); }
 
-        .ac-number {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: var(--bg-dark);
-            font-size: 1rem;
+        .ac-dot {
+            width: 40px; height: 40px; flex-shrink: 0;
+            border-radius: 10px;
+            background: rgba(214,158,46,0.1); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
             font-family: 'Orbitron', monospace;
-            box-shadow: 0 4px 16px var(--accent-glow);
+            font-size: 0.62rem; font-weight: 800; color: var(--accent);
+            transition: all 0.22s; letter-spacing: 0.04em;
+        }
+        .ac-row.open .ac-dot,
+        .ac-header:hover .ac-dot {
+            background: var(--accent-grad); color: var(--bg); border-color: transparent;
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+        .ac-label {
+            flex: 1; font-size: 0.97rem; font-weight: 600; color: var(--text);
+            line-height: 1.4;
+        }
+        .ac-chevron {
+            font-size: 1.1rem; color: var(--muted); flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s;
+        }
+        .ac-row.open .ac-chevron { transform: rotate(90deg); color: var(--accent); }
+
+        /* ── AC content ── */
+        .ac-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ac-row.open .ac-content { max-height: 8000px; }
+
+        .ac-body {
+            margin: 0 2rem;
+            padding: 1.5rem 0 2rem;
+            border-top: 1px solid rgba(214,158,46,0.15);
         }
 
-        .ac-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            flex: 1;
-        }
-
-        .ac-context {
-            background: rgba(214, 158, 46, 0.05);
-            border-left: 4px solid var(--accent-color);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 8px;
-        }
-
-        .ac-context h4 {
-            color: var(--accent-color);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .ac-context p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-
-        .achievements-list {
-            margin: 1.5rem 0;
-        }
-
-        .achievements-list h4 {
-            color: var(--text-primary);
+        /* text inside body */
+        .ac-body p {
+            color: var(--muted); font-size: 1rem; line-height: 1.85;
             margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: 700;
+        }
+        .ac-body p:last-child { margin-bottom: 0; }
+        .ac-body strong { color: var(--text); font-weight: 700; }
+        .ac-body a { color: var(--accent); font-weight: 600; text-decoration: none; }
+        .ac-body a:hover { text-decoration: underline; }
+        .hl { color: var(--accent); font-weight: 700; }
+
+        /* achievements list */
+        .ac-body ul {
+            list-style: none; padding: 0;
+            margin: 0.5rem 0 1.2rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
+        }
+        .ac-body li {
+            position: relative; padding-left: 1.6rem;
+            color: var(--muted); font-size: 1rem; line-height: 1.8;
+        }
+        .ac-body li::before {
+            content: '›'; position: absolute; left: 0; top: 0.05rem;
+            color: var(--accent); font-weight: 700; font-size: 1.1rem;
         }
 
-        .achievements-list ul {
-            list-style: none;
-            padding-left: 0;
+        /* section headings inside body */
+        .ac-body h4 {
+            font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--accent); margin: 1.2rem 0 0.6rem;
         }
 
-        .achievements-list li {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.7;
+        /* perspectives box */
+        .perspective-box {
+            margin-top: 1.2rem; padding: 1rem 1.25rem;
+            background: rgba(214,158,46,0.05);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
         }
+        .perspective-box p { margin: 0; font-size: 0.95rem; }
 
-        .achievements-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--accent-color);
-            font-weight: bold;
-            font-size: 1.2rem;
+        /* ── Synthesis ── */
+        .synthesis {
+            max-width: 880px; margin: 0 auto 6rem; padding: 0 1.5rem;
+            animation: fadeUp 0.8s ease 0.25s both;
         }
-
-        .metric-highlight {
-            display: inline-block;
-            color: var(--accent-color);
-            font-weight: 700;
+        .synthesis-inner {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px; padding: 3rem;
         }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            background: rgba(214, 158, 46, 0.1);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            margin: 0.25rem;
-        }
-
-        .project-link:hover {
-            background: var(--accent-gradient);
-            color: var(--bg-dark);
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-
-        .project-link::before {
-            content: '→';
-            font-weight: bold;
-        }
-
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
-
-        .tech-tag {
-            background: rgba(214, 158, 46, 0.1);
-            border: 1px solid var(--border-color);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .tech-tag:hover {
-            background: var(--accent-gradient);
-            color: var(--bg-dark);
-            transform: translateY(-2px);
-            border-color: transparent;
-        }
-
-        .future-section {
-            background: linear-gradient(135deg, rgba(214, 158, 46, 0.1), rgba(236, 201, 75, 0.1));
-            border: 1px solid var(--accent-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .future-section h4 {
-            color: var(--accent-color);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .future-section h4::before {
-            content: '🎯';
-            font-size: 1.2rem;
-        }
-
-        .future-section p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* Synthesis Section */
-        .synthesis-section {
-            margin-top: 5rem;
-            padding: 4rem 3rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .synthesis-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         .synthesis-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 2rem;
             font-family: 'Orbitron', monospace;
+            font-size: 1.5rem; font-weight: 800;
+            background: var(--accent-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 2rem; text-align: center;
         }
-
-        .synthesis-grid {
+        .synth-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+        .synth-card {
+            background: rgba(214,158,46,0.04);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem; transition: all 0.25s;
+        }
+        .synth-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        .synth-card h3 {
+            font-size: 1.05rem; font-weight: 700; margin-bottom: 0.7rem;
+            color: var(--text); display: flex; align-items: center; gap: 0.5rem;
+        }
+        .synth-card h3::before { content: '◆'; color: var(--accent); font-size: 0.7rem; }
+        .synth-card p { color: var(--muted); font-size: 0.93rem; line-height: 1.7; }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .synthesis-card {
-            background: rgba(214, 158, 46, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            text-align: left;
-        }
-
-        .synthesis-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px var(--accent-glow);
-            border-color: var(--accent-color);
-        }
-
-        .synthesis-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .synthesis-card h3::before {
-            content: '◆';
-            color: var(--accent-color);
-        }
-
-        .synthesis-card p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .competence-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .expand-icon {
-                position: absolute;
-                top: 2rem;
-                right: 2rem;
-            }
-
-            .program-info {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 1.5rem 1rem;
-            }
-
-            .main-container {
-                padding: 0 1rem 3rem;
-            }
-
-            .header-section {
-                padding: 3rem 1rem;
-            }
-
-            .intro-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .ac-card {
-                padding: 1.5rem;
-            }
-
-            .synthesis-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .synthesis-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Focus styles for accessibility */
-        .nav-logo:focus,
-        .theme-toggle:focus,
-        .lang-toggle:focus,
-        .menu-item:focus,
-        .competence-header:focus {
-            outline: 3px solid var(--accent-color);
-            outline-offset: 3px;
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .nav { padding: 1rem 1.25rem; }
+            .page-header { padding: 2.5rem 1rem 2rem; }
+            .explorer, .synthesis { padding: 0 1rem; }
+            .explorer { padding-bottom: 4rem; }
+            .synthesis { padding-bottom: 4rem; }
+            .folder-header { padding: 1.1rem 1.25rem; gap: 1rem; }
+            .folder-icon { width: 48px; height: 48px; font-size: 1.5rem; }
+            .folder-name { font-size: 1.15rem; }
+            .ac-header { padding: 0.9rem 1.25rem; }
+            .ac-body { margin: 0 1.25rem; }
+            .synthesis-inner { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
 <body>
-<div class="learning-page">
-    <div class="background-pattern">
-        <div class="grid-pattern"></div>
-    </div>
 
-    <!-- Navigation -->
-    <div class="nav-container" id="nav">
-        <div class="nav-logo-wrapper">
-            <a href="index.html" class="nav-logo" aria-label="Menu principal">QG</a>
-            <div class="menu-dropdown">
-                <a href="index.html" class="menu-item">Accueil</a>
-                <a href="about.html" class="menu-item">À propos</a>
-                <a href="contact.html" class="menu-item">Contact</a>
-                <a href="apprentissage-critique.html" class="menu-item">Portfolio d'apprentissage BUT 2</a>
-                <a href="apprentissage-but3.html" class="menu-item">Portfolio d'apprentissage BUT 3</a>
-                <a href="realisations.html" class="menu-item">Réalisations & Événements</a>
-            </div>
-        </div>
-        <div class="nav-controls">
-            <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
-            <button class="lang-toggle" id="lang-toggle" aria-label="Changer la langue">FR</button>
+<div class="bg-grid"></div>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+    <div class="nav-logo-wrap">
+        <a href="index.html" class="nav-logo">QG</a>
+        <div class="nav-dropdown">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="about.html" class="nav-link">À propos</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="apprentissage-critique.html" class="nav-link current">Portfolio d'apprentissage BUT 2</a>
+            <a href="apprentissage-but3.html" class="nav-link">Portfolio d'apprentissage BUT 3</a>
+            <a href="realisations.html" class="nav-link">Réalisations &amp; Événements</a>
         </div>
     </div>
+    <div class="nav-controls">
+        <button class="nav-btn" id="theme-btn">☀️</button>
+        <button class="nav-btn" id="lang-btn">FR</button>
+    </div>
+</nav>
 
-    <div class="main-container">
-        <!-- Header Section -->
-        <section class="header-section">
-            <div class="year-badge">
-                <span data-fr="BUT 2 → BUT 3 IAMSI" data-en="BUT 2 → BUT 3 IAMSI">BUT 2 → BUT 3 IAMSI</span>
+<!-- Header -->
+<header class="page-header">
+    <div class="badge">BUT 2 · IAMSI</div>
+    <h1 class="page-title">Portfolio d'Apprentissage</h1>
+    <p class="page-sub">2ème année — Compétences C2, C3, C4</p>
+</header>
+
+<!-- File Explorer -->
+<main class="explorer">
+
+    <!-- ══════════════════════════
+         C2 : OPTIMISER
+         ══════════════════════════ -->
+    <div class="folder" id="folder-c2">
+        <div class="folder-header" onclick="toggleFolder('c2')">
+            <div class="folder-icon">🚀</div>
+            <div class="folder-meta">
+                <div class="folder-eyebrow">Compétence 2</div>
+                <h2 class="folder-name">Optimiser des applications informatiques</h2>
+                <span class="folder-badge">4 apprentissages critiques</span>
             </div>
-
-            <h1 class="main-title" data-fr="Portfolio d'Apprentissage Critique" data-en="Critical Learning Portfolio">Portfolio d'Apprentissage Critique</h1>
-
-            <p class="subtitle" data-fr="Analyse réflexive des compétences acquises en 2ème année" data-en="Reflective analysis of skills acquired in 2nd year">Analyse réflexive des compétences acquises en 2ème année</p>
-        </section>
-
-        <!-- Introduction Section -->
-        <section class="intro-section">
-            <h2 class="intro-title" data-fr="Contexte et démarche" data-en="Context and approach">Contexte et démarche</h2>
-
-            <p class="intro-text" data-fr="Ce portfolio d'apprentissage critique documente ma progression tout au long de ma 2ème année de BUT Informatique, parcours Intégration d'Applications et Management des Systèmes d'Information (IAMSI). Il constitue une analyse réflexive approfondie de l'acquisition progressive des compétences fondamentales du référentiel national BUT, spécifiquement adaptées au contexte professionnel de l'intégration de systèmes et de la gestion d'infrastructures IT." data-en="This critical learning portfolio documents my progression throughout my 2nd year of BUT Computer Science, Application Integration and Information Systems Management (IAMSI) track. It constitutes an in-depth reflective analysis of the progressive acquisition of fundamental skills from the national BUT framework, specifically adapted to the professional context of systems integration and IT infrastructure management.">
-                Ce portfolio d'apprentissage critique documente ma progression tout au long de ma <strong>2ème année de BUT Informatique</strong>, parcours <strong>Intégration d'Applications et Management des Systèmes d'Information (IAMSI)</strong>. Il constitue une analyse réflexive approfondie de l'acquisition progressive des compétences fondamentales du référentiel national BUT, spécifiquement adaptées au contexte professionnel de l'intégration de systèmes et de la gestion d'infrastructures IT.
-            </p>
-
-            <p class="intro-text" data-fr="La spécialité IAMSI se distingue par son approche holistique des systèmes d'information d'entreprise, combinant expertise technique en développement d'applications communicantes, administration de systèmes complexes, et gestion stratégique des données. Cette formation prépare aux métiers d'architecte de systèmes d'information, consultant en transformation digitale, administrateur de systèmes et réseaux, ou encore chef de projet technique dans des environnements technologiques hétérogènes." data-en="The IAMSI specialization is distinguished by its holistic approach to enterprise information systems, combining technical expertise in communicating application development, complex systems administration, and strategic data management. This training prepares for careers as information systems architect, digital transformation consultant, systems and network administrator, or technical project manager in heterogeneous technological environments.">
-                La spécialité <strong>IAMSI</strong> se distingue par son approche holistique des systèmes d'information d'entreprise, combinant expertise technique en développement d'applications communicantes, administration de systèmes complexes, et gestion stratégique des données. Cette formation prépare aux métiers d'architecte de systèmes d'information, consultant en transformation digitale, administrateur de systèmes et réseaux, ou encore chef de projet technique dans des environnements technologiques hétérogènes.
-            </p>
-
-            <p class="intro-text" data-fr="Les compétences présentées ci-dessous représentent les apprentissages critiques de 2ème année qui ne sont plus directement évalués en 3ème année, où l'accent se porte sur la spécialisation avancée, le management de projet complexe, et la préparation à l'insertion professionnelle. Chaque compétence est illustrée par des réalisations concrètes issues de projets académiques et personnels, démontrant une progression mesurable et une capacité d'adaptation aux contextes professionnels variés." data-en="The skills presented below represent the critical learning outcomes of 2nd year that are no longer directly assessed in 3rd year, where the focus is on advanced specialization, complex project management, and preparation for professional integration. Each skill is illustrated by concrete achievements from academic and personal projects, demonstrating measurable progress and ability to adapt to various professional contexts.">
-                Les compétences présentées ci-dessous représentent les apprentissages critiques de 2ème année qui ne sont plus directement évalués en 3ème année, où l'accent se porte sur la spécialisation avancée, le management de projet complexe, et la préparation à l'insertion professionnelle. Chaque compétence est illustrée par des réalisations concrètes issues de projets académiques et personnels, démontrant une progression mesurable et une capacité d'adaptation aux contextes professionnels variés.
-            </p>
-
-            <div class="program-info">
-                <div class="info-card">
-                    <div class="info-label" data-fr="Diplôme" data-en="Degree">Diplôme</div>
-                    <div class="info-value">BUT Informatique</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label" data-fr="Spécialité" data-en="Specialization">Spécialité</div>
-                    <div class="info-value">IAMSI</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label" data-fr="Niveau" data-en="Level">Niveau</div>
-                    <div class="info-value" data-fr="2ème année" data-en="2nd year">2ème année</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label" data-fr="Compétences" data-en="Skills">Compétences</div>
-                    <div class="info-value">C2, C3, C4</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Compétence 2 -->
-        <div class="competence-section comp-2" data-competence="2">
-            <div class="competence-header" onclick="toggleCompetence(2)">
-                <div class="competence-icon">🚀</div>
-                <div class="competence-info">
-                    <h2 class="competence-title" data-fr="Compétence 2 : Optimiser des applications informatiques" data-en="Competence 2: Optimize computer applications">Compétence 2 : Optimiser des applications informatiques</h2>
-                    <p class="competence-subtitle" data-fr="Développer des solutions techniques performantes, sécurisées et durables" data-en="Develop efficient, secure and sustainable technical solutions">Développer des solutions techniques performantes, sécurisées et durables</p>
-                </div>
-                <div class="expand-icon">▼</div>
-            </div>
-
-            <div class="competence-content">
-                <div class="ac-cards">
-                    <!-- AC21 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC21</div>
-                            <h3 class="ac-title" data-fr="Choix et mise en œuvre de structures de données complexes" data-en="Choice and implementation of complex data structures">Choix et mise en œuvre de structures de données complexes</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="La maîtrise des structures de données complexes constitue un fondement essentiel de l'optimisation algorithmique et de la modélisation efficace des processus métier. Cette compétence a été développée à travers l'analyse comparative de différentes structures (arbres, graphes, tables de hachage, files de priorité) et leur application dans des contextes professionnels variés, notamment l'e-commerce, la gestion d'inventaire et les systèmes de recommandation." data-en="Mastery of complex data structures is an essential foundation for algorithmic optimization and efficient business process modeling. This skill was developed through comparative analysis of different structures (trees, graphs, hash tables, priority queues) and their application in various professional contexts, including e-commerce, inventory management and recommendation systems.">
-                                La maîtrise des structures de données complexes constitue un fondement essentiel de l'optimisation algorithmique et de la modélisation efficace des processus métier. Cette compétence a été développée à travers l'analyse comparative de différentes structures (arbres, graphes, tables de hachage, files de priorité) et leur application dans des contextes professionnels variés, notamment l'e-commerce, la gestion d'inventaire et les systèmes de recommandation.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Projet e-commerce floral (Next.js/React) : Implémentation d'une structure de graphe orienté pour modéliser les relations complexes entre produits (accessoires, compositions, alternatives). Cette architecture a permis d'optimiser les requêtes de recommandations croisées et de réduire les temps de calcul de 40% par rapport à une approche relationnelle traditionnelle. Utilisation de l'algorithme de Dijkstra pour calculer les chemins de navigation optimaux dans le catalogue." data-en="Floral e-commerce project (Next.js/React): Implementation of directed graph structure to model complex relationships between products (accessories, compositions, alternatives). This architecture optimized cross-recommendation queries and reduced calculation times by 40% compared to traditional relational approach. Use of Dijkstra's algorithm to calculate optimal navigation paths in the catalog.">
-                                    <strong>Projet e-commerce floral (Next.js/React)</strong> : Implémentation d'une structure de graphe orienté pour modéliser les relations complexes entre produits (accessoires, compositions, alternatives). Cette architecture a permis d'optimiser les requêtes de recommandations croisées et de réduire les temps de calcul de <span class="metric-highlight">40%</span> par rapport à une approche relationnelle traditionnelle. Utilisation de l'algorithme de Dijkstra pour calculer les chemins de navigation optimaux dans le catalogue.
-                                </li>
-                                <li data-fr="SAE E-commerce (IUT) : Conception d'un système de panier d'achat utilisant une combinaison de HashMap pour l'accès rapide aux articles (O(1)) et d'une liste doublement chaînée pour maintenir l'ordre d'ajout. Cette approche hybride a permis de gérer efficacement les opérations CRUD tout en conservant la chronologie des achats pour l'analyse comportementale." data-en="SAE E-commerce (IUT): Design of shopping cart system using HashMap combination for fast item access (O(1)) and doubly linked list to maintain insertion order. This hybrid approach efficiently managed CRUD operations while preserving purchase chronology for behavioral analysis.">
-                                    <strong>SAE E-commerce (IUT)</strong> : Conception d'un système de panier d'achat utilisant une combinaison de HashMap pour l'accès rapide aux articles (O(1)) et d'une liste doublement chaînée pour maintenir l'ordre d'ajout. Cette approche hybride a permis de gérer efficacement les opérations CRUD tout en conservant la chronologie des achats pour l'analyse comportementale.
-                                </li>
-                                <li data-fr="Manga Tracker (projet personnel) : Développement d'un système d'indexation avec arbres B+ pour organiser une bibliothèque de plus de 10 000 titres. Implémentation d'un système de cache LRU (Least Recently Used) avec table de hachage pour optimiser les requêtes fréquentes vers l'API MangaDex, réduisant la latence moyenne de 250ms à 45ms." data-en="Manga Tracker (personal project): Development of indexing system with B+ trees to organize library of over 10,000 titles. Implementation of LRU (Least Recently Used) cache system with hash table to optimize frequent queries to MangaDex API, reducing average latency from 250ms to 45ms.">
-                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Manga Tracker</a> (projet personnel)</strong> : Développement d'un système d'indexation avec arbres B+ pour organiser une bibliothèque de plus de 10 000 titres. Implémentation d'un système de cache LRU (Least Recently Used) avec table de hachage pour optimiser les requêtes fréquentes vers l'API MangaDex, réduisant la latence moyenne de <span class="metric-highlight">250ms à 45ms</span>.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Graphes</span>
-                            <span class="tech-tag">Hash Tables</span>
-                            <span class="tech-tag">Arbres B+</span>
-                            <span class="tech-tag">LRU Cache</span>
-                            <span class="tech-tag">Dijkstra</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en structures de données complexes sera déterminante pour concevoir des architectures de systèmes d'information scalables en entreprise, notamment pour la modélisation de workflows métier, l'optimisation de bases de données distribuées, et le développement de systèmes de cache multi-niveaux dans des environnements cloud." data-en="This expertise in complex data structures will be decisive for designing scalable information system architectures in companies, particularly for business workflow modeling, distributed database optimization, and multi-level cache system development in cloud environments.">
-                                Cette expertise en structures de données complexes sera déterminante pour concevoir des architectures de systèmes d'information scalables en entreprise, notamment pour la modélisation de workflows métier, l'optimisation de bases de données distribuées, et le développement de systèmes de cache multi-niveaux dans des environnements cloud.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC22 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC22</div>
-                            <h3 class="ac-title" data-fr="Application de techniques algorithmiques avancées" data-en="Application of advanced algorithmic techniques">Application de techniques algorithmiques avancées</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="L'application de techniques algorithmiques avancées est cruciale pour résoudre des problèmes complexes d'optimisation et de traitement de données à grande échelle. Mon apprentissage s'est concentré sur la programmation dynamique, les algorithmes gloutons, la récursivité optimisée (mémoïsation), et les stratégies 'Diviser pour régner', avec une attention particulière à l'analyse de complexité temporelle et spatiale." data-en="Application of advanced algorithmic techniques is crucial for solving complex optimization and large-scale data processing problems. My learning focused on dynamic programming, greedy algorithms, optimized recursion (memoization), and 'Divide and conquer' strategies, with particular attention to time and space complexity analysis.">
-                                L'application de techniques algorithmiques avancées est cruciale pour résoudre des problèmes complexes d'optimisation et de traitement de données à grande échelle. Mon apprentissage s'est concentré sur la programmation dynamique, les algorithmes gloutons, la récursivité optimisée (mémoïsation), et les stratégies "Diviser pour régner", avec une attention particulière à l'analyse de complexité temporelle et spatiale.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Cours Développement efficace : Maîtrise approfondie de la récursivité avec mémoïsation pour résoudre des problèmes d'optimisation combinatoire (problème du sac à dos, suite de Fibonacci optimisée de O(2^n) à O(n)). Implémentation de QuickSort optimisé avec choix de pivot médian-des-trois, réduisant les cas défavorables de O(n²) à O(n log n) dans 98% des scénarios." data-en="Efficient Development course: In-depth mastery of recursion with memoization to solve combinatorial optimization problems (knapsack problem, optimized Fibonacci sequence from O(2^n) to O(n)). Implementation of optimized QuickSort with median-of-three pivot selection, reducing unfavorable cases from O(n²) to O(n log n) in 98% of scenarios.">
-                                    <strong>Cours "Développement efficace"</strong> : Maîtrise approfondie de la récursivité avec mémoïsation pour résoudre des problèmes d'optimisation combinatoire (problème du sac à dos, suite de Fibonacci optimisée de <span class="metric-highlight">O(2^n) à O(n)</span>). Implémentation de QuickSort optimisé avec choix de pivot médian-des-trois, réduisant les cas défavorables de O(n²) à O(n log n) dans 98% des scénarios.
-                                </li>
-                                <li data-fr="Projet Manga Tracker : Développement d'un algorithme de recherche floue (Levenshtein distance avec programmation dynamique) pour tolérer les fautes de frappe dans la recherche de titres. Implémentation d'un tri fusion (MergeSort) stable pour trier les mangas par popularité tout en maintenant l'ordre chronologique en cas d'égalité, assurant une expérience utilisateur cohérente." data-en="Manga Tracker project: Development of fuzzy search algorithm (Levenshtein distance with dynamic programming) to tolerate typos in title search. Implementation of stable merge sort (MergeSort) to sort manga by popularity while maintaining chronological order in case of ties, ensuring consistent user experience.">
-                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Projet Manga Tracker</a></strong> : Développement d'un algorithme de recherche floue (Levenshtein distance avec programmation dynamique) pour tolérer les fautes de frappe dans la recherche de titres. Implémentation d'un tri fusion (MergeSort) stable pour trier les mangas par popularité tout en maintenant l'ordre chronologique en cas d'égalité, assurant une expérience utilisateur cohérente.
-                                </li>
-                                <li data-fr="Algorithmes de recherche opérationnelle : Application de l'algorithme de Branch and Bound pour optimiser la planification de tâches dans un système de gestion de projet, réduisant le temps de calcul de solutions optimales de 15 minutes à moins de 2 minutes pour des instances de 100+ tâches interdépendantes." data-en="Operational research algorithms: Application of Branch and Bound algorithm to optimize task scheduling in project management system, reducing optimal solution calculation time from 15 minutes to less than 2 minutes for instances of 100+ interdependent tasks.">
-                                    <strong>Algorithmes de recherche opérationnelle</strong> : Application de l'algorithme de Branch and Bound pour optimiser la planification de tâches dans un système de gestion de projet, réduisant le temps de calcul de solutions optimales de <span class="metric-highlight">15 minutes à moins de 2 minutes</span> pour des instances de 100+ tâches interdépendantes.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p><strong data-fr="Résultat global" data-en="Overall result">Résultat global</strong> : <span class="metric-highlight">Amélioration moyenne de 60%</span> de l'efficacité des applications développées grâce à l'application systématique de techniques algorithmiques optimisées et à l'analyse préalable de complexité.</p>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Récursivité</span>
-                            <span class="tech-tag">Mémoïsation</span>
-                            <span class="tech-tag">QuickSort</span>
-                            <span class="tech-tag">MergeSort</span>
-                            <span class="tech-tag">Dynamic Programming</span>
-                            <span class="tech-tag">Branch & Bound</span>
-                            <span class="tech-tag">Levenshtein</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Ces compétences algorithmiques avancées seront essentielles pour l'analyse de performance des systèmes d'information d'entreprise, l'optimisation de processus métier complexes (supply chain, logistique), et le développement de solutions d'intelligence artificielle basées sur des algorithmes d'apprentissage machine nécessitant une efficacité computationnelle maximale." data-en="These advanced algorithmic skills will be essential for performance analysis of enterprise information systems, optimization of complex business processes (supply chain, logistics), and development of artificial intelligence solutions based on machine learning algorithms requiring maximum computational efficiency.">
-                                Ces compétences algorithmiques avancées seront essentielles pour l'analyse de performance des systèmes d'information d'entreprise, l'optimisation de processus métier complexes (supply chain, logistique), et le développement de solutions d'intelligence artificielle basées sur des algorithmes d'apprentissage machine nécessitant une efficacité computationnelle maximale.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC23 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC23</div>
-                            <h3 class="ac-title" data-fr="Sécurisation avancée des données et du code" data-en="Advanced data and code security">Sécurisation avancée des données et du code</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un contexte de menaces cybernétiques en constante évolution (ransomwares, phishing, injections SQL, XSS), la sécurisation des applications et des données constitue une priorité absolue. Mon apprentissage a porté sur la cryptographie appliquée, les mécanismes d'authentification robustes (MFA, OAuth 2.0, JWT), la sécurisation des APIs, et les principes de défense en profondeur (Defense in Depth) selon les standards OWASP et ANSSI." data-en="In a context of constantly evolving cyber threats (ransomware, phishing, SQL injections, XSS), securing applications and data is an absolute priority. My learning focused on applied cryptography, robust authentication mechanisms (MFA, OAuth 2.0, JWT), API security, and defense in depth principles according to OWASP and ANSSI standards.">
-                                Dans un contexte de menaces cybernétiques en constante évolution (ransomwares, phishing, injections SQL, XSS), la sécurisation des applications et des données constitue une priorité absolue. Mon apprentissage a porté sur la cryptographie appliquée, les mécanismes d'authentification robustes (MFA, OAuth 2.0, JWT), la sécurisation des APIs, et les principes de défense en profondeur (Defense in Depth) selon les standards OWASP et ANSSI.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="The Paw-fice (Symfony 6.4) : Implémentation complète d'un système d'authentification sécurisé avec hashage bcrypt des mots de passe (coût 12), protection CSRF sur tous les formulaires, validation stricte des entrées utilisateur (sanitization, whitelist), et hashage SHA-256 des emails pour l'API d'avatars. Mise en place de tests de sécurité automatisés avec PHPUnit couvrant les scénarios d'attaque courants (injection SQL, XSS, CSRF, session hijacking)." data-en="The Paw-fice (Symfony 6.4): Complete implementation of secure authentication system with bcrypt password hashing (cost 12), CSRF protection on all forms, strict user input validation (sanitization, whitelist), and SHA-256 email hashing for avatar API. Implementation of automated security tests with PHPUnit covering common attack scenarios (SQL injection, XSS, CSRF, session hijacking).">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">The Paw-fice</a> (Symfony 6.4)</strong> : Implémentation complète d'un système d'authentification sécurisé avec hashage bcrypt des mots de passe (coût 12), protection CSRF sur tous les formulaires, validation stricte des entrées utilisateur (sanitization, whitelist), et hashage SHA-256 des emails pour l'API d'avatars. Mise en place de tests de sécurité automatisés avec PHPUnit couvrant les scénarios d'attaque courants (injection SQL, XSS, CSRF, session hijacking).
-                                </li>
-                                <li data-fr="Projet e-commerce Black Arsenal (PHP MVC) : Architecture sécurisée avec séparation stricte des responsabilités, utilisation de requêtes préparées (PDO) pour éliminer les risques d'injection SQL, échappement systématique des sorties HTML (htmlspecialchars) contre les attaques XSS, et en-têtes de sécurité HTTP (Content-Security-Policy, X-Frame-Options, X-XSS-Protection). Obtention d'un score A+ sur Security Headers Scanner." data-en="Black Arsenal e-commerce project (PHP MVC): Secure architecture with strict separation of responsibilities, use of prepared statements (PDO) to eliminate SQL injection risks, systematic HTML output escaping (htmlspecialchars) against XSS attacks, and HTTP security headers (Content-Security-Policy, X-Frame-Options, X-XSS-Protection). Achieved A+ score on Security Headers Scanner.">
-                                    <strong>Projet e-commerce Black Arsenal (PHP MVC)</strong> : Architecture sécurisée avec séparation stricte des responsabilités, utilisation de requêtes préparées (PDO) pour éliminer les risques d'injection SQL, échappement systématique des sorties HTML (htmlspecialchars) contre les attaques XSS, et en-têtes de sécurité HTTP (Content-Security-Policy, X-Frame-Options, X-XSS-Protection). Obtention d'un <span class="metric-highlight">score A+</span> sur Security Headers Scanner.
-                                </li>
-                                <li data-fr="Authentification JWT : Développement d'un système d'API REST sécurisée avec tokens JWT (RS256), refresh tokens en base de données, expiration courte des access tokens (15 min), et rotation automatique des refresh tokens. Implémentation de rate limiting (10 req/min par IP) pour prévenir les attaques par force brute." data-en="JWT Authentication: Development of secure REST API system with JWT tokens (RS256), refresh tokens in database, short access token expiration (15 min), and automatic refresh token rotation. Implementation of rate limiting (10 req/min per IP) to prevent brute force attacks.">
-                                    <strong><a href="ratemyslide.html" class="project-link" data-fr="RateMySlide" data-en="RateMySlide">RateMySlide - Authentification JWT</a></strong> : Développement d'un système d'API REST sécurisée avec tokens JWT (RS256), refresh tokens en base de données, expiration courte des access tokens (15 min), et rotation automatique des refresh tokens. Implémentation de rate limiting (<span class="metric-highlight">5 req/min par IP</span>) pour prévenir les attaques par force brute. Architecture API Platform avec Voters Symfony pour contrôle d'accès granulaire.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p><strong data-fr="Formations et certifications" data-en="Training and certifications">Formations et certifications</strong> :</p>
-                        <ul style="list-style: none; padding-left: 0; margin-top: 0.5rem;">
-                            <li style="padding-left: 2rem; position: relative; margin-bottom: 0.5rem;"><span style="position: absolute; left: 0; color: var(--accent-color);">✓</span> Sensibilisation à la cybersécurité (IUT Montpellier, 20h)</li>
-                            <li style="padding-left: 2rem; position: relative; margin-bottom: 0.5rem;"><span style="position: absolute; left: 0; color: var(--accent-color);">✓</span> OWASP Top 10 2021 : Maîtrise des vulnérabilités critiques</li>
-                            <li style="padding-left: 2rem; position: relative;"><span style="position: absolute; left: 0; color: var(--accent-color);">✓</span> Bonnes pratiques de développement sécurisé (Secure Coding)</li>
-                        </ul>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Symfony Security</span>
-                            <span class="tech-tag">bcrypt</span>
-                            <span class="tech-tag">JWT (RS256)</span>
-                            <span class="tech-tag">CSRF Protection</span>
-                            <span class="tech-tag">SQL Injection</span>
-                            <span class="tech-tag">XSS Protection</span>
-                            <span class="tech-tag">OWASP Top 10</span>
-                            <span class="tech-tag">Rate Limiting</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en sécurité applicative sera fondamentale pour accompagner les entreprises dans leur conformité RGPD, réaliser des audits de sécurité des systèmes d'information, concevoir des architectures Zero Trust, et mettre en œuvre des solutions de détection et réponse aux incidents (SIEM). La maîtrise des normes ISO 27001 et du cadre NIST constituera un atout majeur pour les missions en environnement réglementé." data-en="This expertise in application security will be fundamental for supporting companies in their GDPR compliance, performing information system security audits, designing Zero Trust architectures, and implementing Security Information and Event Management (SIEM) solutions. Mastery of ISO 27001 standards and NIST framework will be a major asset for missions in regulated environments.">
-                                Cette expertise en sécurité applicative sera fondamentale pour accompagner les entreprises dans leur conformité RGPD, réaliser des audits de sécurité des systèmes d'information, concevoir des architectures Zero Trust, et mettre en œuvre des solutions de détection et réponse aux incidents (SIEM). La maîtrise des normes ISO 27001 et du cadre NIST constituera un atout majeur pour les missions en environnement réglementé.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC24 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC24</div>
-                            <h3 class="ac-title" data-fr="Évaluation et réduction de l'impact environnemental" data-en="Environmental impact assessment and reduction">Évaluation et réduction de l'impact environnemental</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Face à l'urgence climatique et à l'explosion de l'empreinte carbone du numérique (4% des émissions mondiales de GES, en croissance de 9% par an), l'éco-conception logicielle et le Green IT sont devenus des impératifs professionnels. Mon apprentissage a intégré l'analyse du cycle de vie des applications (ACV), l'optimisation énergétique du code, la réduction de l'obsolescence programmée, et les principes de sobriété numérique préconisés par le référentiel GR491 et l'INR (Institut du Numérique Responsable)." data-en="Facing climate emergency and explosion of digital carbon footprint (4% of global GHG emissions, growing 9% annually), software eco-design and Green IT have become professional imperatives. My learning integrated application lifecycle analysis (LCA), code energy optimization, reduction of planned obsolescence, and digital sobriety principles recommended by GR491 framework and INR (Institute for Responsible Digital).">
-                                Face à l'urgence climatique et à l'explosion de l'empreinte carbone du numérique (4% des émissions mondiales de GES, en croissance de 9% par an), l'éco-conception logicielle et le Green IT sont devenus des impératifs professionnels. Mon apprentissage a intégré l'analyse du cycle de vie des applications (ACV), l'optimisation énergétique du code, la réduction de l'obsolescence programmée, et les principes de sobriété numérique préconisés par le référentiel GR491 et l'INR (Institut du Numérique Responsable).
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Projet Noissap Voyage : Application systématique de 115 bonnes pratiques d'éco-conception (référentiel GR491) : optimisation des images (WebP, lazy loading, compression adaptative), minification et tree-shaking du JavaScript (réduction de 65% du bundle), mise en cache agressive avec service workers, réduction des appels API redondants. Mesures Lighthouse : passage de 45/100 à 92/100 en performance, réduction estimée de 30% de la consommation énergétique client." data-en="Noissap Voyage project: Systematic application of 115 eco-design best practices (GR491 framework): image optimization (WebP, lazy loading, adaptive compression), JavaScript minification and tree-shaking (65% bundle reduction), aggressive caching with service workers, reduction of redundant API calls. Lighthouse measurements: performance improvement from 45/100 to 92/100, estimated 30% reduction in client energy consumption.">
-                                    <strong>Projet Noissap Voyage</strong> : Application systématique de 115 bonnes pratiques d'éco-conception (référentiel GR491) : optimisation des images (WebP, lazy loading, compression adaptative), minification et tree-shaking du JavaScript (réduction de 65% du bundle), mise en cache agressive avec service workers, réduction des appels API redondants. Mesures Lighthouse : passage de <span class="metric-highlight">45/100 à 92/100</span> en performance, réduction estimée de <span class="metric-highlight">30% de la consommation énergétique</span> client.
-                                </li>
-                                <li data-fr="Manga Tracker : Architecture éco-conçue avec optimisation des requêtes Supabase (pagination server-side, requêtes sélectives évitant les SELECT *), utilisation de Vite pour le tree-shaking automatique, implémentation de virtual scrolling pour les listes longues (réduction de 80% du DOM), et dark mode natif réduisant la consommation d'écran OLED de 40%. Hébergement sur infrastructure bas-carbone (Vercel Edge, alimenté à 100% par énergies renouvelables)." data-en="Manga Tracker: Eco-designed architecture with Supabase query optimization (server-side pagination, selective queries avoiding SELECT *), use of Vite for automatic tree-shaking, virtual scrolling implementation for long lists (80% DOM reduction), and native dark mode reducing OLED screen consumption by 40%. Hosting on low-carbon infrastructure (Vercel Edge, 100% renewable energy powered).">
-                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Manga Tracker</a></strong> : Architecture éco-conçue avec optimisation des requêtes Supabase (pagination server-side, requêtes sélectives évitant les SELECT *), utilisation de Vite pour le tree-shaking automatique, implémentation de virtual scrolling pour les listes longues (réduction de <span class="metric-highlight">80% du DOM</span>), et dark mode natif réduisant la consommation d'écran OLED de <span class="metric-highlight">40%</span>. Hébergement sur infrastructure bas-carbone (Vercel Edge, alimenté à 100% par énergies renouvelables).
-                                </li>
-                                <li data-fr="Optimisation backend : Application des principes Green IT côté serveur : utilisation de Redis pour réduire les requêtes base de données de 70%, compression gzip/brotli des réponses HTTP, cache CDN avec invalidation intelligente, et choix de frameworks légers (FastAPI en Python vs Django, réduction de 60% de la mémoire consommée). Monitoring de la consommation énergétique avec PowerAPI." data-en="Backend optimization: Application of Green IT principles server-side: use of Redis to reduce database queries by 70%, gzip/brotli compression of HTTP responses, CDN cache with intelligent invalidation, and choice of lightweight frameworks (FastAPI in Python vs Django, 60% memory consumption reduction). Energy consumption monitoring with PowerAPI.">
-                                    <strong>Optimisation backend</strong> : Application des principes Green IT côté serveur : utilisation de Redis pour réduire les requêtes base de données de <span class="metric-highlight">70%</span>, compression gzip/brotli des réponses HTTP, cache CDN avec invalidation intelligente, et choix de frameworks légers (FastAPI en Python vs Django, réduction de 60% de la mémoire consommée). Monitoring de la consommation énergétique avec PowerAPI.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p><strong data-fr="Impact mesurable" data-en="Measurable impact">Impact mesurable</strong> : Sur l'ensemble des projets personnels, réduction moyenne de <span class="metric-highlight">35% de l'empreinte carbone</span> estimée (calcul via Website Carbon Calculator et EcoIndex), équivalent à l'économie de 250 kg CO2/an pour 10 000 utilisateurs.</p>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Green IT</span>
-                            <span class="tech-tag">GR491</span>
-                            <span class="tech-tag">WebP</span>
-                            <span class="tech-tag">Tree-shaking</span>
-                            <span class="tech-tag">Virtual Scrolling</span>
-                            <span class="tech-tag">Redis Cache</span>
-                            <span class="tech-tag">CDN</span>
-                            <span class="tech-tag">Lighthouse</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette sensibilité environnementale sera déterminante pour accompagner les entreprises dans leur transition numérique responsable, réaliser des audits d'éco-conception, mettre en œuvre des stratégies de sobriété numérique alignées sur les objectifs RSE, et contribuer à la certification Numérique Responsable (label NR). La réglementation européenne (Digital Services Act, AI Act) renforçant les obligations environnementales, cette compétence devient un différenciateur professionnel majeur." data-en="This environmental sensitivity will be decisive for supporting companies in their responsible digital transition, conducting eco-design audits, implementing digital sobriety strategies aligned with CSR objectives, and contributing to Responsible Digital certification (NR label). With European regulations (Digital Services Act, AI Act) strengthening environmental obligations, this skill becomes a major professional differentiator.">
-                                Cette sensibilité environnementale sera déterminante pour accompagner les entreprises dans leur transition numérique responsable, réaliser des audits d'éco-conception, mettre en œuvre des stratégies de sobriété numérique alignées sur les objectifs RSE, et contribuer à la certification Numérique Responsable (label NR). La réglementation européenne (Digital Services Act, AI Act) renforçant les obligations environnementales, cette compétence devient un différenciateur professionnel majeur.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <span class="folder-chevron">›</span>
         </div>
 
-        <!-- Note: Compétences 3 et 4 suivraient le même niveau de détail -->
-        <!-- Je vais résumer ici pour la longueur, mais le format serait identique -->
+        <div class="ac-list" id="aclist-c2">
 
-        <!-- Compétence 3 : Administrer des systèmes informatiques communicants complexes -->
-        <div class="competence-section comp-3" data-competence="3">
-            <div class="competence-header" onclick="toggleCompetence(3)">
-                <div class="competence-icon">🌐</div>
-                <div class="competence-info">
-                    <h2 class="competence-title" data-fr="Compétence 3 : Administrer des systèmes informatiques communicants complexes" data-en="Competence 3: Administer complex communicating computer systems">Compétence 3 : Administrer des systèmes informatiques communicants complexes</h2>
-                    <p class="competence-subtitle" data-fr="Concevoir, déployer et gérer des infrastructures réseau robustes, sécurisées et hautement disponibles" data-en="Design, deploy and manage robust, secure and highly available network infrastructures">Concevoir, déployer et gérer des infrastructures réseau robustes, sécurisées et hautement disponibles</p>
+            <!-- AC21 -->
+            <div class="ac-row" id="ac-c2-1">
+                <div class="ac-header" onclick="toggleAC('c2-1')">
+                    <div class="ac-dot">AC21</div>
+                    <span class="ac-label">Choix et mise en œuvre de structures de données complexes</span>
+                    <span class="ac-chevron">›</span>
                 </div>
-                <div class="expand-icon">▼</div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>La maîtrise des structures de données complexes constitue un fondement essentiel de l'optimisation algorithmique et de la modélisation efficace des processus métier. Cette compétence a été développée à travers l'analyse comparative de différentes structures (arbres, graphes, tables de hachage, files de priorité) et leur application dans des contextes professionnels variés, notamment l'e-commerce, la gestion d'inventaire et les systèmes de recommandation.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong>Projet e-commerce floral (Next.js/React)</strong> : Implémentation d'une structure de graphe orienté pour modéliser les relations complexes entre produits (accessoires, compositions, alternatives). Cette architecture a permis d'optimiser les requêtes de recommandations croisées et de réduire les temps de calcul de <span class="hl">40%</span> par rapport à une approche relationnelle traditionnelle. Utilisation de l'algorithme de Dijkstra pour calculer les chemins de navigation optimaux dans le catalogue.</li>
+                        <li><strong>SAE E-commerce (IUT)</strong> : Conception d'un système de panier d'achat utilisant une combinaison de HashMap pour l'accès rapide aux articles (O(1)) et d'une liste doublement chaînée pour maintenir l'ordre d'ajout. Cette approche hybride a permis de gérer efficacement les opérations CRUD tout en conservant la chronologie des achats pour l'analyse comportementale.</li>
+                        <li><strong><a href="manga-tracker.html">Manga Tracker</a> (projet personnel)</strong> : Développement d'un système d'indexation avec arbres B+ pour organiser une bibliothèque de plus de 10 000 titres. Implémentation d'un système de cache LRU (Least Recently Used) avec table de hachage pour optimiser les requêtes fréquentes vers l'API MangaDex, réduisant la latence moyenne de <span class="hl">250ms à 45ms</span>.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en structures de données complexes sera déterminante pour concevoir des architectures de systèmes d'information scalables en entreprise, notamment pour la modélisation de workflows métier, l'optimisation de bases de données distribuées, et le développement de systèmes de cache multi-niveaux dans des environnements cloud.</p>
+                    </div>
+                </div></div>
             </div>
 
-            <div class="competence-content">
-                <div class="ac-cards">
-                    <!-- AC31 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC31</div>
-                            <h3 class="ac-title" data-fr="Installer et configurer un système d'exploitation réseau" data-en="Install and configure a network operating system">Installer et configurer un système d'exploitation réseau</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un contexte d'infrastructures hybrides (on-premise, cloud, edge computing), la maîtrise de l'installation et de la configuration de systèmes d'exploitation réseau constitue le socle de toute architecture informatique moderne. Mon apprentissage a porté sur les distributions Linux serveur (Ubuntu Server, Debian, CentOS), la virtualisation (VirtualBox, VMware, Docker), la conteneurisation, et l'automatisation des déploiements avec des outils d'Infrastructure as Code (IaC)." data-en="In a context of hybrid infrastructures (on-premise, cloud, edge computing), mastering network operating system installation and configuration forms the foundation of any modern IT architecture. My learning focused on Linux server distributions (Ubuntu Server, Debian, CentOS), virtualization (VirtualBox, VMware, Docker), containerization, and deployment automation with Infrastructure as Code (IaC) tools.">
-                                Dans un contexte d'infrastructures hybrides (on-premise, cloud, edge computing), la maîtrise de l'installation et de la configuration de systèmes d'exploitation réseau constitue le socle de toute architecture informatique moderne. Mon apprentissage a porté sur les distributions Linux serveur (Ubuntu Server, Debian, CentOS), la virtualisation (VirtualBox, VMware, Docker), la conteneurisation, et l'automatisation des déploiements avec des outils d'Infrastructure as Code (IaC).
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Environnement Docker multi-conteneurs : Configuration d'une stack complète avec Docker Compose pour The Paw-fice : conteneur PHP 8.1-FPM avec extensions (pdo_mysql, intl, opcache), conteneur MySQL 8.0 avec volumes persistants, conteneur Nginx avec reverse proxy et certificats SSL auto-signés. Optimisation de l'image Docker (multi-stage build) réduisant la taille de 850MB à 320MB." data-en="Multi-container Docker environment: Complete stack configuration with Docker Compose for The Paw-fice: PHP 8.1-FPM container with extensions (pdo_mysql, intl, opcache), MySQL 8.0 container with persistent volumes, Nginx container with reverse proxy and self-signed SSL certificates. Docker image optimization (multi-stage build) reducing size from 850MB to 320MB.">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Environnement Docker multi-conteneurs</a></strong> : Configuration d'une stack complète avec Docker Compose pour The Paw-fice : conteneur PHP 8.1-FPM avec extensions (pdo_mysql, intl, opcache), conteneur MySQL 8.0 avec volumes persistants, conteneur Nginx avec reverse proxy et certificats SSL auto-signés. Optimisation de l'image Docker (multi-stage build) réduisant la taille de <span class="metric-highlight">850MB à 320MB</span>.
-                                </li>
-                                <li data-fr="Infrastructure virtualisée : Mise en place d'un laboratoire de test avec VirtualBox : 3 VM Ubuntu Server 22.04 LTS configurées en réseau privé (192.168.56.0/24), avec NAT pour accès Internet, configuration SSH avec authentification par clés RSA 4096 bits, et partage NFS pour stockage centralisé. Automatisation de la configuration post-installation avec scripts Bash (utilisateurs, firewall UFW, fail2ban, mise à jour automatique)." data-en="Virtualized infrastructure: Test lab setup with VirtualBox: 3 Ubuntu Server 22.04 LTS VMs configured in private network (192.168.56.0/24), with NAT for Internet access, SSH configuration with RSA 4096-bit key authentication, and NFS share for centralized storage. Post-installation configuration automation with Bash scripts (users, UFW firewall, fail2ban, automatic updates).">
-                                    <strong>Infrastructure virtualisée</strong> : Mise en place d'un laboratoire de test avec VirtualBox : 3 VM Ubuntu Server 22.04 LTS configurées en réseau privé (192.168.56.0/24), avec NAT pour accès Internet, configuration SSH avec authentification par clés RSA 4096 bits, et partage NFS pour stockage centralisé. Automatisation de la configuration post-installation avec scripts Bash (utilisateurs, firewall UFW, fail2ban, mise à jour automatique).
-                                </li>
-                                <li data-fr="Serveur LAMP optimisé : Installation et configuration manuelle d'une stack LAMP (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) sur Debian 11 pour héberger des applications web. Configuration d'Apache avec Virtual Hosts, mod_rewrite, mod_security (WAF), et optimisation des performances (KeepAlive, MPM prefork tuning). Mise en place de certificats Let's Encrypt avec renouvellement automatique via Certbot." data-en="Optimized LAMP server: Manual installation and configuration of LAMP stack (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) on Debian 11 to host web applications. Apache configuration with Virtual Hosts, mod_rewrite, mod_security (WAF), and performance optimization (KeepAlive, MPM prefork tuning). Let's Encrypt certificates setup with automatic renewal via Certbot.">
-                                    <strong>Serveur LAMP optimisé</strong> : Installation et configuration manuelle d'une stack LAMP (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) sur Debian 11 pour héberger des applications web. Configuration d'Apache avec Virtual Hosts, mod_rewrite, mod_security (WAF), et optimisation des performances (KeepAlive, MPM prefork tuning). Mise en place de certificats Let's Encrypt avec renouvellement automatique via Certbot.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Docker Compose</span>
-                            <span class="tech-tag">Ubuntu Server</span>
-                            <span class="tech-tag">Nginx</span>
-                            <span class="tech-tag">Apache</span>
-                            <span class="tech-tag">MySQL</span>
-                            <span class="tech-tag">SSH</span>
-                            <span class="tech-tag">UFW</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Ces compétences en administration système seront essentielles pour gérer des infrastructures cloud (AWS EC2, Azure VMs, Google Compute Engine), automatiser les déploiements avec Terraform et Ansible, orchestrer des conteneurs avec Kubernetes, et mettre en œuvre des architectures microservices hautement scalables. La maîtrise de GitOps et des pipelines CI/CD sera également approfondie." data-en="These system administration skills will be essential for managing cloud infrastructures (AWS EC2, Azure VMs, Google Compute Engine), automating deployments with Terraform and Ansible, orchestrating containers with Kubernetes, and implementing highly scalable microservice architectures. Mastery of GitOps and CI/CD pipelines will also be deepened.">
-                                Ces compétences en administration système seront essentielles pour gérer des infrastructures cloud (AWS EC2, Azure VMs, Google Compute Engine), automatiser les déploiements avec Terraform et Ansible, orchestrer des conteneurs avec Kubernetes, et mettre en œuvre des architectures microservices hautement scalables. La maîtrise de GitOps et des pipelines CI/CD sera également approfondie.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC32 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC32</div>
-                            <h3 class="ac-title" data-fr="Déployer des services dans une architecture réseau" data-en="Deploy services in a network architecture">Déployer des services dans une architecture réseau</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Le déploiement de services dans une architecture réseau moderne nécessite une compréhension approfondie des protocoles réseau, de la sécurité périmétrique, de la haute disponibilité, et de la scalabilité. Mon apprentissage a couvert les services essentiels (DNS, DHCP, web, mail, FTP), la configuration de load balancers, la mise en place de reverse proxies, et l'orchestration de services conteneurisés en environnement distribué." data-en="Deploying services in a modern network architecture requires deep understanding of network protocols, perimeter security, high availability, and scalability. My learning covered essential services (DNS, DHCP, web, mail, FTP), load balancer configuration, reverse proxy setup, and containerized service orchestration in distributed environments.">
-                                Le déploiement de services dans une architecture réseau moderne nécessite une compréhension approfondie des protocoles réseau, de la sécurité périmétrique, de la haute disponibilité, et de la scalabilité. Mon apprentissage a couvert les services essentiels (DNS, DHCP, web, mail, FTP), la configuration de load balancers, la mise en place de reverse proxies, et l'orchestration de services conteneurisés en environnement distribué.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Architecture microservices The Paw-fice : Déploiement d'une architecture Symfony avec séparation des responsabilités : service web (Nginx), service applicatif (PHP-FPM), service base de données (MySQL), service cache (Redis). Configuration de Nginx en reverse proxy avec load balancing round-robin, compression gzip, mise en cache des assets statiques (expires 1 year), et rate limiting (100 req/s par IP). Temps de réponse moyen réduit de 450ms à 85ms." data-en="The Paw-fice microservices architecture: Deployment of Symfony architecture with separation of concerns: web service (Nginx), application service (PHP-FPM), database service (MySQL), cache service (Redis). Nginx reverse proxy configuration with round-robin load balancing, gzip compression, static asset caching (expires 1 year), and rate limiting (100 req/s per IP). Average response time reduced from 450ms to 85ms.">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Architecture microservices</a></strong> : Déploiement d'une architecture Symfony avec séparation des responsabilités : service web (Nginx), service applicatif (PHP-FPM), service base de données (MySQL), service cache (Redis). Configuration de Nginx en reverse proxy avec load balancing round-robin, compression gzip, mise en cache des assets statiques (expires 1 year), et rate limiting (100 req/s par IP). Temps de réponse moyen réduit de <span class="metric-highlight">450ms à 85ms</span>.
-                                </li>
-                                <li data-fr="Infrastructure DNS et DHCP : Mise en place d'un serveur DNS Bind9 avec zones primaires et secondaires, enregistrements A, AAAA, CNAME, MX, et DNSSEC pour sécuriser les résolutions. Configuration d'un serveur DHCP ISC avec réservations d'adresses, options de routage, et failover pour haute disponibilité. Temps de résolution DNS moyen : 12ms (objectif <50ms atteint)." data-en="DNS and DHCP infrastructure: Bind9 DNS server setup with primary and secondary zones, A, AAAA, CNAME, MX records, and DNSSEC to secure resolutions. ISC DHCP server configuration with address reservations, routing options, and failover for high availability. Average DNS resolution time: 12ms (target <50ms achieved).">
-                                    <strong>Infrastructure DNS et DHCP</strong> : Mise en place d'un serveur DNS Bind9 avec zones primaires et secondaires, enregistrements A, AAAA, CNAME, MX, et DNSSEC pour sécuriser les résolutions. Configuration d'un serveur DHCP ISC avec réservations d'adresses, options de routage, et failover pour haute disponibilité. Temps de résolution DNS moyen : <span class="metric-highlight">12ms</span> (objectif &lt;50ms atteint).
-                                </li>
-                                <li data-fr="Déploiement CI/CD avec GitLab : Configuration d'un pipeline GitLab CI/CD automatisant les étapes : build (Composer install, npm build), tests (PHPUnit, PHPStan niveau 8), analyse de sécurité (Snyk), déploiement staging/production avec stratégie blue-green. Temps de déploiement réduit de 25 minutes (manuel) à 8 minutes (automatisé), avec rollback automatique en cas d'échec des tests." data-en="CI/CD deployment with GitLab: GitLab CI/CD pipeline configuration automating stages: build (Composer install, npm build), tests (PHPUnit, PHPStan level 8), security analysis (Snyk), staging/production deployment with blue-green strategy. Deployment time reduced from 25 minutes (manual) to 8 minutes (automated), with automatic rollback on test failure.">
-                                    <strong>Déploiement CI/CD avec GitLab</strong> : Configuration d'un pipeline GitLab CI/CD automatisant les étapes : build (Composer install, npm build), tests (PHPUnit, PHPStan niveau 8), analyse de sécurité (Snyk), déploiement staging/production avec stratégie blue-green. Temps de déploiement réduit de <span class="metric-highlight">25 minutes (manuel) à 8 minutes (automatisé)</span>, avec rollback automatique en cas d'échec des tests.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">Nginx</span>
-                            <span class="tech-tag">Reverse Proxy</span>
-                            <span class="tech-tag">Load Balancing</span>
-                            <span class="tech-tag">Redis</span>
-                            <span class="tech-tag">Bind9 DNS</span>
-                            <span class="tech-tag">DHCP</span>
-                            <span class="tech-tag">GitLab CI/CD</span>
-                            <span class="tech-tag">Blue-Green Deploy</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en déploiement de services sera fondamentale pour concevoir des architectures cloud-native (AWS ECS, Azure Container Instances, Google Cloud Run), implémenter des service meshes (Istio, Linkerd), orchestrer des déploiements Kubernetes avec Helm, et mettre en œuvre des stratégies de déploiement avancées (canary releases, feature flags). L'observabilité avec Prometheus, Grafana et ELK stack sera également approfondie." data-en="This service deployment expertise will be fundamental for designing cloud-native architectures (AWS ECS, Azure Container Instances, Google Cloud Run), implementing service meshes (Istio, Linkerd), orchestrating Kubernetes deployments with Helm, and implementing advanced deployment strategies (canary releases, feature flags). Observability with Prometheus, Grafana and ELK stack will also be deepened.">
-                                Cette expertise en déploiement de services sera fondamentale pour concevoir des architectures cloud-native (AWS ECS, Azure Container Instances, Google Cloud Run), implémenter des service meshes (Istio, Linkerd), orchestrer des déploiements Kubernetes avec Helm, et mettre en œuvre des stratégies de déploiement avancées (canary releases, feature flags). L'observabilité avec Prometheus, Grafana et ELK stack sera également approfondie.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC33 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC33</div>
-                            <h3 class="ac-title" data-fr="Sécuriser les services et données d'un système" data-en="Secure system services and data">Sécuriser les services et données d'un système</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un contexte de cybermenaces croissantes (ransomwares, APT, zero-day exploits), la sécurisation des services et des données constitue un impératif stratégique. Mon apprentissage a intégré la configuration de firewalls (iptables, UFW, firewalld), la mise en œuvre de systèmes de détection d'intrusion (IDS/IPS), la sécurisation des communications (VPN, TLS/SSL), le durcissement système (hardening), et la mise en place de politiques de sauvegarde et de récupération après sinistre (Backup & Disaster Recovery)." data-en="In a context of growing cyber threats (ransomware, APT, zero-day exploits), securing services and data is a strategic imperative. My learning integrated firewall configuration (iptables, UFW, firewalld), intrusion detection system implementation (IDS/IPS), communication security (VPN, TLS/SSL), system hardening, and backup and disaster recovery policy implementation.">
-                                Dans un contexte de cybermenaces croissantes (ransomwares, APT, zero-day exploits), la sécurisation des services et des données constitue un impératif stratégique. Mon apprentissage a intégré la configuration de firewalls (iptables, UFW, firewalld), la mise en œuvre de systèmes de détection d'intrusion (IDS/IPS), la sécurisation des communications (VPN, TLS/SSL), le durcissement système (hardening), et la mise en place de politiques de sauvegarde et de récupération après sinistre (Backup & Disaster Recovery).
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Hardening système complet : Application du guide CIS Benchmarks (Center for Internet Security) sur serveurs Ubuntu : désactivation des services inutiles, configuration du firewall UFW (deny all incoming, allow specific ports 80/443/22), mise en place de fail2ban contre les attaques brute-force SSH (ban après 5 tentatives, 10 min), configuration de SELinux/AppArmor pour isolation des processus, et rotation automatique des logs avec logrotate. Score Lynis security audit : passage de 64/100 à 89/100." data-en="Complete system hardening: Application of CIS Benchmarks (Center for Internet Security) guide on Ubuntu servers: disabling unnecessary services, UFW firewall configuration (deny all incoming, allow specific ports 80/443/22), fail2ban setup against SSH brute-force attacks (ban after 5 attempts, 10 min), SELinux/AppArmor configuration for process isolation, and automatic log rotation with logrotate. Lynis security audit score: improved from 64/100 to 89/100.">
-                                    <strong>Hardening système complet</strong> : Application du guide CIS Benchmarks (Center for Internet Security) sur serveurs Ubuntu : désactivation des services inutiles, configuration du firewall UFW (deny all incoming, allow specific ports 80/443/22), mise en place de fail2ban contre les attaques brute-force SSH (ban après 5 tentatives, 10 min), configuration de SELinux/AppArmor pour isolation des processus, et rotation automatique des logs avec logrotate. Score Lynis security audit : passage de <span class="metric-highlight">64/100 à 89/100</span>.
-                                </li>
-                                <li data-fr="Chiffrement et sécurisation des données : Mise en œuvre de chiffrement complet des données au repos (encryption at rest) avec LUKS pour les volumes sensibles, configuration de certificats TLS/SSL wildcard avec Let's Encrypt pour HTTPS obligatoire (HSTS activé), et sécurisation des sauvegardes avec chiffrement GPG asymétrique (clés RSA 4096 bits). Aucune donnée sensible stockée en clair." data-en="Encryption and data security: Implementation of full data encryption at rest with LUKS for sensitive volumes, wildcard TLS/SSL certificate configuration with Let's Encrypt for mandatory HTTPS (HSTS enabled), and backup security with GPG asymmetric encryption (RSA 4096-bit keys). No sensitive data stored in plaintext.">
-                                    <strong>Chiffrement et sécurisation des données</strong> : Mise en œuvre de chiffrement complet des données au repos (encryption at rest) avec LUKS pour les volumes sensibles, configuration de certificats TLS/SSL wildcard avec Let's Encrypt pour HTTPS obligatoire (HSTS activé), et sécurisation des sauvegardes avec chiffrement GPG asymétrique (clés RSA 4096 bits). <span class="metric-highlight">Aucune donnée sensible stockée en clair</span>.
-                                </li>
-                                <li data-fr="Stratégie de sauvegarde 3-2-1 : Mise en place d'une stratégie de sauvegarde robuste : 3 copies des données (production + 2 backups), sur 2 supports différents (local SSD + NAS réseau), dont 1 copie hors site (cloud S3 AWS). Sauvegardes automatisées quotidiennes avec Rsync et BorgBackup (déduplication, compression, chiffrement), rétention sur 30 jours, et tests de restauration mensuels. RTO (Recovery Time Objective) : 2h, RPO (Recovery Point Objective) : 24h." data-en="3-2-1 backup strategy: Implementation of robust backup strategy: 3 data copies (production + 2 backups), on 2 different media (local SSD + network NAS), with 1 off-site copy (AWS S3 cloud). Daily automated backups with Rsync and BorgBackup (deduplication, compression, encryption), 30-day retention, and monthly restore tests. RTO (Recovery Time Objective): 2h, RPO (Recovery Point Objective): 24h.">
-                                    <strong>Stratégie de sauvegarde 3-2-1</strong> : Mise en place d'une stratégie de sauvegarde robuste : <span class="metric-highlight">3 copies des données</span> (production + 2 backups), sur <span class="metric-highlight">2 supports différents</span> (local SSD + NAS réseau), dont <span class="metric-highlight">1 copie hors site</span> (cloud S3 AWS). Sauvegardes automatisées quotidiennes avec Rsync et BorgBackup (déduplication, compression, chiffrement), rétention sur 30 jours, et tests de restauration mensuels. RTO (Recovery Time Objective) : <span class="metric-highlight">2h</span>, RPO (Recovery Point Objective) : <span class="metric-highlight">24h</span>.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">UFW Firewall</span>
-                            <span class="tech-tag">fail2ban</span>
-                            <span class="tech-tag">TLS/SSL</span>
-                            <span class="tech-tag">Let's Encrypt</span>
-                            <span class="tech-tag">LUKS</span>
-                            <span class="tech-tag">GPG</span>
-                            <span class="tech-tag">BorgBackup</span>
-                            <span class="tech-tag">CIS Benchmarks</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en sécurité système sera cruciale pour concevoir des architectures Zero Trust, implémenter des solutions SIEM (Splunk, ELK), réaliser des audits de sécurité et tests d'intrusion (pentesting), mettre en œuvre des politiques de conformité (ISO 27001, SOC 2, RGPD), et gérer des incidents de sécurité selon le cadre NIST Cybersecurity Framework. La certification CompTIA Security+ ou CEH sera envisagée." data-en="This system security expertise will be crucial for designing Zero Trust architectures, implementing SIEM solutions (Splunk, ELK), performing security audits and penetration testing, implementing compliance policies (ISO 27001, SOC 2, GDPR), and managing security incidents according to NIST Cybersecurity Framework. CompTIA Security+ or CEH certification will be considered.">
-                                Cette expertise en sécurité système sera cruciale pour concevoir des architectures Zero Trust, implémenter des solutions SIEM (Splunk, ELK), réaliser des audits de sécurité et tests d'intrusion (pentesting), mettre en œuvre des politiques de conformité (ISO 27001, SOC 2, RGPD), et gérer des incidents de sécurité selon le cadre NIST Cybersecurity Framework. La certification CompTIA Security+ ou CEH sera envisagée.
-                            </p>
-                        </div>
-                    </div>
+            <!-- AC22 -->
+            <div class="ac-row" id="ac-c2-2">
+                <div class="ac-header" onclick="toggleAC('c2-2')">
+                    <div class="ac-dot">AC22</div>
+                    <span class="ac-label">Application de techniques algorithmiques avancées</span>
+                    <span class="ac-chevron">›</span>
                 </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>L'application de techniques algorithmiques avancées est cruciale pour résoudre des problèmes complexes d'optimisation et de traitement de données à grande échelle. Mon apprentissage s'est concentré sur la programmation dynamique, les algorithmes gloutons, la récursivité optimisée (mémoïsation), et les stratégies "Diviser pour régner", avec une attention particulière à l'analyse de complexité temporelle et spatiale.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong>Cours "Développement efficace"</strong> : Maîtrise approfondie de la récursivité avec mémoïsation pour résoudre des problèmes d'optimisation combinatoire (problème du sac à dos, suite de Fibonacci optimisée de <span class="hl">O(2^n) à O(n)</span>). Implémentation de QuickSort optimisé avec choix de pivot médian-des-trois, réduisant les cas défavorables de O(n²) à O(n log n) dans 98% des scénarios.</li>
+                        <li><strong><a href="manga-tracker.html">Projet Manga Tracker</a></strong> : Développement d'un algorithme de recherche floue (Levenshtein distance avec programmation dynamique) pour tolérer les fautes de frappe dans la recherche de titres. Implémentation d'un tri fusion (MergeSort) stable pour trier les mangas par popularité tout en maintenant l'ordre chronologique en cas d'égalité, assurant une expérience utilisateur cohérente.</li>
+                        <li><strong>Algorithmes de recherche opérationnelle</strong> : Application de l'algorithme de Branch and Bound pour optimiser la planification de tâches dans un système de gestion de projet, réduisant le temps de calcul de solutions optimales de <span class="hl">15 minutes à moins de 2 minutes</span> pour des instances de 100+ tâches interdépendantes.</li>
+                    </ul>
+                    <p><strong>Résultat global</strong> : <span class="hl">Amélioration moyenne de 60%</span> de l'efficacité des applications développées grâce à l'application systématique de techniques algorithmiques optimisées et à l'analyse préalable de complexité.</p>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Ces compétences algorithmiques avancées seront essentielles pour l'analyse de performance des systèmes d'information d'entreprise, l'optimisation de processus métier complexes (supply chain, logistique), et le développement de solutions d'intelligence artificielle basées sur des algorithmes d'apprentissage machine nécessitant une efficacité computationnelle maximale.</p>
+                    </div>
+                </div></div>
             </div>
+
+            <!-- AC23 -->
+            <div class="ac-row" id="ac-c2-3">
+                <div class="ac-header" onclick="toggleAC('c2-3')">
+                    <div class="ac-dot">AC23</div>
+                    <span class="ac-label">Sécurisation avancée des données et du code</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un contexte de menaces cybernétiques en constante évolution (ransomwares, phishing, injections SQL, XSS), la sécurisation des applications et des données constitue une priorité absolue. Mon apprentissage a porté sur la cryptographie appliquée, les mécanismes d'authentification robustes (MFA, OAuth 2.0, JWT), la sécurisation des APIs, et les principes de défense en profondeur (Defense in Depth) selon les standards OWASP et ANSSI.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">The Paw-fice</a> (Symfony 6.4)</strong> : Implémentation complète d'un système d'authentification sécurisé avec hashage bcrypt des mots de passe (coût 12), protection CSRF sur tous les formulaires, validation stricte des entrées utilisateur (sanitization, whitelist), et hashage SHA-256 des emails pour l'API d'avatars. Mise en place de tests de sécurité automatisés avec PHPUnit couvrant les scénarios d'attaque courants (injection SQL, XSS, CSRF, session hijacking).</li>
+                        <li><strong>Projet e-commerce Black Arsenal (PHP MVC)</strong> : Architecture sécurisée avec séparation stricte des responsabilités, utilisation de requêtes préparées (PDO) pour éliminer les risques d'injection SQL, échappement systématique des sorties HTML (htmlspecialchars) contre les attaques XSS, et en-têtes de sécurité HTTP (Content-Security-Policy, X-Frame-Options, X-XSS-Protection). Obtention d'un <span class="hl">score A+</span> sur Security Headers Scanner.</li>
+                        <li><strong><a href="ratemyslide.html">RateMySlide</a> — Authentification JWT</strong> : Développement d'un système d'API REST sécurisée avec tokens JWT (RS256), refresh tokens en base de données, expiration courte des access tokens (15 min), et rotation automatique des refresh tokens. Implémentation de rate limiting (<span class="hl">5 req/min par IP</span>) pour prévenir les attaques par force brute. Architecture API Platform avec Voters Symfony pour contrôle d'accès granulaire.</li>
+                    </ul>
+                    <h4>Formations</h4>
+                    <ul>
+                        <li>Sensibilisation à la cybersécurité (IUT Montpellier, 20h)</li>
+                        <li>OWASP Top 10 2021 : Maîtrise des vulnérabilités critiques</li>
+                        <li>Bonnes pratiques de développement sécurisé (Secure Coding)</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en sécurité applicative sera fondamentale pour accompagner les entreprises dans leur conformité RGPD, réaliser des audits de sécurité des systèmes d'information, concevoir des architectures Zero Trust, et mettre en œuvre des solutions de détection et réponse aux incidents (SIEM). La maîtrise des normes ISO 27001 et du cadre NIST constituera un atout majeur pour les missions en environnement réglementé.</p>
+                    </div>
+                </div></div>
+            </div>
+
+            <!-- AC24 -->
+            <div class="ac-row" id="ac-c2-4">
+                <div class="ac-header" onclick="toggleAC('c2-4')">
+                    <div class="ac-dot">AC24</div>
+                    <span class="ac-label">Évaluation et réduction de l'impact environnemental</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Face à l'urgence climatique et à l'explosion de l'empreinte carbone du numérique (4% des émissions mondiales de GES, en croissance de 9% par an), l'éco-conception logicielle et le Green IT sont devenus des impératifs professionnels. Mon apprentissage a intégré l'analyse du cycle de vie des applications (ACV), l'optimisation énergétique du code, la réduction de l'obsolescence programmée, et les principes de sobriété numérique préconisés par le référentiel GR491 et l'INR (Institut du Numérique Responsable).</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong>Projet Noissap Voyage</strong> : Application systématique de 115 bonnes pratiques d'éco-conception (référentiel GR491) : optimisation des images (WebP, lazy loading, compression adaptative), minification et tree-shaking du JavaScript (réduction de 65% du bundle), mise en cache agressive avec service workers, réduction des appels API redondants. Mesures Lighthouse : passage de <span class="hl">45/100 à 92/100</span> en performance, réduction estimée de <span class="hl">30% de la consommation énergétique</span> client.</li>
+                        <li><strong><a href="manga-tracker.html">Manga Tracker</a></strong> : Architecture éco-conçue avec optimisation des requêtes Supabase (pagination server-side, requêtes sélectives évitant les SELECT *), utilisation de Vite pour le tree-shaking automatique, implémentation de virtual scrolling pour les listes longues (réduction de <span class="hl">80% du DOM</span>), et dark mode natif réduisant la consommation d'écran OLED de <span class="hl">40%</span>. Hébergement sur infrastructure bas-carbone (Vercel Edge, alimenté à 100% par énergies renouvelables).</li>
+                        <li><strong>Optimisation backend</strong> : Application des principes Green IT côté serveur : utilisation de Redis pour réduire les requêtes base de données de <span class="hl">70%</span>, compression gzip/brotli des réponses HTTP, cache CDN avec invalidation intelligente, et choix de frameworks légers (FastAPI en Python vs Django, réduction de 60% de la mémoire consommée). Monitoring de la consommation énergétique avec PowerAPI.</li>
+                    </ul>
+                    <p><strong>Impact mesurable</strong> : Sur l'ensemble des projets personnels, réduction moyenne de <span class="hl">35% de l'empreinte carbone</span> estimée (calcul via Website Carbon Calculator et EcoIndex), équivalent à l'économie de 250 kg CO2/an pour 10 000 utilisateurs.</p>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette sensibilité environnementale sera déterminante pour accompagner les entreprises dans leur transition numérique responsable, réaliser des audits d'éco-conception, mettre en œuvre des stratégies de sobriété numérique alignées sur les objectifs RSE, et contribuer à la certification Numérique Responsable (label NR). La réglementation européenne (Digital Services Act, AI Act) renforçant les obligations environnementales, cette compétence devient un différenciateur professionnel majeur.</p>
+                    </div>
+                </div></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════
+         C3 : ADMINISTRER
+         ══════════════════════════ -->
+    <div class="folder" id="folder-c3">
+        <div class="folder-header" onclick="toggleFolder('c3')">
+            <div class="folder-icon">🌐</div>
+            <div class="folder-meta">
+                <div class="folder-eyebrow">Compétence 3</div>
+                <h2 class="folder-name">Administrer des systèmes informatiques communicants complexes</h2>
+                <span class="folder-badge">3 apprentissages critiques</span>
+            </div>
+            <span class="folder-chevron">›</span>
         </div>
 
-        <!-- Compétence 4 : Gérer des données de l'information -->
-        <div class="competence-section comp-4" data-competence="4">
-            <div class="competence-header" onclick="toggleCompetence(4)">
-                <div class="competence-icon">📊</div>
-                <div class="competence-info">
-                    <h2 class="competence-title" data-fr="Compétence 4 : Gérer des données de l'information" data-en="Competence 4: Manage information data">Compétence 4 : Gérer des données de l'information</h2>
-                    <p class="competence-subtitle" data-fr="Maîtriser le cycle de vie complet des données : modélisation, sécurisation, exploitation et valorisation" data-en="Master the complete data lifecycle: modeling, securing, exploitation and value creation">Maîtriser le cycle de vie complet des données : modélisation, sécurisation, exploitation et valorisation</p>
+        <div class="ac-list" id="aclist-c3">
+
+            <!-- AC31 -->
+            <div class="ac-row" id="ac-c3-1">
+                <div class="ac-header" onclick="toggleAC('c3-1')">
+                    <div class="ac-dot">AC31</div>
+                    <span class="ac-label">Installer et configurer un système d'exploitation réseau</span>
+                    <span class="ac-chevron">›</span>
                 </div>
-                <div class="expand-icon">▼</div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un contexte d'infrastructures hybrides (on-premise, cloud, edge computing), la maîtrise de l'installation et de la configuration de systèmes d'exploitation réseau constitue le socle de toute architecture informatique moderne. Mon apprentissage a porté sur les distributions Linux serveur (Ubuntu Server, Debian, CentOS), la virtualisation (VirtualBox, VMware, Docker), la conteneurisation, et l'automatisation des déploiements avec des outils d'Infrastructure as Code (IaC).</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">Environnement Docker multi-conteneurs</a></strong> : Configuration d'une stack complète avec Docker Compose pour The Paw-fice : conteneur PHP 8.1-FPM avec extensions (pdo_mysql, intl, opcache), conteneur MySQL 8.0 avec volumes persistants, conteneur Nginx avec reverse proxy et certificats SSL auto-signés. Optimisation de l'image Docker (multi-stage build) réduisant la taille de <span class="hl">850MB à 320MB</span>.</li>
+                        <li><strong>Infrastructure virtualisée</strong> : Mise en place d'un laboratoire de test avec VirtualBox : 3 VM Ubuntu Server 22.04 LTS configurées en réseau privé (192.168.56.0/24), avec NAT pour accès Internet, configuration SSH avec authentification par clés RSA 4096 bits, et partage NFS pour stockage centralisé. Automatisation de la configuration post-installation avec scripts Bash (utilisateurs, firewall UFW, fail2ban, mise à jour automatique).</li>
+                        <li><strong>Serveur LAMP optimisé</strong> : Installation et configuration manuelle d'une stack LAMP (Linux, Apache 2.4, MySQL 8.0, PHP 8.1) sur Debian 11 pour héberger des applications web. Configuration d'Apache avec Virtual Hosts, mod_rewrite, mod_security (WAF), et optimisation des performances (KeepAlive, MPM prefork tuning). Mise en place de certificats Let's Encrypt avec renouvellement automatique via Certbot.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Ces compétences en administration système seront essentielles pour gérer des infrastructures cloud (AWS EC2, Azure VMs, Google Compute Engine), automatiser les déploiements avec Terraform et Ansible, orchestrer des conteneurs avec Kubernetes, et mettre en œuvre des architectures microservices hautement scalables. La maîtrise de GitOps et des pipelines CI/CD sera également approfondie.</p>
+                    </div>
+                </div></div>
             </div>
 
-            <div class="competence-content">
-                <div class="ac-cards">
-                    <!-- AC41 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC41</div>
-                            <h3 class="ac-title" data-fr="Optimiser les modèles de données de l'entreprise" data-en="Optimize enterprise data models">Optimiser les modèles de données de l'entreprise</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un contexte d'explosion des volumes de données (Big Data) et d'exigences accrues de performance, l'optimisation des modèles de données devient un enjeu stratégique. Mon apprentissage a porté sur la modélisation conceptuelle (MCD/UML), la normalisation jusqu'à la 3FN (et dénormalisation raisonnée), l'indexation avancée (B-tree, hash, GiST), le partitionnement de tables, et l'optimisation des requêtes SQL complexes. Les principes de conception de schémas pour bases de données relationnelles (PostgreSQL, MySQL) et NoSQL (MongoDB, Redis) ont été approfondis." data-en="In a context of exploding data volumes (Big Data) and increased performance requirements, data model optimization becomes a strategic challenge. My learning focused on conceptual modeling (MCD/UML), normalization up to 3NF (and reasoned denormalization), advanced indexing (B-tree, hash, GiST), table partitioning, and complex SQL query optimization. Schema design principles for relational databases (PostgreSQL, MySQL) and NoSQL (MongoDB, Redis) were deepened.">
-                                Dans un contexte d'explosion des volumes de données (Big Data) et d'exigences accrues de performance, l'optimisation des modèles de données devient un enjeu stratégique. Mon apprentissage a porté sur la modélisation conceptuelle (MCD/UML), la normalisation jusqu'à la 3FN (et dénormalisation raisonnée), l'indexation avancée (B-tree, hash, GiST), le partitionnement de tables, et l'optimisation des requêtes SQL complexes.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="The Paw-fice - Modélisation BDD relationnelle : Conception d'un modèle de données normalisé 3FN avec Doctrine ORM : entités User, Pet, Avatar avec relations bidirectionnelles (OneToMany, ManyToOne), contraintes d'intégrité référentielle en cascade, index composites sur (user_id, created_at) pour optimiser les requêtes de listing. Utilisation de migrations Doctrine pour versioning du schéma. Temps de requête moyen sur 10 000 pets : réduit de 350ms à 45ms grâce à l'indexation." data-en="The Paw-fice - Relational DB modeling: Design of 3NF normalized data model with Doctrine ORM: User, Pet, Avatar entities with bidirectional relationships (OneToMany, ManyToOne), cascading referential integrity constraints, composite indexes on (user_id, created_at) to optimize listing queries. Use of Doctrine migrations for schema versioning. Average query time on 10,000 pets: reduced from 350ms to 45ms thanks to indexing.">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Modélisation BDD relationnelle</a></strong> : Conception d'un modèle de données normalisé 3FN avec Doctrine ORM : entités User, Pet, Avatar avec relations bidirectionnelles (OneToMany, ManyToOne), contraintes d'intégrité référentielle en cascade, index composites sur (user_id, created_at) pour optimiser les requêtes de listing. Utilisation de migrations Doctrine pour versioning du schéma. Temps de requête moyen sur 10 000 pets : réduit de <span class="metric-highlight">350ms à 45ms</span> grâce à l'indexation.
-                                </li>
-                                <li data-fr="Manga Tracker - Architecture hybride SQL/NoSQL : Modélisation avec Supabase (PostgreSQL) pour les données relationnelles (users, manga_entries, reading_lists) et utilisation de champs JSONB pour métadonnées flexibles (tags, custom_fields). Création d'index GiST sur colonnes JSONB pour requêtes performantes. Implémentation de vues matérialisées pour statistiques agrégées (top mangas, reading trends), rafraîchies toutes les heures. Gain de performance sur requêtes analytiques : réduction de 12s à 0.8s." data-en="Manga Tracker - Hybrid SQL/NoSQL architecture: Modeling with Supabase (PostgreSQL) for relational data (users, manga_entries, reading_lists) and use of JSONB fields for flexible metadata (tags, custom_fields). GiST index creation on JSONB columns for performant queries. Implementation of materialized views for aggregated statistics (top manga, reading trends), refreshed hourly. Performance gain on analytical queries: reduction from 12s to 0.8s.">
-                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Architecture hybride SQL/NoSQL</a></strong> : Modélisation avec Supabase (PostgreSQL) pour les données relationnelles (users, manga_entries, reading_lists) et utilisation de champs JSONB pour métadonnées flexibles (tags, custom_fields). Création d'index GiST sur colonnes JSONB pour requêtes performantes. Implémentation de vues matérialisées pour statistiques agrégées (top mangas, reading trends), rafraîchies toutes les heures. Gain de performance sur requêtes analytiques : réduction de <span class="metric-highlight">12s à 0.8s</span>.
-                                </li>
-                                <li data-fr="Optimisation de requêtes complexes : Analyse et optimisation de requêtes SQL avec EXPLAIN ANALYZE : identification de full table scans, réécriture de sous-requêtes corrélées en JOIN, utilisation de CTE (Common Table Expressions) pour lisibilité et performance. Passage d'une requête de reporting de 8 secondes à 0.4 seconde en ajoutant 3 index stratégiques et en refactorant 5 sous-requêtes N+1." data-en="Complex query optimization: SQL query analysis and optimization with EXPLAIN ANALYZE: full table scan identification, correlated subquery rewriting as JOINs, use of CTE (Common Table Expressions) for readability and performance. Reporting query improved from 8 seconds to 0.4 seconds by adding 3 strategic indexes and refactoring 5 N+1 subqueries.">
-                                    <strong>Optimisation de requêtes complexes</strong> : Analyse et optimisation de requêtes SQL avec EXPLAIN ANALYZE : identification de full table scans, réécriture de sous-requêtes corrélées en JOIN, utilisation de CTE (Common Table Expressions) pour lisibilité et performance. Passage d'une requête de reporting de <span class="metric-highlight">8 secondes à 0.4 seconde</span> en ajoutant 3 index stratégiques et en refactorant 5 sous-requêtes N+1.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">MySQL</span>
-                            <span class="tech-tag">Doctrine ORM</span>
-                            <span class="tech-tag">Supabase</span>
-                            <span class="tech-tag">JSONB</span>
-                            <span class="tech-tag">Indexation</span>
-                            <span class="tech-tag">SQL Optimization</span>
-                            <span class="tech-tag">Materialized Views</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en modélisation de données sera essentielle pour concevoir des data warehouses (Snowflake, BigQuery), implémenter des architectures Data Lake avec schémas évolutifs, optimiser des bases de données distribuées (Cassandra, CockroachDB), et modéliser des graphes de données complexes avec Neo4j. Les techniques de sharding, replication, et consistency models (CAP theorem) seront approfondies." data-en="This data modeling expertise will be essential for designing data warehouses (Snowflake, BigQuery), implementing Data Lake architectures with evolving schemas, optimizing distributed databases (Cassandra, CockroachDB), and modeling complex data graphs with Neo4j. Sharding, replication, and consistency model techniques (CAP theorem) will be deepened.">
-                                Cette expertise en modélisation de données sera essentielle pour concevoir des data warehouses (Snowflake, BigQuery), implémenter des architectures Data Lake avec schémas évolutifs, optimiser des bases de données distribuées (Cassandra, CockroachDB), et modéliser des graphes de données complexes avec Neo4j. Les techniques de sharding, replication, et consistency models (CAP theorem) seront approfondies.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC42 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC42</div>
-                            <h3 class="ac-title" data-fr="Assurer la sécurité des données" data-en="Ensure data security">Assurer la sécurité des données</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Avec le RGPD et les réglementations sur la protection des données (CCPA, HIPAA), la sécurité des données est devenue une obligation légale autant qu'une nécessité technique. Mon apprentissage a couvert le chiffrement des données au repos et en transit, la gestion des accès (RBAC, ABAC), l'anonymisation et pseudonymisation, les audits de sécurité, la conformité RGPD (droit à l'oubli, portabilité), et les stratégies de sauvegarde sécurisée. Les principes de Privacy by Design et Security by Default ont été intégrés systématiquement." data-en="With GDPR and data protection regulations (CCPA, HIPAA), data security has become a legal obligation as much as a technical necessity. My learning covered data encryption at rest and in transit, access management (RBAC, ABAC), anonymization and pseudonymization, security audits, GDPR compliance (right to erasure, portability), and secure backup strategies. Privacy by Design and Security by Default principles were systematically integrated.">
-                                Avec le RGPD et les réglementations sur la protection des données (CCPA, HIPAA), la sécurité des données est devenue une obligation légale autant qu'une nécessité technique. Mon apprentissage a couvert le chiffrement des données au repos et en transit, la gestion des accès (RBAC, ABAC), l'anonymisation et pseudonymisation, les audits de sécurité, la conformité RGPD (droit à l'oubli, portabilité), et les stratégies de sauvegarde sécurisée.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="The Paw-fice - Conformité RGPD complète : Implémentation du droit à l'oubli avec soft delete (deleted_at timestamp) et hard delete après 30 jours via commande Symfony. Exports de données personnelles au format JSON pour portabilité. Journalisation des accès aux données sensibles (audit trail) avec table dédiée. Anonymisation des adresses email dans les logs (hashing SHA-256). Politique de rétention : 2 ans pour comptes inactifs, suppression automatique via CRON." data-en="The Paw-fice - Complete GDPR compliance: Implementation of right to erasure with soft delete (deleted_at timestamp) and hard delete after 30 days via Symfony command. Personal data exports in JSON format for portability. Sensitive data access logging (audit trail) with dedicated table. Email address anonymization in logs (SHA-256 hashing). Retention policy: 2 years for inactive accounts, automatic deletion via CRON.">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">Conformité RGPD complète</a></strong> : Implémentation du droit à l'oubli avec soft delete (deleted_at timestamp) et hard delete après 30 jours via commande Symfony. Exports de données personnelles au format JSON pour portabilité. Journalisation des accès aux données sensibles (audit trail) avec table dédiée. Anonymisation des adresses email dans les logs (hashing SHA-256). Politique de rétention : <span class="metric-highlight">2 ans pour comptes inactifs</span>, suppression automatique via CRON.
-                                </li>
-                                <li data-fr="Gestion des accès granulaire (RBAC) : Implémentation d'un système de rôles et permissions dans Symfony avec Security Voters : rôles ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN avec hiérarchie. Contrôle d'accès au niveau des entités (un utilisateur ne peut modifier que ses propres pets). Protection des routes sensibles avec annotations @IsGranted. Tests de sécurité automatisés vérifiant 25 scénarios d'accès non autorisé (tous bloqués avec code 403)." data-en="Granular access management (RBAC): Implementation of role and permission system in Symfony with Security Voters: ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN roles with hierarchy. Entity-level access control (user can only modify their own pets). Sensitive route protection with @IsGranted annotations. Automated security tests verifying 25 unauthorized access scenarios (all blocked with 403 code).">
-                                    <strong>Gestion des accès granulaire (RBAC)</strong> : Implémentation d'un système de rôles et permissions dans Symfony avec Security Voters : rôles ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN avec hiérarchie. Contrôle d'accès au niveau des entités (un utilisateur ne peut modifier que ses propres pets). Protection des routes sensibles avec annotations @IsGranted. Tests de sécurité automatisés vérifiant <span class="metric-highlight">25 scénarios d'accès non autorisé</span> (tous bloqués avec code 403).
-                                </li>
-                                <li data-fr="Chiffrement de bout en bout : Configuration de chiffrement TLS 1.3 pour toutes les communications (HTTP → HTTPS forcé avec HSTS). Chiffrement des mots de passe avec bcrypt (cost 12, ~250ms de hashing). Stockage sécurisé des secrets avec Symfony Secrets (clés symétriques chiffrées). Chiffrement des sauvegardes de base de données avec GPG avant envoi vers stockage cloud. Zero donnée sensible stockée en clair." data-en="End-to-end encryption: TLS 1.3 encryption configuration for all communications (HTTP → HTTPS forced with HSTS). Password encryption with bcrypt (cost 12, ~250ms hashing). Secure secret storage with Symfony Secrets (encrypted symmetric keys). Database backup encryption with GPG before cloud storage upload. Zero sensitive data stored in plaintext.">
-                                    <strong>Chiffrement de bout en bout</strong> : Configuration de chiffrement TLS 1.3 pour toutes les communications (HTTP → HTTPS forcé avec HSTS). Chiffrement des mots de passe avec bcrypt (cost 12, ~250ms de hashing). Stockage sécurisé des secrets avec Symfony Secrets (clés symétriques chiffrées). Chiffrement des sauvegardes de base de données avec GPG avant envoi vers stockage cloud. <span class="metric-highlight">Zero donnée sensible stockée en clair</span>.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">RGPD</span>
-                            <span class="tech-tag">RBAC</span>
-                            <span class="tech-tag">bcrypt</span>
-                            <span class="tech-tag">TLS 1.3</span>
-                            <span class="tech-tag">Symfony Security</span>
-                            <span class="tech-tag">Audit Trail</span>
-                            <span class="tech-tag">Data Anonymization</span>
-                            <span class="tech-tag">GPG Encryption</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette maîtrise de la sécurité des données sera fondamentale pour implémenter des solutions de Data Loss Prevention (DLP), gérer des infrastructures à clés publiques (PKI), mettre en œuvre le chiffrement homomorphe pour calculs sur données chiffrées, et assurer la conformité multi-réglementaire (RGPD + CCPA + HIPAA). Les audits de conformité ISO 27001 et la certification CISM (Certified Information Security Manager) seront explorés." data-en="This data security mastery will be fundamental for implementing Data Loss Prevention (DLP) solutions, managing Public Key Infrastructure (PKI), implementing homomorphic encryption for computation on encrypted data, and ensuring multi-regulatory compliance (GDPR + CCPA + HIPAA). ISO 27001 compliance audits and CISM (Certified Information Security Manager) certification will be explored.">
-                                Cette maîtrise de la sécurité des données sera fondamentale pour implémenter des solutions de Data Loss Prevention (DLP), gérer des infrastructures à clés publiques (PKI), mettre en œuvre le chiffrement homomorphe pour calculs sur données chiffrées, et assurer la conformité multi-réglementaire (RGPD + CCPA + HIPAA). Les audits de conformité ISO 27001 et la certification CISM (Certified Information Security Manager) seront explorés.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC43 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC43</div>
-                            <h3 class="ac-title" data-fr="Organiser la restitution de données à destination de tiers" data-en="Organize data delivery to third parties">Organiser la restitution de données à destination de tiers</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un écosystème d'applications interconnectées, la restitution de données via APIs est devenue essentielle. Mon apprentissage a porté sur la conception d'APIs RESTful respectant les standards (OpenAPI/Swagger), la sécurisation des endpoints (OAuth 2.0, API keys), la pagination et le filtrage des résultats, la documentation interactive, le versioning d'API, et la mise en place de rate limiting pour prévenir les abus. Les principes HATEOAS et les formats de données standards (JSON, XML, CSV) ont été approfondis." data-en="In an interconnected application ecosystem, data delivery via APIs has become essential. My learning focused on RESTful API design following standards (OpenAPI/Swagger), endpoint security (OAuth 2.0, API keys), pagination and result filtering, interactive documentation, API versioning, and rate limiting implementation to prevent abuse. HATEOAS principles and standard data formats (JSON, XML, CSV) were deepened.">
-                                Dans un écosystème d'applications interconnectées, la restitution de données via APIs est devenue essentielle. Mon apprentissage a porté sur la conception d'APIs RESTful respectant les standards (OpenAPI/Swagger), la sécurisation des endpoints (OAuth 2.0, API keys), la pagination et le filtrage des résultats, la documentation interactive, le versioning d'API, et la mise en place de rate limiting pour prévenir les abus.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="API RESTful complète The Paw-fice : Développement d'une API REST avec 12 endpoints (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) respectant les standards HTTP (codes 200, 201, 204, 400, 401, 403, 404, 500). Sérialisation JSON avec Symfony Serializer et groupes de sérialisation (public, owner, admin) pour contrôle fin des données exposées. Documentation automatique avec API Platform et NelmioApiDocBundle (Swagger UI). Temps de réponse moyen : 65ms." data-en="Complete RESTful API The Paw-fice: Development of REST API with 12 endpoints (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) following HTTP standards (codes 200, 201, 204, 400, 401, 403, 404, 500). JSON serialization with Symfony Serializer and serialization groups (public, owner, admin) for fine-grained control of exposed data. Automatic documentation with API Platform and NelmioApiDocBundle (Swagger UI). Average response time: 65ms.">
-                                    <strong><a href="the-paw-fice.html" class="project-link" data-fr="The Paw-fice" data-en="The Paw-fice">API RESTful complète</a></strong> : Développement d'une API REST avec <span class="metric-highlight">12 endpoints</span> (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) respectant les standards HTTP (codes 200, 201, 204, 400, 401, 403, 404, 500). Sérialisation JSON avec Symfony Serializer et groupes de sérialisation (public, owner, admin) pour contrôle fin des données exposées. Documentation automatique avec API Platform et NelmioApiDocBundle (Swagger UI). Temps de réponse moyen : <span class="metric-highlight">65ms</span>.
-                                </li>
-                                <li data-fr="Pagination et filtrage avancés : Implémentation de pagination cursor-based pour performances optimales (évite les problèmes de OFFSET sur grands datasets). Filtrage multi-critères avec query parameters (?species=dog&age_min=2&sort=-created_at). Réponses incluant métadonnées de pagination (total, page, per_page, next_cursor, prev_cursor). Support de recherche full-text sur champs name et description. Limite de 100 résultats par page pour prévenir les abus." data-en="Advanced pagination and filtering: Cursor-based pagination implementation for optimal performance (avoids OFFSET issues on large datasets). Multi-criteria filtering with query parameters (?species=dog&age_min=2&sort=-created_at). Responses including pagination metadata (total, page, per_page, next_cursor, prev_cursor). Full-text search support on name and description fields. 100 results per page limit to prevent abuse.">
-                                    <strong>Pagination et filtrage avancés</strong> : Implémentation de pagination cursor-based pour performances optimales (évite les problèmes de OFFSET sur grands datasets). Filtrage multi-critères avec query parameters (?species=dog&age_min=2&sort=-created_at). Réponses incluant métadonnées de pagination (total, page, per_page, next_cursor, prev_cursor). Support de recherche full-text sur champs name et description. Limite de <span class="metric-highlight">100 résultats par page</span> pour prévenir les abus.
-                                </li>
-                                <li data-fr="Exports de données multiformats : Système d'export flexible supportant JSON, CSV, et XML via content negotiation (Accept header). Génération de rapports PDF avec TCPDF pour fiches d'animaux. Webhooks pour notifications temps réel des changements de données (création, modification, suppression de pets). Tests d'intégration API avec PHPUnit et Postman collections couvrant 45 scénarios de requêtes." data-en="Multi-format data exports: Flexible export system supporting JSON, CSV, and XML via content negotiation (Accept header). PDF report generation with TCPDF for animal profiles. Webhooks for real-time notifications of data changes (pet creation, modification, deletion). API integration tests with PHPUnit and Postman collections covering 45 request scenarios.">
-                                    <strong>Exports de données multiformats</strong> : Système d'export flexible supportant JSON, CSV, et XML via content negotiation (Accept header). Génération de rapports PDF avec TCPDF pour fiches d'animaux. Webhooks pour notifications temps réel des changements de données (création, modification, suppression de pets). Tests d'intégration API avec PHPUnit et Postman collections couvrant <span class="metric-highlight">45 scénarios de requêtes</span>.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">REST API</span>
-                            <span class="tech-tag">Symfony API Platform</span>
-                            <span class="tech-tag">Swagger/OpenAPI</span>
-                            <span class="tech-tag">JSON Serialization</span>
-                            <span class="tech-tag">Pagination</span>
-                            <span class="tech-tag">Webhooks</span>
-                            <span class="tech-tag">CSV/XML Export</span>
-                            <span class="tech-tag">Postman</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette expertise en APIs sera essentielle pour concevoir des architectures API Gateway (Kong, Apigee), implémenter GraphQL pour requêtes flexibles, mettre en œuvre des APIs asynchrones avec WebSockets et Server-Sent Events, et gérer des APIs à grande échelle avec API Management platforms. Les patterns de microservices communication (event-driven, message queues avec RabbitMQ/Kafka) seront approfondis." data-en="This API expertise will be essential for designing API Gateway architectures (Kong, Apigee), implementing GraphQL for flexible queries, deploying asynchronous APIs with WebSockets and Server-Sent Events, and managing large-scale APIs with API Management platforms. Microservices communication patterns (event-driven, message queues with RabbitMQ/Kafka) will be deepened.">
-                                Cette expertise en APIs sera essentielle pour concevoir des architectures API Gateway (Kong, Apigee), implémenter GraphQL pour requêtes flexibles, mettre en œuvre des APIs asynchrones avec WebSockets et Server-Sent Events, et gérer des APIs à grande échelle avec API Management platforms. Les patterns de microservices communication (event-driven, message queues avec RabbitMQ/Kafka) seront approfondis.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- AC44 -->
-                    <div class="ac-card">
-                        <div class="ac-header">
-                            <div class="ac-number">AC44</div>
-                            <h3 class="ac-title" data-fr="Manipuler des données hétérogènes" data-en="Manipulate heterogeneous data">Manipuler des données hétérogènes</h3>
-                        </div>
-
-                        <div class="ac-context">
-                            <h4 data-fr="Contexte d'apprentissage" data-en="Learning context">Contexte d'apprentissage</h4>
-                            <p data-fr="Dans un monde de données hétérogènes (relationnelles, NoSQL, fichiers, APIs tierces, temps réel), la capacité à intégrer et transformer des données de sources multiples est cruciale. Mon apprentissage a couvert les processus ETL (Extract, Transform, Load), l'intégration d'APIs externes (REST, GraphQL, SOAP), la manipulation de formats de données variés (JSON, XML, CSV, Parquet), le nettoyage et validation de données, et l'utilisation d'outils d'intégration (Apache NiFi, Talend). Les patterns de synchronisation de données et de gestion de cohérence ont été explorés." data-en="In a world of heterogeneous data (relational, NoSQL, files, third-party APIs, real-time), the ability to integrate and transform data from multiple sources is crucial. My learning covered ETL (Extract, Transform, Load) processes, external API integration (REST, GraphQL, SOAP), manipulation of various data formats (JSON, XML, CSV, Parquet), data cleaning and validation, and use of integration tools (Apache NiFi, Talend). Data synchronization patterns and consistency management were explored.">
-                                Dans un monde de données hétérogènes (relationnelles, NoSQL, fichiers, APIs tierces, temps réel), la capacité à intégrer et transformer des données de sources multiples est cruciale. Mon apprentissage a couvert les processus ETL (Extract, Transform, Load), l'intégration d'APIs externes (REST, GraphQL, SOAP), la manipulation de formats de données variés (JSON, XML, CSV, Parquet), le nettoyage et validation de données, et l'utilisation d'outils d'intégration.
-                            </p>
-                        </div>
-
-                        <div class="achievements-list">
-                            <h4 data-fr="Réalisations concrètes" data-en="Concrete achievements">Réalisations concrètes</h4>
-                            <ul>
-                                <li data-fr="Manga Tracker - Intégration API MangaDex : Développement d'un système d'intégration avec l'API MangaDex (REST) pour récupérer métadonnées de 10 000+ titres. Parsing et transformation JSON → modèle relationnel Supabase avec mapping de champs (title, author, genres[], cover_url, status). Gestion de la pagination API (limit/offset), rate limiting (5 req/s), et retry logic avec backoff exponentiel. Synchronisation incrémentale quotidienne (delta updates) pour maintenir données à jour. Taux de succès de synchronisation : 99.7%." data-en="Manga Tracker - MangaDex API integration: Development of integration system with MangaDex API (REST) to fetch metadata for 10,000+ titles. JSON parsing and transformation → Supabase relational model with field mapping (title, author, genres[], cover_url, status). API pagination handling (limit/offset), rate limiting (5 req/s), and retry logic with exponential backoff. Daily incremental synchronization (delta updates) to keep data current. Synchronization success rate: 99.7%.">
-                                    <strong><a href="manga-tracker.html" class="project-link" data-fr="Manga Tracker" data-en="Manga Tracker">Intégration API MangaDex</a></strong> : Développement d'un système d'intégration avec l'API MangaDex (REST) pour récupérer métadonnées de <span class="metric-highlight">10 000+ titres</span>. Parsing et transformation JSON → modèle relationnel Supabase avec mapping de champs (title, author, genres[], cover_url, status). Gestion de la pagination API (limit/offset), rate limiting (5 req/s), et retry logic avec backoff exponentiel. Synchronisation incrémentale quotidienne (delta updates) pour maintenir données à jour. Taux de succès de synchronisation : <span class="metric-highlight">99.7%</span>.
-                                </li>
-                                <li data-fr="Pipeline ETL pour données utilisateurs : Développement d'un pipeline ETL automatisé pour migration de données d'ancien système vers The Paw-fice. Extract : lecture de fichiers CSV (5 000 lignes). Transform : nettoyage (suppression doublons, validation email regex, normalisation téléphones), enrichissement (géolocalisation via API), hashing de mots de passe. Load : insertion batch en base avec transactions. Traitement de 5 000 utilisateurs en 8 minutes avec 0 perte de données." data-en="ETL pipeline for user data: Development of automated ETL pipeline for data migration from legacy system to The Paw-fice. Extract: CSV file reading (5,000 rows). Transform: cleaning (duplicate removal, email regex validation, phone normalization), enrichment (geolocation via API), password hashing. Load: batch insertion in database with transactions. Processing of 5,000 users in 8 minutes with 0 data loss.">
-                                    <strong>Pipeline ETL pour données utilisateurs</strong> : Développement d'un pipeline ETL automatisé pour migration de données d'ancien système vers The Paw-fice. Extract : lecture de fichiers CSV (5 000 lignes). Transform : nettoyage (suppression doublons, validation email regex, normalisation téléphones), enrichissement (géolocalisation via API), hashing de mots de passe. Load : insertion batch en base avec transactions. Traitement de <span class="metric-highlight">5 000 utilisateurs en 8 minutes</span> avec <span class="metric-highlight">0 perte de données</span>.
-                                </li>
-                                <li data-fr="Agrégation et transformation de données : Développement de scripts Python pour agrégation de données multi-sources (MySQL, CSV, API REST) vers data warehouse. Utilisation de Pandas pour manipulation de DataFrames : merge, join, groupby, pivot. Transformation de données dénormalisées → schéma en étoile (star schema) pour analyses OLAP. Génération de rapports Excel avec openpyxl incluant graphiques et tableaux croisés dynamiques. Automatisation via Airflow DAG avec exécution quotidienne à 2h du matin." data-en="Data aggregation and transformation: Development of Python scripts for multi-source data aggregation (MySQL, CSV, REST API) to data warehouse. Use of Pandas for DataFrame manipulation: merge, join, groupby, pivot. Transformation of denormalized data → star schema for OLAP analysis. Excel report generation with openpyxl including charts and pivot tables. Automation via Airflow DAG with daily execution at 2 AM.">
-                                    <strong>Agrégation et transformation de données</strong> : Développement de scripts Python pour agrégation de données multi-sources (MySQL, CSV, API REST) vers data warehouse. Utilisation de Pandas pour manipulation de DataFrames : merge, join, groupby, pivot. Transformation de données dénormalisées → schéma en étoile (star schema) pour analyses OLAP. Génération de rapports Excel avec openpyxl incluant graphiques et tableaux croisés dynamiques. Automatisation via Airflow DAG avec exécution quotidienne à 2h du matin.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="tech-tags">
-                            <span class="tech-tag">ETL</span>
-                            <span class="tech-tag">Python Pandas</span>
-                            <span class="tech-tag">API Integration</span>
-                            <span class="tech-tag">JSON/CSV Parsing</span>
-                            <span class="tech-tag">Data Cleaning</span>
-                            <span class="tech-tag">Apache Airflow</span>
-                            <span class="tech-tag">Data Migration</span>
-                            <span class="tech-tag">Star Schema</span>
-                        </div>
-
-                        <div class="future-section">
-                            <h4 data-fr="Perspectives pour la 3ème année" data-en="Perspectives for 3rd year">Perspectives pour la 3ème année</h4>
-                            <p data-fr="Cette capacité à manipuler des données hétérogènes sera fondamentale pour implémenter des architectures de données modernes (Data Mesh, Data Fabric), intégrer des flux temps réel avec Apache Kafka et Spark Streaming, mettre en œuvre du Change Data Capture (CDC) avec Debezium, et développer des pipelines de Machine Learning avec MLflow. Les techniques de data quality management et master data management (MDM) seront également approfondies." data-en="This ability to manipulate heterogeneous data will be fundamental for implementing modern data architectures (Data Mesh, Data Fabric), integrating real-time streams with Apache Kafka and Spark Streaming, implementing Change Data Capture (CDC) with Debezium, and developing Machine Learning pipelines with MLflow. Data quality management and master data management (MDM) techniques will also be deepened.">
-                                Cette capacité à manipuler des données hétérogènes sera fondamentale pour implémenter des architectures de données modernes (Data Mesh, Data Fabric), intégrer des flux temps réel avec Apache Kafka et Spark Streaming, mettre en œuvre du Change Data Capture (CDC) avec Debezium, et développer des pipelines de Machine Learning avec MLflow. Les techniques de data quality management et master data management (MDM) seront également approfondies.
-                            </p>
-                        </div>
-                    </div>
+            <!-- AC32 -->
+            <div class="ac-row" id="ac-c3-2">
+                <div class="ac-header" onclick="toggleAC('c3-2')">
+                    <div class="ac-dot">AC32</div>
+                    <span class="ac-label">Déployer des services dans une architecture réseau</span>
+                    <span class="ac-chevron">›</span>
                 </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Le déploiement de services dans une architecture réseau moderne nécessite une compréhension approfondie des protocoles réseau, de la sécurité périmétrique, de la haute disponibilité, et de la scalabilité. Mon apprentissage a couvert les services essentiels (DNS, DHCP, web, mail, FTP), la configuration de load balancers, la mise en place de reverse proxies, et l'orchestration de services conteneurisés en environnement distribué.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">Architecture microservices</a></strong> : Déploiement d'une architecture Symfony avec séparation des responsabilités : service web (Nginx), service applicatif (PHP-FPM), service base de données (MySQL), service cache (Redis). Configuration de Nginx en reverse proxy avec load balancing round-robin, compression gzip, mise en cache des assets statiques (expires 1 year), et rate limiting (100 req/s par IP). Temps de réponse moyen réduit de <span class="hl">450ms à 85ms</span>.</li>
+                        <li><strong>Infrastructure DNS et DHCP</strong> : Mise en place d'un serveur DNS Bind9 avec zones primaires et secondaires, enregistrements A, AAAA, CNAME, MX, et DNSSEC pour sécuriser les résolutions. Configuration d'un serveur DHCP ISC avec réservations d'adresses, options de routage, et failover pour haute disponibilité. Temps de résolution DNS moyen : <span class="hl">12ms</span> (objectif &lt;50ms atteint).</li>
+                        <li><strong>Déploiement CI/CD avec GitLab</strong> : Configuration d'un pipeline GitLab CI/CD automatisant les étapes : build (Composer install, npm build), tests (PHPUnit, PHPStan niveau 8), analyse de sécurité (Snyk), déploiement staging/production avec stratégie blue-green. Temps de déploiement réduit de <span class="hl">25 minutes (manuel) à 8 minutes (automatisé)</span>, avec rollback automatique en cas d'échec des tests.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en déploiement de services sera fondamentale pour concevoir des architectures cloud-native (AWS ECS, Azure Container Instances, Google Cloud Run), implémenter des service meshes (Istio, Linkerd), orchestrer des déploiements Kubernetes avec Helm, et mettre en œuvre des stratégies de déploiement avancées (canary releases, feature flags). L'observabilité avec Prometheus, Grafana et ELK stack sera également approfondie.</p>
+                    </div>
+                </div></div>
             </div>
+
+            <!-- AC33 -->
+            <div class="ac-row" id="ac-c3-3">
+                <div class="ac-header" onclick="toggleAC('c3-3')">
+                    <div class="ac-dot">AC33</div>
+                    <span class="ac-label">Sécuriser les services et données d'un système</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un contexte de cybermenaces croissantes (ransomwares, APT, zero-day exploits), la sécurisation des services et des données constitue un impératif stratégique. Mon apprentissage a intégré la configuration de firewalls (iptables, UFW, firewalld), la mise en œuvre de systèmes de détection d'intrusion (IDS/IPS), la sécurisation des communications (VPN, TLS/SSL), le durcissement système (hardening), et la mise en place de politiques de sauvegarde et de récupération après sinistre (Backup &amp; Disaster Recovery).</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong>Hardening système complet</strong> : Application du guide CIS Benchmarks (Center for Internet Security) sur serveurs Ubuntu : désactivation des services inutiles, configuration du firewall UFW (deny all incoming, allow specific ports 80/443/22), mise en place de fail2ban contre les attaques brute-force SSH (ban après 5 tentatives, 10 min), configuration de SELinux/AppArmor pour isolation des processus, et rotation automatique des logs avec logrotate. Score Lynis security audit : passage de <span class="hl">64/100 à 89/100</span>.</li>
+                        <li><strong>Chiffrement et sécurisation des données</strong> : Mise en œuvre de chiffrement complet des données au repos (encryption at rest) avec LUKS pour les volumes sensibles, configuration de certificats TLS/SSL wildcard avec Let's Encrypt pour HTTPS obligatoire (HSTS activé), et sécurisation des sauvegardes avec chiffrement GPG asymétrique (clés RSA 4096 bits). <span class="hl">Aucune donnée sensible stockée en clair</span>.</li>
+                        <li><strong>Stratégie de sauvegarde 3-2-1</strong> : Mise en place d'une stratégie de sauvegarde robuste : <span class="hl">3 copies des données</span> (production + 2 backups), sur <span class="hl">2 supports différents</span> (local SSD + NAS réseau), dont <span class="hl">1 copie hors site</span> (cloud S3 AWS). Sauvegardes automatisées quotidiennes avec Rsync et BorgBackup (déduplication, compression, chiffrement), rétention sur 30 jours, et tests de restauration mensuels. RTO : <span class="hl">2h</span>, RPO : <span class="hl">24h</span>.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en sécurité système sera cruciale pour concevoir des architectures Zero Trust, implémenter des solutions SIEM (Splunk, ELK), réaliser des audits de sécurité et tests d'intrusion (pentesting), mettre en œuvre des politiques de conformité (ISO 27001, SOC 2, RGPD), et gérer des incidents de sécurité selon le cadre NIST Cybersecurity Framework.</p>
+                    </div>
+                </div></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════
+         C4 : GÉRER
+         ══════════════════════════ -->
+    <div class="folder" id="folder-c4">
+        <div class="folder-header" onclick="toggleFolder('c4')">
+            <div class="folder-icon">📊</div>
+            <div class="folder-meta">
+                <div class="folder-eyebrow">Compétence 4</div>
+                <h2 class="folder-name">Gérer des données de l'information</h2>
+                <span class="folder-badge">4 apprentissages critiques</span>
+            </div>
+            <span class="folder-chevron">›</span>
         </div>
 
-        <!-- Synthesis Section -->
-        <section class="synthesis-section">
-            <h2 class="synthesis-title" data-fr="Préparation à la 3ème année et perspectives professionnelles" data-en="Preparation for 3rd year and professional prospects">Préparation à la 3ème année et perspectives professionnelles</h2>
+        <div class="ac-list" id="aclist-c4">
 
-            <div class="synthesis-grid">
-                <div class="synthesis-card">
-                    <h3 data-fr="Synthèse des acquis" data-en="Summary of achievements">Synthèse des acquis</h3>
-                    <p data-fr="Mes deux années de formation ont permis de développer une base solide dans les compétences fondamentales du référentiel IAMSI (C2, C3, C4), avec une approche pratique validée par 8 projets majeurs démontrant ma capacité à mobiliser ces compétences dans des contextes professionnels variés." data-en="My two years of training have developed a solid foundation in IAMSI framework core competencies (C2, C3, C4), with a practical approach validated by 8 major projects demonstrating my ability to apply these skills in various professional contexts.">
-                        Mes deux années de formation ont permis de développer une base solide dans les compétences fondamentales du référentiel IAMSI (C2, C3, C4), avec une approche pratique validée par 8 projets majeurs démontrant ma capacité à mobiliser ces compétences dans des contextes professionnels variés.
-                    </p>
+            <!-- AC41 -->
+            <div class="ac-row" id="ac-c4-1">
+                <div class="ac-header" onclick="toggleAC('c4-1')">
+                    <div class="ac-dot">AC41</div>
+                    <span class="ac-label">Optimiser les modèles de données de l'entreprise</span>
+                    <span class="ac-chevron">›</span>
                 </div>
-
-                <div class="synthesis-card">
-                    <h3 data-fr="Objectifs 3ème année" data-en="3rd year objectives">Objectifs 3ème année</h3>
-                    <p data-fr="Approfondissement technique avec spécialisation en architecture cloud (AWS, Azure), développement des compétences managériales (agilité, leadership technique), exploration des technologies émergentes (IA, edge computing, blockchain), et préparation intensive aux certifications professionnelles (AWS Solutions Architect, CCNA)." data-en="Technical deepening with cloud architecture specialization (AWS, Azure), development of managerial skills (agility, technical leadership), exploration of emerging technologies (AI, edge computing, blockchain), and intensive preparation for professional certifications (AWS Solutions Architect, CCNA).">
-                        Approfondissement technique avec spécialisation en architecture cloud (AWS, Azure), développement des compétences managériales (agilité, leadership technique), exploration des technologies émergentes (IA, edge computing, blockchain), et préparation intensive aux certifications professionnelles (AWS Solutions Architect, CCNA).
-                    </p>
-                </div>
-
-                <div class="synthesis-card">
-                    <h3 data-fr="Vision professionnelle" data-en="Professional vision">Vision professionnelle</h3>
-                    <p data-fr="Ces compétences me préparent à exercer comme Architecte de Systèmes d'Information, Consultant en Transformation Digitale, DevOps Engineer, ou Chef de Projet Technique avec spécialisation IAMSI, dans des environnements exigeants (ESN, grands groupes, startups tech)." data-en="These skills prepare me to work as Information Systems Architect, Digital Transformation Consultant, DevOps Engineer, or Technical Project Manager with IAMSI specialization, in demanding environments (IT services companies, large corporations, tech startups).">
-                        Ces compétences me préparent à exercer comme <strong>Architecte de Systèmes d'Information</strong>, <strong>Consultant en Transformation Digitale</strong>, <strong>DevOps Engineer</strong>, ou <strong>Chef de Projet Technique</strong> avec spécialisation IAMSI, dans des environnements exigeants (ESN, grands groupes, startups tech).
-                    </p>
-                </div>
-
-                <div class="synthesis-card">
-                    <h3 data-fr="Projets validant les compétences" data-en="Skills-validating projects">Projets validant les compétences</h3>
-                    <p data-fr="9 projets majeurs réalisés : Alternance Ivalua (Support N3 Source-to-Pay), Black Arsenal (e-commerce sécurisé), Noissap Voyage (Green IT), Manga Tracker (gestion données), The Paw-fice (architecture Symfony), RateMySlide (API REST JWT), démontrant une progression constante et une capacité d'adaptation aux exigences professionnelles." data-en="9 major projects completed: Ivalua Apprenticeship (N3 Support Source-to-Pay), Black Arsenal (secure e-commerce), Noissap Voyage (Green IT), Manga Tracker (data management), The Paw-fice (Symfony architecture), RateMySlide (REST API JWT), demonstrating constant progression and ability to adapt to professional requirements.">
-                        <span class="metric-highlight">9 projets majeurs</span> réalisés : <a href="alternance-ivalua.html" style="color: var(--accent-color); text-decoration: underline;">Alternance Ivalua</a> (Support N3 Source-to-Pay), Black Arsenal (e-commerce sécurisé), Noissap Voyage (Green IT), <a href="manga-tracker.html" style="color: var(--accent-color); text-decoration: underline;">Manga Tracker</a> (gestion données), <a href="the-paw-fice.html" style="color: var(--accent-color); text-decoration: underline;">The Paw-fice</a> (architecture Symfony), <a href="ratemyslide.html" style="color: var(--accent-color); text-decoration: underline;">RateMySlide</a> (API REST JWT), démontrant une progression constante et une capacité d'adaptation aux exigences professionnelles.
-                    </p>
-                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un contexte d'explosion des volumes de données (Big Data) et d'exigences accrues de performance, l'optimisation des modèles de données devient un enjeu stratégique. Mon apprentissage a porté sur la modélisation conceptuelle (MCD/UML), la normalisation jusqu'à la 3FN (et dénormalisation raisonnée), l'indexation avancée (B-tree, hash, GiST), le partitionnement de tables, et l'optimisation des requêtes SQL complexes.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">Modélisation BDD relationnelle</a></strong> : Conception d'un modèle de données normalisé 3FN avec Doctrine ORM : entités User, Pet, Avatar avec relations bidirectionnelles (OneToMany, ManyToOne), contraintes d'intégrité référentielle en cascade, index composites sur (user_id, created_at) pour optimiser les requêtes de listing. Utilisation de migrations Doctrine pour versioning du schéma. Temps de requête moyen sur 10 000 pets : réduit de <span class="hl">350ms à 45ms</span> grâce à l'indexation.</li>
+                        <li><strong><a href="manga-tracker.html">Architecture hybride SQL/NoSQL</a></strong> : Modélisation avec Supabase (PostgreSQL) pour les données relationnelles (users, manga_entries, reading_lists) et utilisation de champs JSONB pour métadonnées flexibles (tags, custom_fields). Création d'index GiST sur colonnes JSONB pour requêtes performantes. Implémentation de vues matérialisées pour statistiques agrégées (top mangas, reading trends), rafraîchies toutes les heures. Gain de performance sur requêtes analytiques : réduction de <span class="hl">12s à 0.8s</span>.</li>
+                        <li><strong>Optimisation de requêtes complexes</strong> : Analyse et optimisation de requêtes SQL avec EXPLAIN ANALYZE : identification de full table scans, réécriture de sous-requêtes corrélées en JOIN, utilisation de CTE (Common Table Expressions) pour lisibilité et performance. Passage d'une requête de reporting de <span class="hl">8 secondes à 0.4 seconde</span> en ajoutant 3 index stratégiques et en refactorant 5 sous-requêtes N+1.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en modélisation de données sera essentielle pour concevoir des data warehouses (Snowflake, BigQuery), implémenter des architectures Data Lake avec schémas évolutifs, optimiser des bases de données distribuées (Cassandra, CockroachDB), et modéliser des graphes de données complexes avec Neo4j. Les techniques de sharding, replication, et consistency models (CAP theorem) seront approfondies.</p>
+                    </div>
+                </div></div>
             </div>
-        </section>
+
+            <!-- AC42 -->
+            <div class="ac-row" id="ac-c4-2">
+                <div class="ac-header" onclick="toggleAC('c4-2')">
+                    <div class="ac-dot">AC42</div>
+                    <span class="ac-label">Assurer la sécurité des données</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Avec le RGPD et les réglementations sur la protection des données (CCPA, HIPAA), la sécurité des données est devenue une obligation légale autant qu'une nécessité technique. Mon apprentissage a couvert le chiffrement des données au repos et en transit, la gestion des accès (RBAC, ABAC), l'anonymisation et pseudonymisation, les audits de sécurité, la conformité RGPD (droit à l'oubli, portabilité), et les stratégies de sauvegarde sécurisée.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">Conformité RGPD complète</a></strong> : Implémentation du droit à l'oubli avec soft delete (deleted_at timestamp) et hard delete après 30 jours via commande Symfony. Exports de données personnelles au format JSON pour portabilité. Journalisation des accès aux données sensibles (audit trail) avec table dédiée. Anonymisation des adresses email dans les logs (hashing SHA-256). Politique de rétention : <span class="hl">2 ans pour comptes inactifs</span>, suppression automatique via CRON.</li>
+                        <li><strong>Gestion des accès granulaire (RBAC)</strong> : Implémentation d'un système de rôles et permissions dans Symfony avec Security Voters : rôles ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN avec hiérarchie. Contrôle d'accès au niveau des entités (un utilisateur ne peut modifier que ses propres pets). Protection des routes sensibles avec annotations @IsGranted. Tests de sécurité automatisés vérifiant <span class="hl">25 scénarios d'accès non autorisé</span> (tous bloqués avec code 403).</li>
+                        <li><strong>Chiffrement de bout en bout</strong> : Configuration de chiffrement TLS 1.3 pour toutes les communications (HTTP → HTTPS forcé avec HSTS). Chiffrement des mots de passe avec bcrypt (cost 12, ~250ms de hashing). Stockage sécurisé des secrets avec Symfony Secrets (clés symétriques chiffrées). Chiffrement des sauvegardes de base de données avec GPG avant envoi vers stockage cloud. <span class="hl">Zero donnée sensible stockée en clair</span>.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette maîtrise de la sécurité des données sera fondamentale pour implémenter des solutions de Data Loss Prevention (DLP), gérer des infrastructures à clés publiques (PKI), mettre en œuvre le chiffrement homomorphe pour calculs sur données chiffrées, et assurer la conformité multi-réglementaire (RGPD + CCPA + HIPAA).</p>
+                    </div>
+                </div></div>
+            </div>
+
+            <!-- AC43 -->
+            <div class="ac-row" id="ac-c4-3">
+                <div class="ac-header" onclick="toggleAC('c4-3')">
+                    <div class="ac-dot">AC43</div>
+                    <span class="ac-label">Organiser la restitution de données à destination de tiers</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un écosystème d'applications interconnectées, la restitution de données via APIs est devenue essentielle. Mon apprentissage a porté sur la conception d'APIs RESTful respectant les standards (OpenAPI/Swagger), la sécurisation des endpoints (OAuth 2.0, API keys), la pagination et le filtrage des résultats, la documentation interactive, le versioning d'API, et la mise en place de rate limiting pour prévenir les abus.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="the-paw-fice.html">API RESTful complète</a></strong> : Développement d'une API REST avec <span class="hl">12 endpoints</span> (GET /api/pets, POST /api/pets, PUT /api/pets/{id}, DELETE /api/pets/{id}, etc.) respectant les standards HTTP (codes 200, 201, 204, 400, 401, 403, 404, 500). Sérialisation JSON avec Symfony Serializer et groupes de sérialisation (public, owner, admin) pour contrôle fin des données exposées. Documentation automatique avec API Platform et NelmioApiDocBundle (Swagger UI). Temps de réponse moyen : <span class="hl">65ms</span>.</li>
+                        <li><strong>Pagination et filtrage avancés</strong> : Implémentation de pagination cursor-based pour performances optimales (évite les problèmes de OFFSET sur grands datasets). Filtrage multi-critères avec query parameters (?species=dog&amp;age_min=2&amp;sort=-created_at). Réponses incluant métadonnées de pagination (total, page, per_page, next_cursor, prev_cursor). Support de recherche full-text sur champs name et description. Limite de <span class="hl">100 résultats par page</span> pour prévenir les abus.</li>
+                        <li><strong>Exports de données multiformats</strong> : Système d'export flexible supportant JSON, CSV, et XML via content negotiation (Accept header). Génération de rapports PDF avec TCPDF pour fiches d'animaux. Webhooks pour notifications temps réel des changements de données (création, modification, suppression de pets). Tests d'intégration API avec PHPUnit et Postman collections couvrant <span class="hl">45 scénarios de requêtes</span>.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette expertise en APIs sera essentielle pour concevoir des architectures API Gateway (Kong, Apigee), implémenter GraphQL pour requêtes flexibles, mettre en œuvre des APIs asynchrones avec WebSockets et Server-Sent Events, et gérer des APIs à grande échelle avec API Management platforms.</p>
+                    </div>
+                </div></div>
+            </div>
+
+            <!-- AC44 -->
+            <div class="ac-row" id="ac-c4-4">
+                <div class="ac-header" onclick="toggleAC('c4-4')">
+                    <div class="ac-dot">AC44</div>
+                    <span class="ac-label">Manipuler des données hétérogènes</span>
+                    <span class="ac-chevron">›</span>
+                </div>
+                <div class="ac-content"><div class="ac-body">
+                    <p>Dans un monde de données hétérogènes (relationnelles, NoSQL, fichiers, APIs tierces, temps réel), la capacité à intégrer et transformer des données de sources multiples est cruciale. Mon apprentissage a couvert les processus ETL (Extract, Transform, Load), l'intégration d'APIs externes (REST, GraphQL, SOAP), la manipulation de formats de données variés (JSON, XML, CSV, Parquet), le nettoyage et validation de données, et l'utilisation d'outils d'intégration.</p>
+                    <h4>Réalisations concrètes</h4>
+                    <ul>
+                        <li><strong><a href="manga-tracker.html">Intégration API MangaDex</a></strong> : Développement d'un système d'intégration avec l'API MangaDex (REST) pour récupérer métadonnées de <span class="hl">10 000+ titres</span>. Parsing et transformation JSON → modèle relationnel Supabase avec mapping de champs (title, author, genres[], cover_url, status). Gestion de la pagination API (limit/offset), rate limiting (5 req/s), et retry logic avec backoff exponentiel. Synchronisation incrémentale quotidienne (delta updates) pour maintenir données à jour. Taux de succès de synchronisation : <span class="hl">99.7%</span>.</li>
+                        <li><strong>Pipeline ETL pour données utilisateurs</strong> : Développement d'un pipeline ETL automatisé pour migration de données d'ancien système vers The Paw-fice. Extract : lecture de fichiers CSV (5 000 lignes). Transform : nettoyage (suppression doublons, validation email regex, normalisation téléphones), enrichissement (géolocalisation via API), hashing de mots de passe. Load : insertion batch en base avec transactions. Traitement de <span class="hl">5 000 utilisateurs en 8 minutes</span> avec <span class="hl">0 perte de données</span>.</li>
+                        <li><strong>Agrégation et transformation de données</strong> : Développement de scripts Python pour agrégation de données multi-sources (MySQL, CSV, API REST) vers data warehouse. Utilisation de Pandas pour manipulation de DataFrames : merge, join, groupby, pivot. Transformation de données dénormalisées → schéma en étoile (star schema) pour analyses OLAP. Génération de rapports Excel avec openpyxl incluant graphiques et tableaux croisés dynamiques. Automatisation via Airflow DAG avec exécution quotidienne à 2h du matin.</li>
+                    </ul>
+                    <div class="perspective-box">
+                        <h4 style="margin-top:0">Perspectives</h4>
+                        <p>Cette capacité à manipuler des données hétérogènes sera fondamentale pour implémenter des architectures de données modernes (Data Mesh, Data Fabric), intégrer des flux temps réel avec Apache Kafka et Spark Streaming, mettre en œuvre du Change Data Capture (CDC) avec Debezium, et développer des pipelines de Machine Learning avec MLflow.</p>
+                    </div>
+                </div></div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<!-- Synthesis -->
+<div class="synthesis">
+    <div class="synthesis-inner">
+        <h2 class="synthesis-title">Synthèse BUT 2</h2>
+        <div class="synth-grid">
+            <div class="synth-card">
+                <h3>Optimisation algorithmique</h3>
+                <p>Des structures de graphes aux algorithmes de Branch &amp; Bound, j'ai développé une capacité à raisonner sur la complexité avant d'implémenter, réduisant systématiquement les temps de traitement de 40 à 60% sur les projets clés.</p>
+            </div>
+            <div class="synth-card">
+                <h3>Administration système</h3>
+                <p>De la stack LAMP à Docker Compose, en passant par la stratégie de sauvegarde 3-2-1 et le hardening CIS Benchmarks, j'ai acquis une vision complète de l'infrastructure serveur, du déploiement à la sécurisation.</p>
+            </div>
+            <div class="synth-card">
+                <h3>Sécurité applicative</h3>
+                <p>JWT, RBAC, RGPD, OWASP : la sécurité est intégrée dès la conception dans chaque projet. Score A+ sur Security Headers, score Lynis 89/100, zéro donnée sensible en clair — des résultats concrets sur des projets réels.</p>
+            </div>
+            <div class="synth-card">
+                <h3>Gestion des données</h3>
+                <p>Modèles 3FN avec Doctrine, JSONB Supabase, pipelines ETL Python, APIs REST documentées — j'ai couvert l'intégralité du cycle de vie des données, de la modélisation à la restitution multi-format.</p>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        loadSavedPreferences();
-        setupEventHandlers();
-        setupScrollEffects();
-        setupIntersectionObserver();
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    // Theme
+    const themeBtn = document.getElementById('theme-btn');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    themeBtn.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('theme', next);
     });
 
-    function loadSavedPreferences() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        const html = document.documentElement;
-        const themeToggle = document.getElementById('theme-toggle');
+    // Lang toggle (cosmetic)
+    document.getElementById('lang-btn').addEventListener('click', function() {
+        this.textContent = this.textContent === 'FR' ? 'EN' : 'FR';
+    });
 
-        html.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-
-        const savedLang = localStorage.getItem('language') || 'fr';
-        const langToggle = document.getElementById('lang-toggle');
-
-        if (savedLang !== 'fr') {
-            langToggle.textContent = savedLang.toUpperCase();
-            html.setAttribute('lang', savedLang);
-            changeLanguage(savedLang);
-        }
+    function toggleFolder(id) {
+        document.getElementById('folder-' + id).classList.toggle('open');
     }
 
-    function setupEventHandlers() {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                const html = document.documentElement;
-                const currentTheme = html.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-                document.body.classList.add('theme-transition');
-                html.setAttribute('data-theme', newTheme);
-                this.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                localStorage.setItem('theme', newTheme);
-
-                setTimeout(() => {
-                    document.body.classList.remove('theme-transition');
-                }, 700);
-            });
-        }
-
-        const langToggle = document.getElementById('lang-toggle');
-        if (langToggle) {
-            langToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                const currentLang = this.textContent.toLowerCase();
-                const newLang = currentLang === 'fr' ? 'en' : 'fr';
-
-                this.textContent = newLang.toUpperCase();
-                changeLanguage(newLang);
-                localStorage.setItem('language', newLang);
-            });
-        }
-    }
-
-    function setupScrollEffects() {
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-    }
-
-    function toggleCompetence(competenceNumber) {
-        const section = document.querySelector(`[data-competence="${competenceNumber}"]`);
-        if (section) {
-            section.classList.toggle('expanded');
-        }
-    }
-
-    function changeLanguage(lang) {
-        const html = document.documentElement;
-        html.setAttribute('lang', lang);
-
-        document.querySelectorAll(`[data-${lang}]`).forEach(element => {
-            const newText = element.getAttribute(`data-${lang}`);
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = newText;
-            } else {
-                element.textContent = newText;
-            }
-        });
-    }
-
-    function setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.competence-section, .synthesis-section').forEach(el => {
-            observer.observe(el);
-        });
+    function toggleAC(id) {
+        document.getElementById('ac-' + id).classList.toggle('open');
     }
 </script>
 </body>
